@@ -3,6 +3,8 @@ package com.example.sergiogeek7.appiris;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -13,9 +15,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class ViewImage extends AppCompatActivity {
@@ -23,13 +29,12 @@ public class ViewImage extends AppCompatActivity {
     protected static final int REQUEST_IMAGE_CAPTURE = 1;
     protected static final int REQUEST_STORAGE_PERMISSION = 1;
     protected static final int FIRST_LEFT_EYE = 0;
-    protected static final int SECOND_RIGHT_EYE = 1;
     protected static final int CAPTURE_IRIS_DONE = 2;
     protected static final String FILE_PROVIDER_AUTHORITY = "com.example.irisfileprovider";
-
-    protected String mTempPhotoPath;
+    protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
     private ImageView img;
-    private Stack<Eye> eyes = new Stack<>();
+    private ArrayList<Eye> eyes = new ArrayList<>();
+
 
     protected void launchCamera() {
 
@@ -94,37 +99,45 @@ public class ViewImage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (eyes.size() == CAPTURE_IRIS_DONE){
-            Toast.makeText(this, "Finished" , Toast.LENGTH_SHORT);
-            ImageView img = findViewById(R.id.img);
-            img.setImageURI(eyes.peek().getCroped().getUri());
-        }
+       // if (eyes.size() == CAPTURE_IRIS_DONE){
+            //Toast.makeText(this, "Finished" , Toast.LENGTH_SHORT);
+            //ImageView img = findViewById(R.id.img);
+            //Bitmap bitbit = BitmapUtils.resamplePic(this, eyes.peek().getOriginal().getAbsoletePath());
+            //img.setImageBitmap(bitbit);
+       // }
+    }
+
+    protected void launchFilterActivity (){
+        Intent intent = new Intent(this, ImageFilters.class);
+        intent.putParcelableArrayListExtra(EYE_PARCELABLE, eyes);
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            eyes.peek().getCroped().setUri(UCrop.getOutput(data));
-            if(eyes.size() == SECOND_RIGHT_EYE){
+            eyes.get(eyes.size() - 1).getCroped().setUri(UCrop.getOutput(data));
+            if(eyes.size() != CAPTURE_IRIS_DONE){
                 launchCamera();
+            }else{
+                launchFilterActivity();
             }
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             cropImage();
         } else if (resultCode == UCrop.RESULT_ERROR) {
             final Throwable cropError = UCrop.getError(data);
-            Log.d("d","error crop");
+            Log.e("e", cropError.getMessage());
         } else {
              // Otherwise, delete the temporary image file
-             Eye eye = eyes.pop();
-             Log.d("d","deleting files");
+             Eye eye = eyes.get(eyes.size() - 1);
              BitmapUtils.deleteImageFile(this, eye.getOriginal().getAbsoletePath());
              BitmapUtils.deleteImageFile(this, eye.getCroped().getAbsoletePath());
         }
     }
 
     private void cropImage() {
-        Eye eye = eyes.peek();
+        Eye eye = eyes.get(eyes.size() - 1);
         try {
             UCrop.of(eye.getOriginal().getUri(), eye.getCroped().getUri())
                     .withAspectRatio(1, 1)

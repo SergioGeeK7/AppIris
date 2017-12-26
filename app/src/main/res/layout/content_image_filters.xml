@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@android:color/white"
+android:orientation="vertical"
+app:layout_behavior="@string/appbar_scrolling_view_behavior"
+tools:context="com.example.sergiogeek7.appiris.ImageFilters"
+tools:showIn="@layout/activity_image_filters">
+
+<ImageView
+    android:id="@+id/image_preview"
+    android:layout_width="match_parent"
+    android:layout_height="370dp"
+    android:scaleType="centerCrop"
+    />
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/viewpager"
+        android:layout_alignParentStart="true"
+        android:text="@string/leftImage"
+        android:background="@color/primary_light"
+        android:layout_marginBottom="15dp"
+        />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/viewpager"
+        android:layout_alignParentEnd="true"
+        android:text="@string/rightImage"
+        android:background="@color/primary_light"
+        android:layout_marginBottom="15dp"
+        />
+
+<com.example.sergiogeek7.appiris.utils.NonSwipeableViewPager
+    android:id="@+id/viewpager"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_above="@+id/tabs"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+<android.support.design.widget.TabLayout
+    android:id="@+id/tabs"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    app:tabGravity="fill"
+    app:tabMode="fixed" />
+
+
+</RelativeLayout>
