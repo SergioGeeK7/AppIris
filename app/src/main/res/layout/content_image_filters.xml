@@ -19,7 +19,8 @@ tools:showIn="@layout/activity_image_filters">
 
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/left_image"
+        android:onClick="onLeftImage"
         android:layout_width="80dp"
         android:layout_height="30dp"
         android:layout_above="@+id/viewpager"
@@ -30,8 +31,9 @@ tools:showIn="@layout/activity_image_filters">
         />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/right_image"
         android:layout_width="80dp"
+        android:onClick="onRightImage"
         android:layout_height="30dp"
         android:layout_above="@+id/viewpager"
         android:layout_alignParentEnd="true"

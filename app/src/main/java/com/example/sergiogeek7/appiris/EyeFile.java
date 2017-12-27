@@ -14,6 +14,26 @@ public class EyeFile implements Parcelable{
     private Uri uri;
     private String absolutePath;
 
+    public ImageSaveState getSaveState() {
+        return saveState;
+    }
+
+    public void setSaveState(ImageSaveState saveState) {
+        this.saveState = saveState;
+    }
+
+    private ImageSaveState saveState = new ImageSaveState();
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
+
+    private Bitmap bitmap;
+
     protected EyeFile(Parcel in) {
         //uri = in.readParcelable(Uri.class.getClassLoader());
         this.uri = Uri.parse(in.readString());
