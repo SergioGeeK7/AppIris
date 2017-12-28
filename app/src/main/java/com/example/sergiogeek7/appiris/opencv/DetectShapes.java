@@ -42,8 +42,10 @@ public class DetectShapes {
         Imgproc.findContours(modified, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         List<Shape> coordinates = new ArrayList<>();
         // avoid eyelashes
-        double xThreshold = modified.cols() * MARGIN;
-        double yThreshold = modified.rows() * MARGIN;
+        final int cols = modified.cols();
+        final int rows = modified.rows();
+        double xThreshold = cols * MARGIN;
+        double yThreshold = rows * MARGIN;
 
         for (MatOfPoint point : contours) {
             double area = Imgproc.contourArea(point);
@@ -59,7 +61,17 @@ public class DetectShapes {
             Log.e("e", "Found on x: " + center.x + " y: " + center.y);
             Imgproc.drawContours(original, Collections.singletonList(point), -1,
                     new Scalar(0, 255, 0), 2);
-            coordinates.add(new Shape(center.x, center.y, originColumn, originRow));
+            coordinates.add(new Shape(center.x, center.y, new ShapeContext() {
+                @Override
+                public int getColumn() {
+                    return cols;
+                }
+
+                @Override
+                public int getRow() {
+                    return rows;
+                }
+            }));
         }
         Bitmap bm = Bitmap.createBitmap(original.cols(), original.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(original, bm);

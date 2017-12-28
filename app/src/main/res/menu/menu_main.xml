@@ -5,15 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.sergiogeek7.appiris.ImageFilters"
     >
+
+    <item
+        android:id="@+id/action_analyze"
+        android:orderInCategory="100"
+        android:title="@string/action_analyze"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_open"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/action_open"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_save"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="@string/action_save"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
+
+
 </menu>

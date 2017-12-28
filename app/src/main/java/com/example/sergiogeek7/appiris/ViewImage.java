@@ -137,9 +137,14 @@ public class ViewImage extends AppCompatActivity {
     }
 
     private void cropImage() {
+        UCrop.Options options = new UCrop.Options();
+        options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
         Eye eye = eyes.get(eyes.size() - 1);
         try {
             UCrop.of(eye.getOriginal().getUri(), eye.getCroped().getUri())
+                    .withOptions(options)
                     .withAspectRatio(1, 1)
                     // .withMaxResultSize(100, 100)
                     .start(this);

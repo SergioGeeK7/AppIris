@@ -133,6 +133,23 @@ public class BitmapUtils {
         return inSampleSize;
     }
 
+    public static Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
+
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                          int reqWidth, int reqHeight) {
 
@@ -180,7 +197,7 @@ public class BitmapUtils {
             if (source != null) {
                 OutputStream imageOut = cr.openOutputStream(url);
                 try {
-                    source.compress(Bitmap.CompressFormat.JPEG, 50, imageOut);
+                    source.compress(Bitmap.CompressFormat.JPEG, 100, imageOut);
                 } finally {
                     imageOut.close();
                 }
@@ -321,8 +338,6 @@ public class BitmapUtils {
         return BitmapFactory.decodeFile(imagePath);
     }
 
-
-
     public static Bitmap resamplePic(String imagePath, int targetH, int targetW ) {
 
         // Get the dimensions of the original bitmap
@@ -400,6 +415,30 @@ public class BitmapUtils {
         context.sendBroadcast(mediaScanIntent);
     }
 
+    public static void saveBitmap (Context context, Bitmap source, Uri uri){
+
+        ContentResolver cr = context.getContentResolver();
+
+        try {
+
+            if (source != null) {
+                OutputStream imageOut = cr.openOutputStream(uri);
+                try {
+                    source.compress(Bitmap.CompressFormat.JPEG, 100, imageOut);
+                } finally {
+                    imageOut.close();
+                }
+
+                // long id = ContentUris.parseId(uri);
+                // Wait until MINI_KIND thumbnail is generated.
+                // Bitmap miniThumb = MediaStore.Images.Thumbnails.getThumbnail(cr, id, MediaStore.Images.Thumbnails.MINI_KIND, null);
+                // This is for backward compatibility.
+                // storeThumbnail(cr, miniThumb, id, 50F, 50F, MediaStore.Images.Thumbnails.MICRO_KIND);
+            }
+        } catch (Exception e) {
+            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT);
+        }
+    }
 
     /**
      * Helper method for saving the image.

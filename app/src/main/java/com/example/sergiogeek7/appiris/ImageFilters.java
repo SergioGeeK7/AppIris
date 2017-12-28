@@ -61,8 +61,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 //
         private static final String TAG = MainActivity.class.getSimpleName();
         public static final int SELECT_GALLERY_IMAGE = 101;
-        private static int LEFT_EYE = 1;
-        private static int RIGHT_EYE = 0;
+        public static final int LEFT_EYE = 0;
+        public static final int RIGHT_EYE = 1;
 
         private ArrayList<Eye> eyes;
         public static Eye currentEye;
@@ -319,6 +319,11 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                 return true;
             }
 
+            if (id == R.id.action_analyze) {
+                goDetectActivity();
+                return true;
+            }
+
             return super.onOptionsItemSelected(item);
         }
 
@@ -362,6 +367,15 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                             token.continuePermissionRequest();
                         }
                     }).check();
+        }
+
+        private void goDetectActivity(){
+            BitmapUtils.saveBitmap(this, filteredImage, this.currentEye.getCroped().getUri());
+            updateUI(right_image.isEnabled() ? RIGHT_EYE : LEFT_EYE);
+            BitmapUtils.saveBitmap(this, filteredImage, this.currentEye.getCroped().getUri());
+            Intent intent = new Intent(this, DetectActivity.class);
+            intent.putParcelableArrayListExtra(ViewImage.EYE_PARCELABLE, eyes);
+            startActivity(intent);
         }
 
         /*

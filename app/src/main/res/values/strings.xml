@@ -17,6 +17,7 @@
     <string name="roboto_medium">sans-serif-medium</string>
     <string name="filter_normal">Normal</string>
     <string name="action_save">SAVE</string>
+    <string name="action_analyze">ANALYZE</string>
     <string name="action_open">OPEN</string>
     <string name="title_activity_image_filters">ImageFilters</string>
 
