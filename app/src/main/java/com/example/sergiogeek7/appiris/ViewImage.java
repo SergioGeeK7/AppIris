@@ -17,6 +17,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.yalantis.ucrop.UCrop;
 import java.io.File;
 import java.io.IOException;
@@ -36,54 +41,60 @@ public class ViewImage extends AppCompatActivity {
     private ArrayList<Eye> eyes = new ArrayList<>();
 
 
-    protected void launchCamera() {
-
-        // Check for the external storage permission
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED) {
-
-            // Create the capture image intent
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                // Create the temporary File where the photo should go
-                File original = null;
-                File croped = null;
-                EyeFile original_eye = new EyeFile();
-                EyeFile croped_eye = new EyeFile();
-
-                try {
-                    original = BitmapUtils.createTempImageFile(this);
-                    croped = BitmapUtils.createTempImageFile(this);
-
-                } catch (IOException ex) {
-                    // Error occurred while creating the File
-                    ex.printStackTrace();
-                }
-                if (original != null && croped != null) {
-
-                    original_eye.setAbsoletePath(original.getAbsolutePath());
-                    original_eye.setUri(FileProvider.getUriForFile(this,
-                            FILE_PROVIDER_AUTHORITY,
-                            original));
-                    croped_eye.setAbsoletePath(croped.getAbsolutePath());
-                    croped_eye.setUri(Uri.fromFile(croped));
-                    eyes.add(new Eye(original_eye, croped_eye));
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, original_eye.getUri());
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                }
-            } else {
-                // If you do not have permission, request it
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                        REQUEST_STORAGE_PERMISSION);
-            }
 
 
-        }
+    private void launchCamera() {
+        Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            // Create the capture image intent
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                            // Ensure that there's a camera activity to handle the intent
+                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                // Create the temporary File where the photo should go
+                                File original = null;
+                                File croped = null;
+                                EyeFile original_eye = new EyeFile();
+                                EyeFile croped_eye = new EyeFile();
+
+                                try {
+                                    original = BitmapUtils.createTempImageFile(ViewImage.this);
+                                    croped = BitmapUtils.createTempImageFile(ViewImage.this);
+                                } catch (IOException ex) {
+                                    // Error occurred while creating the File
+                                    ex.printStackTrace();
+                                }
+                                if (original != null && croped != null) {
+
+                                    original_eye.setAbsoletePath(original.getAbsolutePath());
+                                    original_eye.setUri(FileProvider.getUriForFile(ViewImage.this,
+                                            FILE_PROVIDER_AUTHORITY,
+                                            original));
+                                    croped_eye.setAbsoletePath(croped.getAbsolutePath());
+                                    croped_eye.setUri(Uri.fromFile(croped));
+                                    eyes.add(new Eye(original_eye, croped_eye));
+                                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, original_eye.getUri());
+                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                }
+
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Permissions are not granted!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -29,6 +29,10 @@ public class DetectActivity extends AppCompatActivity implements InteractiveEyeV
     Button right_image;
 
     public static String SHAPE_PARCELABLE = "SHAPE_PARCELABLE";
+    public static String EYE_SIDE = "EYE_SIDE";
+    public static String EYE_PARCELABLE = "EYE_PARCELABLE";
+
+    private int eyeSide = 0;
     private List<Eye> eyes;
     private List<ShapesDetected> shapesDetected = new ArrayList<>();
 
@@ -47,10 +51,11 @@ public class DetectActivity extends AppCompatActivity implements InteractiveEyeV
                 ).detect();
             shapesDetected.add(shapes);
         }
-        changeEyeView(ImageFilters.LEFT_EYE);
+        changeEyeView(right_image.isEnabled() ? ImageFilters.LEFT_EYE : ImageFilters.RIGHT_EYE);
     }
 
     public void changeEyeView(int eyeSide){
+        this.eyeSide = eyeSide;
         ShapesDetected shapes = this.shapesDetected.get(eyeSide);
         eye_view.updateView(shapes.shapes, shapes.original);
     }
@@ -71,6 +76,8 @@ public class DetectActivity extends AppCompatActivity implements InteractiveEyeV
     public void onShapeClick(Shape shape) {
         Intent intent = new Intent(this, ShapeDescriptionActivity.class);
         intent.putExtra(SHAPE_PARCELABLE, shape);
+        intent.putExtra(EYE_SIDE,eyeSide);
+        intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getCroped());
         startActivity(intent);
     }
 

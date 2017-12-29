@@ -59,8 +59,8 @@ public class DetectShapes {
                 continue;
 
             Log.e("e", "Found on x: " + center.x + " y: " + center.y);
-            Imgproc.drawContours(original, Collections.singletonList(point), -1,
-                    new Scalar(0, 255, 0), 2);
+//            Imgproc.drawContours(original, Collections.singletonList(point), -1,
+//                    new Scalar(0, 255, 0), 2);
             coordinates.add(new Shape(center.x, center.y, new ShapeContext() {
                 @Override
                 public int getColumn() {

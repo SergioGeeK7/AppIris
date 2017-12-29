@@ -3,7 +3,6 @@ package com.example.sergiogeek7.appiris;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,9 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -147,9 +144,13 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         }
 
         public void onRightImage(View view){
-            view.setEnabled(false);
-            left_image.setEnabled(true);
-            updateUI(RIGHT_EYE);
+            try{
+                view.setEnabled(false);
+                left_image.setEnabled(true);
+                updateUI(RIGHT_EYE);
+            }catch (Exception ex){
+                Toast.makeText(this,ex.getMessage(),Toast.LENGTH_SHORT);
+            }
         }
 
         public void updateUI(int eyeSide){
@@ -168,10 +169,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             Bitmap savedFilter = original.copy(Bitmap.Config.ARGB_8888, true);
             if(savedState.filter != null){
                 savedFilter = savedState.filter.processFilter(savedFilter.copy(Bitmap.Config.ARGB_8888, true));
-                Log.e("e", "restored");
             }
             if(savedState.isDirty()){
-                Log.e("e", "restored filthy");
                 Filter filter = new Filter();
                 filter.addSubFilter(new BrightnessSubFilter(imageSaveState.brightness));
                 filter.addSubFilter(new ContrastSubFilter(imageSaveState.contrast));
@@ -197,7 +196,6 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             // reset image controls
             resetControls();
             imageSaveState.filter = filter;
-            Log.e("e", "changed");
 
 
             // applying the selected filter
