@@ -77,7 +77,7 @@ public class FiltersListFragment extends Fragment implements ThumbnailsAdapter.T
         recyclerView.addItemDecoration(new SpacesItemDecoration(space));
         recyclerView.setAdapter(mAdapter);
 
-        prepareThumbnail(null);
+        //prepareThumbnail(null);
 
         return view;
     }
@@ -94,10 +94,10 @@ public class FiltersListFragment extends Fragment implements ThumbnailsAdapter.T
                 Bitmap thumbImage;
 
                 if (bitmap == null) {
-//                    thumbImage = BitmapUtils.getBitmapFromAssets(getActivity(),
-//                            ImageFilters.currentEye.getCroped().getAbsoletePath(), 100, 100);
-                    thumbImage = BitmapUtils.resamplePic(ImageFilters.currentEye.getCroped().getAbsoletePath(),
-                            100, 100);
+                   // thumbImage = BitmapUtils.getBitmapFromAssets(getActivity(),
+                            //ImageFilters.currentImagePath, 100, 100);
+                    thumbImage = BitmapUtils.decodeSampledBitmapFromResource(ImageFilters.currentImagePath,
+                           100, 100);
                 } else {
                     thumbImage = Bitmap.createScaledBitmap(bitmap, 100, 100,
                             false);

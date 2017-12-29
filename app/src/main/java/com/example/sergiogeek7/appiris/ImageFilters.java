@@ -62,7 +62,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public static final int RIGHT_EYE = 1;
 
         private ArrayList<Eye> eyes;
-        public static Eye currentEye;
+        public Eye currentEye;
 
         @BindView(R.id.image_preview)
         ImageView imagePreview;
@@ -97,6 +97,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         // modified image values
         ImageSaveState imageSaveState = new ImageSaveState();
 
+        public static String currentImagePath;
 
         // load native image filters library
         static {
@@ -107,6 +108,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             this.eyes = getIntent().getParcelableArrayListExtra(ViewImage.EYE_PARCELABLE);
+            this.currentImagePath =  this.eyes.get(LEFT_EYE).getCroped().getAbsoletePath();
             this.currentEye = this.eyes.get(LEFT_EYE);
             setContentView(R.layout.activity_image_filters);
             ButterKnife.bind(this);
@@ -155,6 +157,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
         public void updateUI(int eyeSide){
 
+            finalImage.recycle();
+            filteredImage.recycle();
             this.currentEye.getCroped().setBitmap(this.originalImage);
             this.currentEye.getCroped().setSaveState(this.imageSaveState);
             this.currentEye = eyes.get(eyeSide);
@@ -168,14 +172,14 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
             Bitmap savedFilter = original.copy(Bitmap.Config.ARGB_8888, true);
             if(savedState.filter != null){
-                savedFilter = savedState.filter.processFilter(savedFilter.copy(Bitmap.Config.ARGB_8888, true));
+                savedFilter = savedState.filter.processFilter(savedFilter);
             }
             if(savedState.isDirty()){
                 Filter filter = new Filter();
                 filter.addSubFilter(new BrightnessSubFilter(imageSaveState.brightness));
                 filter.addSubFilter(new ContrastSubFilter(imageSaveState.contrast));
                 filter.addSubFilter(new SaturationSubfilter(imageSaveState.saturation));
-                savedFilter = filter.processFilter(savedFilter.copy(Bitmap.Config.ARGB_8888, true));
+                savedFilter = filter.processFilter(savedFilter);
             }
             restoreFilter(original, savedFilter);
             //loadImage(this.currentEye.getCroped().getBitmap());
@@ -184,9 +188,9 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
 
         private void restoreFilter(Bitmap original, Bitmap savedFilter){
-            filtersListFragment.prepareThumbnail(original);
+            //filtersListFragment.prepareThumbnail(original);
             originalImage = original;
-            filteredImage = savedFilter.copy(Bitmap.Config.ARGB_8888, true);
+            filteredImage = savedFilter;
             finalImage = savedFilter.copy(Bitmap.Config.ARGB_8888, true);
             imagePreview.setImageBitmap(filteredImage);
         }
@@ -291,7 +295,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         private void loadImage(Bitmap bitmap) {
             //originalImage = BitmapUtils.getBitmapFromAssets(this, ViewImage.eyes.peek().getOriginal().getAbsoletePath(), 300, 300);
             originalImage = bitmap != null ? bitmap :
-                    BitmapUtils.resamplePic(this, this.currentEye.getCroped().getAbsoletePath());
+                    BitmapUtils.decodeSampledBitmapFromResource(
+                            this.currentEye.getCroped().getAbsoletePath(),
+                            imagePreview.getWidth(),
+                            imagePreview.getHeight());
             filteredImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
             finalImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
             imagePreview.setImageBitmap(originalImage);
