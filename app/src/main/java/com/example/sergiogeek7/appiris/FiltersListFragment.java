@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.SpacesItemDecoration;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.picasso.Picasso;
 import com.zomato.photofilters.FilterPack;
 import com.zomato.photofilters.imageprocessors.Filter;
 import com.zomato.photofilters.utils.ThumbnailItem;
@@ -61,6 +64,7 @@ public class FiltersListFragment extends Fragment implements ThumbnailsAdapter.T
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_filters_list, container, false);
 
@@ -77,7 +81,7 @@ public class FiltersListFragment extends Fragment implements ThumbnailsAdapter.T
         recyclerView.addItemDecoration(new SpacesItemDecoration(space));
         recyclerView.setAdapter(mAdapter);
 
-        //prepareThumbnail(null);
+        prepareThumbnail(null);
 
         return view;
     }
@@ -91,13 +95,18 @@ public class FiltersListFragment extends Fragment implements ThumbnailsAdapter.T
     public void prepareThumbnail(final Bitmap bitmap) {
         Runnable r = new Runnable() {
             public void run() {
-                Bitmap thumbImage;
+                Bitmap thumbImage = null;
 
                 if (bitmap == null) {
-                   // thumbImage = BitmapUtils.getBitmapFromAssets(getActivity(),
-                            //ImageFilters.currentImagePath, 100, 100);
-                    thumbImage = BitmapUtils.decodeSampledBitmapFromResource(ImageFilters.currentImagePath,
-                           100, 100);
+                    try{
+                        thumbImage = Picasso
+                                        .with(getContext())
+                                        .load(ImageFilters.currentImagePath)
+                                        .resize(100,100)
+                                        .get();
+                    }catch (Exception ex){
+                        Log.e("ee", ex.getMessage());
+                    }
                 } else {
                     thumbImage = Bitmap.createScaledBitmap(bitmap, 100, 100,
                             false);
