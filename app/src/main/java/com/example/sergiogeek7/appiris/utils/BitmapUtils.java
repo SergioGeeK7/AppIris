@@ -94,6 +94,9 @@ public class BitmapUtils {
     public static Bitmap getBitmapFromGallery(Context context, Uri path, int width, int height) {
         String[] filePathColumn = {MediaStore.Images.Media.DATA};
         Cursor cursor = context.getContentResolver().query(path, filePathColumn, null, null, null);
+
+
+
         cursor.moveToFirst();
         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
         String picturePath = cursor.getString(columnIndex);
@@ -147,7 +150,7 @@ public class BitmapUtils {
         // "RECREATE" THE NEW BITMAP
         Bitmap resizedBitmap = Bitmap.createBitmap(
                 bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
+        // bm.recycle();
         return resizedBitmap;
     }
 

@@ -13,7 +13,7 @@ tools:showIn="@layout/activity_image_filters">
 <ImageView
     android:id="@+id/image_preview"
     android:layout_width="match_parent"
-    android:layout_height="370dp"
+    android:layout_height="300dp"
     android:scaleType="fitXY"
     />
 
@@ -32,7 +32,6 @@ tools:showIn="@layout/activity_image_filters">
         android:layout_alignParentStart="true"
         android:text="@string/leftImage"
         android:background="@color/primary_light"
-        android:layout_marginBottom="15dp"
         />
 
     <Button
@@ -44,13 +43,13 @@ tools:showIn="@layout/activity_image_filters">
         android:layout_alignParentEnd="true"
         android:text="@string/rightImage"
         android:background="@color/primary_light"
-        android:layout_marginBottom="15dp"
         />
 
 <com.example.sergiogeek7.appiris.utils.NonSwipeableViewPager
     android:id="@+id/viewpager"
     android:layout_width="match_parent"
-    android:layout_height="120dp"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/right_image"
     android:layout_above="@+id/tabs"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

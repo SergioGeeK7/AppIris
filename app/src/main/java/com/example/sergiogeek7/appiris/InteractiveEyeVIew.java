@@ -46,7 +46,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext{
 
     public void updateView (List<Shape> shapes, Bitmap bitmap){
         this.shapes = shapes;
-        this.bitmap = bitmap;
+        this.bitmap = BitmapUtils.getResizedBitmap(bitmap, this.getWidth(), this.getHeight());
         invalidate();
     }
 
@@ -78,23 +78,15 @@ public class InteractiveEyeVIew extends View implements ShapeContext{
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.drawText("Welcome", positionX, positionY, mPaint);
-        try{
-            if(this.shapes != null){
-                Bitmap bitmap =
-                        BitmapUtils.getResizedBitmap(this.bitmap.copy(Bitmap.Config.ARGB_8888,
-                                true),
-                        this.getWidth()  , this.getHeight());
-                canvas.drawBitmap(bitmap, 0, 0, null);
-                for (Shape shape : this.shapes) {
-                    Point point = shape.getCoordinates(this);
-                    canvas.drawCircle((float) point.x, (float)  point.y, RADIUS, mPaint);
-                }
-            }
-        }catch (Exception ex){
-            Log.e("e", ex.getMessage());
-        }
+        if(this.shapes == null)
+            return;
 
+        //canvas.drawText("Welcome", positionX, positionY, mPaint);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        for (Shape shape : this.shapes) {
+            Point point = shape.getCoordinates(this);
+            canvas.drawCircle((float) point.x, (float)  point.y, RADIUS, mPaint);
+        }
     }
 
     @Override

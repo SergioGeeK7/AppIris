@@ -28,37 +28,6 @@ public class Shape implements Parcelable{
         this.originRow = context.getRow() / 2;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeDouble(this.column);
-        parcel.writeDouble(this.row);
-        parcel.writeDouble(this.colPercentage);
-        parcel.writeDouble(this.rowPercentage);
-        parcel.writeDouble(this.originColumn);
-        parcel.writeDouble(this.originRow);
-    }
-
-    protected Shape(Parcel in) {
-        column = in.readDouble();
-        row = in.readDouble();
-        colPercentage = in.readDouble();
-        rowPercentage = in.readDouble();
-        originColumn = in.readDouble();
-        originRow = in.readDouble();
-    }
-
-    public static final Creator<Shape> CREATOR = new Creator<Shape>() {
-        @Override
-        public Shape createFromParcel(Parcel in) {
-            return new Shape(in);
-        }
-
-        @Override
-        public Shape[] newArray(int size) {
-            return new Shape[size];
-        }
-    };
-
     public double getColumn(){
         return this.column;
     }
@@ -71,7 +40,6 @@ public class Shape implements Parcelable{
 
         double co = Math.abs(this.getRow() - originRow);
         double ca = Math.abs(this.getColumn() - originColumn);
-        //Log.e("ee", this.getRow() + " " + this.getColumn());
 
         int quadrant = 0;
         if (this.getColumn() == this.originColumn) {
@@ -107,9 +75,39 @@ public class Shape implements Parcelable{
     }
 
     @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeDouble(this.column);
+        parcel.writeDouble(this.row);
+        parcel.writeDouble(this.colPercentage);
+        parcel.writeDouble(this.rowPercentage);
+        parcel.writeDouble(this.originColumn);
+        parcel.writeDouble(this.originRow);
+    }
+
+    protected Shape(Parcel in) {
+        column = in.readDouble();
+        row = in.readDouble();
+        colPercentage = in.readDouble();
+        rowPercentage = in.readDouble();
+        originColumn = in.readDouble();
+        originRow = in.readDouble();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
 
+    public static final Creator<Shape> CREATOR = new Creator<Shape>() {
+        @Override
+        public Shape createFromParcel(Parcel in) {
+            return new Shape(in);
+        }
+
+        @Override
+        public Shape[] newArray(int size) {
+            return new Shape[size];
+        }
+    };
 
 }
