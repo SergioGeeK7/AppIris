@@ -3,6 +3,10 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
+    lintOptions {
+        checkReleaseBuilds false // Add this
+        abortOnError false
+    }
     defaultConfig {
         applicationId "com.example.sergiogeek7.appiris"
         minSdkVersion 21
@@ -11,10 +15,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi', 'armeabi-v7a', 'mips'
+            universalApk false
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled true
-            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 //        debug {
