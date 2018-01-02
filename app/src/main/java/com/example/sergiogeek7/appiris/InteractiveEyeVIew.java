@@ -20,7 +20,7 @@ import java.util.List;
 
  // TODO: injection with Dagger or using the Android data binding library.
 
-public class InteractiveEyeVIew extends View implements ShapeContext{
+public class InteractiveEyeVIew extends View implements ShapeContext {
 
     private Paint mPaint;
     private int x;

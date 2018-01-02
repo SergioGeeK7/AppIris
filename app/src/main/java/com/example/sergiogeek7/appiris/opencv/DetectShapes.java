@@ -33,8 +33,6 @@ public class DetectShapes {
         Bitmap bmp32 = this.img.copy(Bitmap.Config.ARGB_8888, true);
         Utils.bitmapToMat(bmp32, modified);
         Utils.bitmapToMat(bmp32, original);
-        double originColumn = modified.cols() / 2;
-        double originRow = modified.rows() / 2;
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.cvtColor(modified, modified, Imgproc.COLOR_RGBA2GRAY);
         Imgproc.GaussianBlur(modified, modified, new org.opencv.core.Size(5, 5), 0);
@@ -58,7 +56,6 @@ public class DetectShapes {
                     center.y < xThreshold * 0.1 || center.x < yThreshold * 0.1)
                 continue;
 
-            Log.e("e", "Found on x: " + center.x + " y: " + center.y);
 //            Imgproc.drawContours(original, Collections.singletonList(point), -1,
 //                    new Scalar(0, 255, 0), 2);
             coordinates.add(new Shape(center.x, center.y, new ShapeContext() {
@@ -77,7 +74,5 @@ public class DetectShapes {
         Utils.matToBitmap(original, bm);
         return new ShapesDetected(coordinates, bm);
     }
-
-
 
 }
