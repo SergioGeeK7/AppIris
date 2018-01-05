@@ -28,16 +28,16 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
     private EyeViewBindings bindings;
     private Bitmap bitmap;
     private List<Shape> shapes;
-    private final int RADIUS = 30;
+    private final int RADIUS = 20;
 
     @Override
     public int getColumn() {
-        return this.x;
+        return this.getWidth();
     }
 
     @Override
     public int getRow() {
-        return this.y;
+        return this.getHeight();
     }
 
     interface EyeViewBindings {
@@ -45,6 +45,9 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
     }
 
     public void updateView (List<Shape> shapes, Bitmap bitmap){
+        if(this.bitmap != null){
+            this.bitmap.recycle();
+        }
         this.shapes = shapes;
         this.bitmap = BitmapUtils.getResizedBitmap(bitmap, this.getWidth(), this.getHeight());
         invalidate();
@@ -52,7 +55,8 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
 
     private void init(Context context) {
         mPaint = new Paint();
-        mPaint.setARGB(100,255,255,255);
+        mPaint.setARGB(120,255,255,255);
+        mPaint.setStyle(Paint.Style.STROKE);
         try {
             bindings = (EyeViewBindings) context;
         }catch (Exception ex){

@@ -20,7 +20,7 @@ import java.util.List;
 public class DetectShapes {
 
     private Bitmap img;
-    private double MARGIN = 0.8;
+
 
     public DetectShapes(Bitmap img) {
         this.img = img;
@@ -28,11 +28,11 @@ public class DetectShapes {
 
     public ShapesDetected detect() {
 
-        Mat original = new Mat();
+        //Mat original = new Mat();
+        // Bitmap bmp32 = this.img.copy(Bitmap.Config.ARGB_8888, true);
+        //Utils.bitmapToMat(bmp32, original);
         Mat modified = new Mat();
-        Bitmap bmp32 = this.img.copy(Bitmap.Config.ARGB_8888, true);
-        Utils.bitmapToMat(bmp32, modified);
-        Utils.bitmapToMat(bmp32, original);
+        Utils.bitmapToMat(this.img, modified);
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.cvtColor(modified, modified, Imgproc.COLOR_RGBA2GRAY);
         Imgproc.GaussianBlur(modified, modified, new org.opencv.core.Size(5, 5), 0);
@@ -40,14 +40,22 @@ public class DetectShapes {
         Imgproc.findContours(modified, contours, new Mat(), Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         List<Shape> coordinates = new ArrayList<>();
         // avoid eyelashes
-        final int cols = modified.cols();
-        final int rows = modified.rows();
+        final int cols = modified.rows();
+        final int rows = modified.cols();
+        double MARGIN = 0.8;
+        int MAX_AREA = 2000;
+        int MIN_AREA = 100;
+        int LIMIT_SHAPES_DETECTED = 7;
         double xThreshold = cols * MARGIN;
         double yThreshold = rows * MARGIN;
+        int i = 0;
+
+        Collections.sort(contours, (p1, p2) ->
+                (int)(Imgproc.contourArea(p2) - Imgproc.contourArea(p1)));
 
         for (MatOfPoint point : contours) {
             double area = Imgproc.contourArea(point);
-            if (area < 100 || area > 2000)
+            if (area < MIN_AREA || area > MAX_AREA)
                 continue;
             Point center = new Point();
             Imgproc.minEnclosingCircle(new MatOfPoint2f(point.toArray()), center, new float[1]);
@@ -55,9 +63,9 @@ public class DetectShapes {
             if (center.x > xThreshold || center.y > yThreshold ||
                     center.y < xThreshold * 0.1 || center.x < yThreshold * 0.1)
                 continue;
+            // Log.e("coors", center.x + " y: " + center.y);
+            // Imgproc.drawContours(original, Collections.singletonList(point), -1, new Scalar(0, 255, 0), 2);
 
-//            Imgproc.drawContours(original, Collections.singletonList(point), -1,
-//                    new Scalar(0, 255, 0), 2);
             coordinates.add(new Shape(center.x, center.y, new ShapeContext() {
                 @Override
                 public int getColumn() {
@@ -69,10 +77,12 @@ public class DetectShapes {
                     return rows;
                 }
             }));
+            if(++i == LIMIT_SHAPES_DETECTED)
+                break;
         }
-        Bitmap bm = Bitmap.createBitmap(original.cols(), original.rows(), Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(original, bm);
-        return new ShapesDetected(coordinates, bm);
+        //Bitmap bm = Bitmap.createBitmap(original.cols(), original.rows(), Bitmap.Config.ARGB_8888);
+        //Utils.matToBitmap(original, bm);
+        return new ShapesDetected(coordinates, this.img);
     }
 
 }

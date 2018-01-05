@@ -1,20 +1,18 @@
 package com.example.sergiogeek7.appiris;
 
 import android.Manifest;
-import android.content.AsyncTaskLoader;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -26,8 +24,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.sergiogeek7.appiris.opencv.DetectShapes;
-import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -35,13 +31,12 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.yalantis.ucrop.UCrop;
 import com.zomato.photofilters.imageprocessors.Filter;
 import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubFilter;
 import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubFilter;
 import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +115,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             this.eyes = getIntent().getParcelableArrayListExtra(ViewImage.EYE_PARCELABLE);
-            this.currentImagePath =  this.eyes.get(LEFT_EYE).getCroped().getUri();
+            this.currentImagePath =  this.eyes.get(LEFT_EYE).getOriginal().getUri();
             this.currentEye = this.eyes.get(LEFT_EYE);
             setContentView(R.layout.activity_image_filters);
             ButterKnife.bind(this);
@@ -129,7 +124,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             //setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(getString(R.string.activity_title_main));
-            new LoadBitmap().execute(this.currentEye.getCroped().getUri(), false);
+            new LoadBitmap().execute(this.currentEye.getOriginal().getUri(), false);
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
         }
@@ -168,22 +163,22 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             finalImage.recycle();
             filteredImage.recycle();
 
-            this.currentEye.getCroped().setBitmap(this.originalImage);
-            this.currentEye.getCroped().setSaveState(this.imageSaveState);
+            this.currentEye.getFilter().setBitmap(this.originalImage);
+            this.currentEye.getFilter().setSaveState(this.imageSaveState);
             this.currentEye = eyes.get(eyeSide);
-            ImageSaveState savedState = this.imageSaveState = this.currentEye.getCroped().getSaveState();
-            Bitmap original = this.currentEye.getCroped().getBitmap();
+            ImageSaveState savedState = this.imageSaveState = this.currentEye.getFilter().getSaveState();
+            Bitmap original = this.currentEye.getFilter().getBitmap();
 
             if(original == null){
-                new LoadBitmap().execute(this.currentEye.getCroped().getUri() , true);
+                new LoadBitmap().execute(this.currentEye.getOriginal().getUri() , true);
             }else{
                 Bitmap filtered = applyFilter(savedState,
-                        original.copy(Bitmap.Config.ARGB_8888, true));
+                        original.copy(Bitmap.Config.RGB_565, true));
 
                 filtersListFragment.prepareThumbnail(original);
                 originalImage = original;
                 filteredImage = filtered;
-                finalImage = filtered.copy(Bitmap.Config.ARGB_8888, true);
+                finalImage = filtered.copy(Bitmap.Config.RGB_565, true);
                 imagePreview.setImageBitmap(filteredImage);
             }
 
@@ -211,11 +206,11 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.filter = filter;
 
             // applying the selected filter
-            filteredImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
+            filteredImage = originalImage.copy(Bitmap.Config.RGB_565, true);
             // preview filtered image
             imagePreview.setImageBitmap(filter.processFilter(filteredImage));
 
-            finalImage = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
+            finalImage = filteredImage.copy(Bitmap.Config.RGB_565, true);
         }
 
         @Override
@@ -223,7 +218,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.brightness = brightness;
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new BrightnessSubFilter(brightness));
-            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)));
+            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.RGB_565, true)));
         }
 
         @Override
@@ -231,7 +226,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.saturation = saturation;
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new SaturationSubfilter(saturation));
-            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)));
+            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.RGB_565, true)));
         }
 
         @Override
@@ -239,7 +234,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.contrast = contrast;
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new ContrastSubFilter(contrast));
-            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)));
+            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.RGB_565, true)));
         }
 
         @Override
@@ -251,7 +246,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public void onEditCompleted() {
             // once the editing is done i.e seekbar is drag is completed,
             // apply the values on to filtered image
-            final Bitmap bitmap = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
+            final Bitmap bitmap = filteredImage.copy(Bitmap.Config.RGB_565, true);
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new BrightnessSubFilter(imageSaveState.brightness));
             myFilter.addSubFilter(new ContrastSubFilter(imageSaveState.contrast));
@@ -337,13 +332,37 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                 finalImage.recycle();
                 //filteredImage.recycle();
                 //originalImage.recycle();
-                //Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 Uri uri = data.getData();
+                this.currentEye.getOriginal().setUri(uri);
                 new LoadBitmap().execute(uri, true);
             }
+//            else if(resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP){
+//                this.currentEye.getOriginal().setUri(UCrop.getOutput(data));
+//                new LoadBitmap().execute(UCrop.getOutput(data), true);
+//            }
         }
 
-        private void openImageFromGallery() {
+
+
+    private void cropImage(Uri uri) {
+        UCrop.Options options = new UCrop.Options();
+        options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+
+        try {
+            UCrop.of(uri, uri)
+                    .withOptions(options)
+                    .withAspectRatio(1, 1)
+                    // .withMaxResultSize(100, 100)
+                    .start(this);
+        }catch (Exception ex){
+            Log.e(TAG, ex.getMessage());
+        }
+    }
+
+
+
+    private void openImageFromGallery() {
             Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .withListener(new MultiplePermissionsListener() {
                         @Override
@@ -365,13 +384,13 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         }
 
         private void goDetectActivity(){
-            BitmapUtils.saveBitmap(this, filteredImage, this.currentEye.getCroped().getUri());
+            BitmapUtils.saveBitmap(this, filteredImage, this.currentEye.getFilter().getUri());
             //filteredImage.recycle();
             Eye eye = this.eyes.get(right_image.isEnabled() ? RIGHT_EYE : LEFT_EYE);
-            Bitmap original = eye.getCroped().getBitmap();
+            Bitmap original = eye.getFilter().getBitmap();
             if(original != null){
-                Bitmap filtered = applyFilter(eye.getCroped().getSaveState(), original);
-                BitmapUtils.saveBitmap(this, filtered, eye.getCroped().getUri());
+                Bitmap filtered = applyFilter(eye.getFilter().getSaveState(), original);
+                BitmapUtils.saveBitmap(this, filtered, eye.getFilter().getUri());
                 //filtered.recycle();
             }
             Intent intent = new Intent(this, DetectActivity.class);
@@ -453,12 +472,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
         protected void onPostExecute(Bitmap bitmap) {
             originalImage = bitmap;
-            filteredImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
-            finalImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
+            filteredImage = originalImage.copy(Bitmap.Config.RGB_565, true);
+            finalImage = originalImage.copy(Bitmap.Config.RGB_565, true);
             imagePreview.setImageBitmap(originalImage);
         }
     }
-
-
 
 }

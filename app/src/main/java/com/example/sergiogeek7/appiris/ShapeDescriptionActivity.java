@@ -40,6 +40,12 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         new loadBitmap().execute(eye.getUri());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("log", "Destroying");
+    }
+
     class loadBitmap extends AsyncTask<Uri, Void, Bitmap> {
 
         protected Bitmap doInBackground(Uri... params) {

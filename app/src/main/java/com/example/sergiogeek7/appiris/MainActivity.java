@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     public final String EXTRA_MESSAGE = "EXTRA_MESSAGE";
-    public final int ISMAN = 1;
+    public final int ISMASCULINE = 1;
 
 
     @Override
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onGenderClick(View view){
         Log.v(String.valueOf(Log.VERBOSE), String.valueOf(view.getId()));
-        String name = view.getId() == ISMAN ? "man" : "woman";
+        String name = view.getId() == ISMASCULINE ? "man" : "woman";
         Intent intent = new Intent(this, ViewImage.class);
         intent.putExtra(EXTRA_MESSAGE, name);
         startActivity(intent);

@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
@@ -14,29 +15,35 @@ import com.squareup.picasso.Picasso;
  * Created by sergiogeek7 on 31/12/17.
  */
 
-public class BitmapAsyncTask<T> extends AsyncTaskLoader<Bitmap>{
+public class BitmapAsyncTask extends AsyncTask<Uri, Void, Bitmap> {
 
-    Uri uri;
 
-    public BitmapAsyncTask(Context context){
-        super(context);
-    }
+    private Context context;
+    private BitmapAsync ba;
 
-    public BitmapAsyncTask(Context context, Uri uri){
-        super(context);
-        this.uri = uri;
+    public BitmapAsyncTask(Context context, BitmapAsync ba){
+        this.context = context;
+        this.ba = ba;
     }
 
     @Override
-    public Bitmap loadInBackground() {
+    protected Bitmap doInBackground(Uri... uris) {
         try{
-            return Picasso.with(getContext())
-                    .load(this.uri)
-                    .resize(400, 400)
+            return Picasso.with(context)
+                    .load(uris[0])
                     .get();
         }catch (Exception ex){
             Log.e("e", ex.getMessage());
             return null;
         }
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap bitmap) {
+        ba.onBitmapLoaded(bitmap);
+    }
+
+    public interface BitmapAsync {
+        void onBitmapLoaded(Bitmap bitmap);
     }
 }

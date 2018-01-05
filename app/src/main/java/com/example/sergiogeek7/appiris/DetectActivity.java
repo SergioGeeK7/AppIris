@@ -1,10 +1,7 @@
 package com.example.sergiogeek7.appiris;
 
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +41,10 @@ public class DetectActivity extends AppCompatActivity
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
+                    if(shapesDetected.size() > 1){
+                        changeEyeView(right_image.isEnabled() ? ImageFilters.LEFT_EYE : ImageFilters.RIGHT_EYE);
+                        return;
+                    }
                     new DownloadFilesTask().execute();
                 }
                 break;
@@ -104,7 +105,7 @@ public class DetectActivity extends AppCompatActivity
         Intent intent = new Intent(this, ShapeDescriptionActivity.class);
         intent.putExtra(SHAPE_PARCELABLE, shape);
         intent.putExtra(EYE_SIDE,eyeSide);
-        intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getCroped());
+        intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getFilter());
         startActivity(intent);
     }
 
@@ -112,16 +113,14 @@ public class DetectActivity extends AppCompatActivity
 
         protected String doInBackground(Void... params) {
             try {
-                Log.e("open", "detecting");
                 for (Eye eye: eyes) {
 
                         Bitmap bitmap = Picasso.with(DetectActivity.this)
-                                .load(eye.getCroped().getUri())
-                                .resize(400, 400)
+                                .load(eye.getOriginal().getUri())
+                                //.resize(400, 400)
                                 .get();
                         ShapesDetected shapes = new DetectShapes(bitmap).detect();
                         shapesDetected.add(shapes);
-                        Log.e("open", "detecting done");
                 }
             } catch (Exception ex) {
                 Log.e(TAG, ex.getMessage());

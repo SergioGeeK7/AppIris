@@ -25,17 +25,21 @@ public class DescriptionImageView extends View implements ShapeContext {
     private Shape shape;
     private final int RADIUS = 70;
 
+
     @Override
     public int getColumn() {
-        return this.x;
+        return this.getWidth();
     }
 
     @Override
     public int getRow() {
-        return this.y;
+        return this.getHeight();
     }
 
     public void updateView (Shape shape, Bitmap bitmap){
+        if (this.bitmap != null){
+            this.bitmap.recycle();
+        }
         this.shape = shape;
         this.bitmap = bitmap;
         invalidate();
@@ -75,7 +79,6 @@ public class DescriptionImageView extends View implements ShapeContext {
         Bitmap bitmap = BitmapUtils.getResizedBitmap(this.bitmap, this.getWidth(), this.getHeight());
         this.bitmap.recycle();
         canvas.drawBitmap(bitmap, 0, 0, null);
-        Log.e("e","enter");
         canvas.restore();
     }
 

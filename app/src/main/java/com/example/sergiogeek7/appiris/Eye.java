@@ -10,16 +10,16 @@ import android.os.Parcelable;
 public class Eye implements Parcelable {
 
     private EyeFile original = new EyeFile();
-    private EyeFile croped = new EyeFile();
+    private EyeFile filter = new EyeFile();
 
-    public Eye(EyeFile original, EyeFile croped){
+    public Eye(EyeFile original, EyeFile filter){
         this.original = original;
-        this.croped = croped;
+        this.filter = filter;
     }
 
     protected Eye(Parcel in) {
         original = in.readParcelable(EyeFile.class.getClassLoader());
-        croped = in.readParcelable(EyeFile.class.getClassLoader());
+        filter = in.readParcelable(EyeFile.class.getClassLoader());
     }
 
     public static final Creator<Eye> CREATOR = new Creator<Eye>() {
@@ -42,12 +42,12 @@ public class Eye implements Parcelable {
         this.original = original;
     }
 
-    public EyeFile getCroped() {
-        return croped;
+    public EyeFile getFilter() {
+        return filter;
     }
 
-    public void setCroped(EyeFile croped) {
-        this.croped = croped;
+    public void setFilter(EyeFile filter) {
+        this.filter = filter;
     }
 
     @Override
@@ -58,6 +58,6 @@ public class Eye implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeParcelable(original, i);
-        parcel.writeParcelable(croped, i);
+        parcel.writeParcelable(filter, i);
     }
 }
