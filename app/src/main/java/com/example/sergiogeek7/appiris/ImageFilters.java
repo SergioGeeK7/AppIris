@@ -46,25 +46,7 @@ import butterknife.ButterKnife;
 
 public class ImageFilters extends AppCompatActivity implements FiltersListFragment.FiltersListFragmentListener, EditImageFragment.EditImageFragmentListener {
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_image_filters);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//    }
-//
         private static final String TAG = MainActivity.class.getSimpleName();
-        public static final int SELECT_GALLERY_IMAGE = 101;
         public static final int LEFT_EYE = 0;
         public static final int RIGHT_EYE = 1;
 
@@ -124,7 +106,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             //setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(getString(R.string.activity_title_main));
-            new LoadBitmap().execute(this.currentEye.getOriginal().getUri(), false);
+            new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath(), false);
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
         }
@@ -170,15 +152,16 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             Bitmap original = this.currentEye.getFilter().getBitmap();
 
             if(original == null){
-                new LoadBitmap().execute(this.currentEye.getOriginal().getUri() , true);
+                new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath() , true);
             }else{
                 Bitmap filtered = applyFilter(savedState,
-                        original.copy(Bitmap.Config.RGB_565, true));
+                        original.copy(Bitmap.Config.ARGB_8888, true));
 
+                //RGB_565
                 filtersListFragment.prepareThumbnail(original);
                 originalImage = original;
                 filteredImage = filtered;
-                finalImage = filtered.copy(Bitmap.Config.RGB_565, true);
+                finalImage = filtered.copy(Bitmap.Config.ARGB_8888, true);
                 imagePreview.setImageBitmap(filteredImage);
             }
 
@@ -204,13 +187,11 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             // reset image controls
             resetControls();
             imageSaveState.filter = filter;
-
             // applying the selected filter
-            filteredImage = originalImage.copy(Bitmap.Config.RGB_565, true);
+            filteredImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
             // preview filtered image
             imagePreview.setImageBitmap(filter.processFilter(filteredImage));
-
-            finalImage = filteredImage.copy(Bitmap.Config.RGB_565, true);
+            finalImage = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
         }
 
         @Override
@@ -218,7 +199,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.brightness = brightness;
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new BrightnessSubFilter(brightness));
-            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.RGB_565, true)));
+            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)));
         }
 
         @Override
@@ -226,7 +207,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.saturation = saturation;
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new SaturationSubfilter(saturation));
-            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.RGB_565, true)));
+            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)));
         }
 
         @Override
@@ -234,7 +215,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.contrast = contrast;
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new ContrastSubFilter(contrast));
-            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.RGB_565, true)));
+            imagePreview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)));
         }
 
         @Override
@@ -246,7 +227,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public void onEditCompleted() {
             // once the editing is done i.e seekbar is drag is completed,
             // apply the values on to filtered image
-            final Bitmap bitmap = filteredImage.copy(Bitmap.Config.RGB_565, true);
+            final Bitmap bitmap = filteredImage.copy(Bitmap.Config.ARGB_8888, true);
             Filter myFilter = new Filter();
             myFilter.addSubFilter(new BrightnessSubFilter(imageSaveState.brightness));
             myFilter.addSubFilter(new ContrastSubFilter(imageSaveState.contrast));
@@ -305,11 +286,6 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
 
-            if (id == R.id.action_open) {
-                openImageFromGallery();
-                return true;
-            }
-
             if (id == R.id.action_save) {
                 saveImageToGallery();
                 return true;
@@ -321,66 +297,6 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             }
 
             return super.onOptionsItemSelected(item);
-        }
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-            if (requestCode == SELECT_GALLERY_IMAGE && resultCode == RESULT_OK && data != null
-                    && data.getData() != null) {
-
-                finalImage.recycle();
-                //filteredImage.recycle();
-                //originalImage.recycle();
-                Uri uri = data.getData();
-                this.currentEye.getOriginal().setUri(uri);
-                new LoadBitmap().execute(uri, true);
-            }
-//            else if(resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP){
-//                this.currentEye.getOriginal().setUri(UCrop.getOutput(data));
-//                new LoadBitmap().execute(UCrop.getOutput(data), true);
-//            }
-        }
-
-
-
-    private void cropImage(Uri uri) {
-        UCrop.Options options = new UCrop.Options();
-        options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
-        options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-
-        try {
-            UCrop.of(uri, uri)
-                    .withOptions(options)
-                    .withAspectRatio(1, 1)
-                    // .withMaxResultSize(100, 100)
-                    .start(this);
-        }catch (Exception ex){
-            Log.e(TAG, ex.getMessage());
-        }
-    }
-
-
-
-    private void openImageFromGallery() {
-            Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            if (report.areAllPermissionsGranted()) {
-                                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                                intent.setType("image/*");
-                                startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_picture)), SELECT_GALLERY_IMAGE);
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Permissions are not granted!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).check();
         }
 
         private void goDetectActivity(){
@@ -450,13 +366,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
         protected Bitmap doInBackground(Object... params) {
             Bitmap bitmap = null;
-            Uri uri = (Uri)params[0];
+            String imagePath = (String)params[0];
             boolean reloadThumbnail = (boolean) params[1];
             try{
-                bitmap = Picasso.with(ImageFilters.this)
-                        .load(uri)
-                        .resize(400, 400)
-                        .get();
+                bitmap = BitmapUtils.compressImage(imagePath);
                 if(reloadThumbnail){
                     filtersListFragment.prepareThumbnail(bitmap);
                 }
@@ -472,8 +385,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
         protected void onPostExecute(Bitmap bitmap) {
             originalImage = bitmap;
-            filteredImage = originalImage.copy(Bitmap.Config.RGB_565, true);
-            finalImage = originalImage.copy(Bitmap.Config.RGB_565, true);
+            filteredImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
+            finalImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
             imagePreview.setImageBitmap(originalImage);
         }
     }

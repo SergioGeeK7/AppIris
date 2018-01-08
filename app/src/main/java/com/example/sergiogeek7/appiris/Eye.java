@@ -9,8 +9,8 @@ import android.os.Parcelable;
 
 public class Eye implements Parcelable {
 
-    private EyeFile original = new EyeFile();
-    private EyeFile filter = new EyeFile();
+    private EyeFile original;
+    private EyeFile filter;
 
     public Eye(EyeFile original, EyeFile filter){
         this.original = original;

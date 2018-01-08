@@ -8,6 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.content.FileProvider;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -86,33 +90,30 @@ public class BitmapUtils {
         return null;
     }
 
-    /**
-     * Getting bitmap from Gallery
-     *
-     * @return
-     */
-    public static Bitmap getBitmapFromGallery(Context context, Uri path, int width, int height) {
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = context.getContentResolver().query(path, filePathColumn, null, null, null);
 
 
+    public static int calculateInSampleSizeV2(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
 
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String picturePath = cursor.getString(columnIndex);
-        cursor.close();
+        if (height > reqHeight || width > reqWidth) {
+            final int heightRatio = Math.round((float) height / (float) reqHeight);
+            final int widthRatio = Math.round((float) width / (float) reqWidth);
+            inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+        }
+        final float totalPixels = width * height;
+        final float totalReqPixelsCap = reqWidth * reqHeight * 2;
 
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(picturePath, options);
+        while (totalPixels / (inSampleSize * inSampleSize) > totalReqPixelsCap) {
+            inSampleSize++;
+        }
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, width, height);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(picturePath, options);
+        return inSampleSize;
     }
+
+
+
 
     private static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
@@ -342,6 +343,7 @@ public class BitmapUtils {
         return BitmapFactory.decodeFile(imagePath);
     }
 
+
     public static Bitmap resamplePic(String imagePath, int targetH, int targetW ) {
 
         // Get the dimensions of the original bitmap
@@ -364,23 +366,30 @@ public class BitmapUtils {
 
 
 
+
+
+
     /**
      * Creates the temporary image file in the cache directory.
      *
      * @return The temporary image file.
      * @throws IOException Thrown if there is an error creating the file
      */
-    public static File createTempImageFile(Context context) throws IOException {
+    public static File createTempImageFile(Context context) {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = context.getExternalCacheDir();
-
-        return File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        try {
+            return File.createTempFile(
+                    imageFileName,  /* prefix */
+                    ".jpg",         /* suffix */
+                    storageDir      /* directory */
+            );
+        }catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -444,6 +453,100 @@ public class BitmapUtils {
         }
     }
 
+    private static final float maxHeight = 1280.0f;
+    private static final float maxWidth = 1280.0f;
+
+
+    // InputStream ims = getContentResolver().openInputStream(mPicPath);
+    // just display image in imageview
+    // imageView.setImageBitmap(BitmapFactory.decodeStream(ims));
+    // input = this.getContentResolver().openInputStream(uri); input.close()
+
+    public static Bitmap compressImage(String imagePath) {
+
+        Bitmap scaledBitmap = null;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        Bitmap bmp = BitmapFactory.decodeFile(imagePath, options);
+
+        int actualHeight = options.outHeight;
+        int actualWidth = options.outWidth;
+        float imgRatio = (float) actualWidth / (float) actualHeight;
+        float maxRatio = maxWidth / maxHeight;
+
+        if (actualHeight > maxHeight || actualWidth > maxWidth) {
+            if (imgRatio < maxRatio) {
+                imgRatio = maxHeight / actualHeight;
+                actualWidth = (int) (imgRatio * actualWidth);
+                actualHeight = (int) maxHeight;
+            } else if (imgRatio > maxRatio) {
+                imgRatio = maxWidth / actualWidth;
+                actualHeight = (int) (imgRatio * actualHeight);
+                actualWidth = (int) maxWidth;
+            } else {
+                actualHeight = (int) maxHeight;
+                actualWidth = (int) maxWidth;
+
+            }
+        }
+
+        options.inSampleSize = calculateInSampleSizeV2(options, actualWidth, actualHeight);
+        options.inJustDecodeBounds = false;
+        options.inDither = false;
+        options.inTempStorage = new byte[16 * 1024];
+
+        try {
+            bmp = BitmapFactory.decodeFile(imagePath, options);
+        } catch (OutOfMemoryError exception) {
+            exception.printStackTrace();
+
+        }
+        try {
+            scaledBitmap = Bitmap.createBitmap(actualWidth, actualHeight, Bitmap.Config.ARGB_8888);
+        } catch (OutOfMemoryError exception) {
+            exception.printStackTrace();
+        }
+
+        float ratioX = actualWidth / (float) options.outWidth;
+        float ratioY = actualHeight / (float) options.outHeight;
+        float middleX = actualWidth / 2.0f;
+        float middleY = actualHeight / 2.0f;
+
+        Matrix scaleMatrix = new Matrix();
+        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY);
+
+        Canvas canvas = new Canvas(scaledBitmap);
+        canvas.setMatrix(scaleMatrix);
+        canvas.drawBitmap(bmp, middleX - bmp.getWidth() / 2, middleY - bmp.getHeight() / 2,
+                new Paint(Paint.FILTER_BITMAP_FLAG));
+
+        ExifInterface exif;
+        try {
+            exif = new ExifInterface(imagePath);
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 0);
+            Matrix matrix = new Matrix();
+            if (orientation == 6) {
+                matrix.postRotate(90);
+            } else if (orientation == 3) {
+                matrix.postRotate(180);
+            } else if (orientation == 8) {
+                matrix.postRotate(270);
+            }
+            scaledBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0, scaledBitmap.getWidth(),
+                                scaledBitmap.getHeight(), matrix, true);
+            return scaledBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+//        ByteArrayOutputStream out = new ByteArrayOutputStream();
+//        scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 85, out);
+//        return out.toByteArray();
+    }
+
+
+
     /**
      * Helper method for saving the image.
      *
@@ -506,37 +609,4 @@ public class BitmapUtils {
         context.startActivity(shareIntent);
     }
 
-
-    //Load a bitmap from a resource with a target size
-    public static Bitmap decodeSampledBitmapFromResource(String imagePath, int reqWidth, int reqHeight) {
-
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(imagePath, options);
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize2(options, reqWidth, reqHeight);
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-
-        return BitmapFactory.decodeFile(imagePath);
-    }
-
-    //Given the bitmap size and View size calculate a subsampling size (powers of 2)
-    static int calculateInSampleSize2( BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        int inSampleSize = 1;	//Default subsampling size
-        // See if image raw height and width is bigger than that of required view
-        if (options.outHeight > reqHeight || options.outWidth > reqWidth) {
-            //bigger
-            final int halfHeight = options.outHeight / 2;
-            final int halfWidth = options.outWidth / 2;
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) > reqHeight
-                    && (halfWidth / inSampleSize) > reqWidth) {
-                inSampleSize *= 2;
-            }
-        }
-        return inSampleSize;
-    }
 }

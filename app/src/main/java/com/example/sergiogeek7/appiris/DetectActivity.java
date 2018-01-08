@@ -105,7 +105,7 @@ public class DetectActivity extends AppCompatActivity
         Intent intent = new Intent(this, ShapeDescriptionActivity.class);
         intent.putExtra(SHAPE_PARCELABLE, shape);
         intent.putExtra(EYE_SIDE,eyeSide);
-        intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getFilter());
+        intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getOriginal());
         startActivity(intent);
     }
 

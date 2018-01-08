@@ -7,12 +7,15 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.provider.MediaStore;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,8 +46,7 @@ public class ViewImage extends AppCompatActivity{
 
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
@@ -60,8 +62,12 @@ public class ViewImage extends AppCompatActivity{
         public void onManagerConnected(int status) {
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
-                    take_photo.setText(R.string.take_photo_left);
-                    take_photo.setEnabled(true);
+                    if(!load_photo.isEnabled()){
+                        take_photo.setText(R.string.take_photo_left);
+                        load_photo.setText(R.string.load_photo_left);
+                        load_photo.setEnabled(true);
+                        take_photo.setEnabled(true);
+                    }
                 }
                 break;
                 default: {
@@ -72,58 +78,55 @@ public class ViewImage extends AppCompatActivity{
         }
     };
 
-
     protected static final int REQUEST_IMAGE_CAPTURE = 1;
+    public static final int SELECT_GALLERY_IMAGE = 101;
     protected static final int REQUEST_STORAGE_PERMISSION = 1;
     protected static final int FIRST_LEFT_EYE = 0;
     protected static final int CAPTURE_IRIS_DONE = 2;
-    protected static final String FILE_PROVIDER_AUTHORITY = "com.example.irisfileprovider";
+    protected static final String PROVIDER_AUTHORITY = "com.example.irisfileprovider";
     protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
     private static final String TAG = ViewImage.class.getName();
+    private boolean cancellable = false;
     private ArrayList<Eye> eyes = new ArrayList<>();
     @BindView(R.id.take_photo)
     Button take_photo;
+    @BindView(R.id.load_photo)
+    Button load_photo;
     @BindView(R.id.img)
     ImageView img;
 
-    private void launchCamera() {
+    public void launchCamera(View view) {
         Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
-                            // Create the capture image intent
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-                            // Ensure that there's a camera activity to handle the intent
                             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                // Create the temporary File where the photo should go
-                                File original = null;
-                                File croped = null;
-                                EyeFile original_eye = new EyeFile();
-                                EyeFile croped_eye = new EyeFile();
-
-                                try {
-                                    original = BitmapUtils.createTempImageFile(ViewImage.this);
-                                    croped = BitmapUtils.createTempImageFile(ViewImage.this);
-                                } catch (IOException ex) {
-                                    // Error occurred while creating the File
-                                    ex.printStackTrace();
-                                }
-                                if (original != null && croped != null) {
-
-                                    original_eye.setAbsoletePath(original.getAbsolutePath());
-                                    original_eye.setUri(FileProvider.getUriForFile(ViewImage.this,
-                                            FILE_PROVIDER_AUTHORITY,
-                                            original));
-                                    croped_eye.setAbsoletePath(croped.getAbsolutePath());
-                                    croped_eye.setUri(Uri.fromFile(croped));
-                                    eyes.add(new Eye(original_eye, croped_eye));
-                                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, original_eye.getUri());
-                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                }
-
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, createEye());
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                             }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Permissions are not granted!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+    public void loadPhoto(View view) {
+        Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                            intent.setType("image/*");
+                            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_a_picture)), SELECT_GALLERY_IMAGE);
                         } else {
                             Toast.makeText(getApplicationContext(), "Permissions are not granted!", Toast.LENGTH_SHORT).show();
                         }
@@ -136,6 +139,24 @@ public class ViewImage extends AppCompatActivity{
                 }).check();
     }
 
+    private Uri createEye (){
+
+        if(this.eyes.size() == CAPTURE_IRIS_DONE)
+            return this.eyes.get(this.eyes.size() - 1).getFilter().getUri();
+
+        File original = BitmapUtils.createTempImageFile(ViewImage.this);
+        File filter = BitmapUtils.createTempImageFile(ViewImage.this);
+
+        EyeFile eye_original = new EyeFile(filter.getAbsolutePath(), Uri.fromFile(filter));
+        EyeFile eye_filter =
+                new EyeFile (original.getAbsolutePath(),
+                             FileProvider.getUriForFile(this, PROVIDER_AUTHORITY, original)
+        );
+        eyes.add(new Eye(eye_original, eye_filter));
+        cancellable = true;
+        return eye_filter.getUri();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,53 +165,58 @@ public class ViewImage extends AppCompatActivity{
     }
 
     protected void launchFilterActivity (){
-        Intent intent = new Intent(this, ImageFilters.class);
-        intent.putParcelableArrayListExtra(EYE_PARCELABLE, eyes);
-        startActivity(intent);
+
+        Intent i = new Intent(this, ImageFilters.class);
+        i.putParcelableArrayListExtra(EYE_PARCELABLE, eyes);
+        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            Uri temp = eyes.get(eyes.size() - 1).getOriginal().getUri();
-            eyes.get(eyes.size() - 1).getOriginal().setUri(UCrop.getOutput(data));
-            eyes.get(eyes.size() - 1).getFilter().setUri(temp);
             if(eyes.size() == CAPTURE_IRIS_DONE){
                 launchFilterActivity();
+                return;
             }
+            nextUIEye();
         } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            isBlurImage(eyes.get(eyes.size() - 1).getOriginal().getUri());
+            isEyeBlur(eyes.get(eyes.size() - 1));
             // due to async code I can't follow the flow here TODO: refactor
+        } else if (requestCode == SELECT_GALLERY_IMAGE && resultCode == RESULT_OK && data != null
+                && data.getData() != null) {
+            Uri uri = data.getData();
+            createEye();
+            cropImage(uri, eyes.get(eyes.size() - 1).getOriginal().getUri());
         } else if (resultCode == UCrop.RESULT_ERROR) {
-            final Throwable cropError = UCrop.getError(data);
+            Throwable cropError = UCrop.getError(data);
             Log.e(TAG, cropError.getMessage());
         } else {
              // Otherwise, delete the temporary image file
-             Eye eye = eyes.get(eyes.size() - 1);
-             BitmapUtils.deleteImageFile(this, eye.getOriginal().getAbsoletePath());
-             BitmapUtils.deleteImageFile(this, eye.getFilter().getAbsoletePath());
+             if(cancellable){
+                 Eye eye = eyes.get(eyes.size() - 1);
+                 BitmapUtils.deleteImageFile(this, eye.getOriginal().getAbsoletePath());
+                 BitmapUtils.deleteImageFile(this, eye.getFilter().getAbsoletePath());
+                 eyes.remove(eye);
+                 cancellable = false;
+             }
         }
     }
 
-    private void isBlurImage(final Uri uri){
-        new BitmapAsyncTask(this, new BitmapAsyncTask.BitmapAsync() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap) {
-                if(!DetectBlur.isBlur(bitmap)){
-                    cropImage();
-                    nextUIEye();
-                }else{
-                    showMessage(R.string.blur_photo, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                        }
-                    });
-                }
+    private void isEyeBlur(Eye eye){
+        new BitmapAsyncTask(this, bitmap -> {
+            if(!DetectBlur.isBlur(bitmap)){
+                cropImage(eye.getFilter().getUri(), eye.getOriginal().getUri());
+            }else{
+                showMessage(R.string.blur_photo, (dialog, which)
+                        -> {
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, eye.getFilter().getUri());
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                });
             }
-        }).execute(uri);
+        }).execute(eye.getFilter().getUri());
     }
 
     private void showMessage(int resourceId, DialogInterface.OnClickListener callback){
@@ -202,24 +228,20 @@ public class ViewImage extends AppCompatActivity{
                 .show();
     }
 
-
     private void nextUIEye(){
         take_photo.setText(R.string.take_photo_right);
+        load_photo.setText(R.string.load_photo_right);
         img.setImageResource(R.drawable.ic_wink_emoticon_square_right);
+        cancellable = false;
     }
 
-    public void takePhoto(View view){
-        launchCamera();
-    }
-
-    private void cropImage() {
+    private void cropImage(Uri original, Uri dest) {
         UCrop.Options options = new UCrop.Options();
         options.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         options.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
 
-        Eye eye = eyes.get(eyes.size() - 1);
         try {
-            UCrop.of(eye.getOriginal().getUri(), eye.getFilter().getUri())
+            UCrop.of(original, dest)
                     .withOptions(options)
                     .withAspectRatio(1, 1)
                     // .withMaxResultSize(100, 100)

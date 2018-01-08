@@ -40,8 +40,9 @@ public class EyeFile implements Parcelable{
         this.absolutePath = in.readString();
     }
 
-    public EyeFile (){
-
+    public EyeFile (String absolutePath, Uri uri){
+        this.uri = uri;
+        this.absolutePath = absolutePath;
     }
 
 

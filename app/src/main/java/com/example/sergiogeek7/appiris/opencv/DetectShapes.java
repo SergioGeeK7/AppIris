@@ -21,7 +21,6 @@ public class DetectShapes {
 
     private Bitmap img;
 
-
     public DetectShapes(Bitmap img) {
         this.img = img;
     }
@@ -43,7 +42,7 @@ public class DetectShapes {
         final int cols = modified.rows();
         final int rows = modified.cols();
         double MARGIN = 0.8;
-        int MAX_AREA = 2000;
+        int MAX_AREA = 1500;
         int MIN_AREA = 100;
         int LIMIT_SHAPES_DETECTED = 7;
         double xThreshold = cols * MARGIN;

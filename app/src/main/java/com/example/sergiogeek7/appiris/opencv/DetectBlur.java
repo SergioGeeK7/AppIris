@@ -20,7 +20,7 @@ public class DetectBlur {
 
     public static boolean isBlur (Bitmap bitmap){
 
-        double THRESHOLD = 10;
+        double THRESHOLD = 90;
         Mat image = new Mat();
         Utils.bitmapToMat(bitmap, image);
         Mat destination = new Mat();

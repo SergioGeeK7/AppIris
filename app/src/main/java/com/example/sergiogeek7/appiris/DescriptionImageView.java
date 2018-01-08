@@ -19,12 +19,9 @@ import org.opencv.core.Point;
 public class DescriptionImageView extends View implements ShapeContext {
 
     private Paint mPaint;
-    private int x;
-    private int y;
     private Bitmap bitmap;
     private Shape shape;
     private final int RADIUS = 70;
-
 
     @Override
     public int getColumn() {
@@ -77,7 +74,6 @@ public class DescriptionImageView extends View implements ShapeContext {
         //canvas.drawCircle(0, 0, RADIUS, mPaint);
         canvas.scale(2, 2, (float) point.x + RADIUS, (float)  point.y + RADIUS);
         Bitmap bitmap = BitmapUtils.getResizedBitmap(this.bitmap, this.getWidth(), this.getHeight());
-        this.bitmap.recycle();
         canvas.drawBitmap(bitmap, 0, 0, null);
         canvas.restore();
     }
@@ -91,8 +87,8 @@ public class DescriptionImageView extends View implements ShapeContext {
         // hSpecMode == MeasureSpec.AT_MOST Wrap Content
         int hSpecSize = View.MeasureSpec.getSize(heightMeasureSpec);
         int wSpecSize = View.MeasureSpec.getSize(widthMeasureSpec);
-        int myHeight = x = hSpecSize;
-        int myWidth = y = wSpecSize;
+        int myHeight =  hSpecSize;
+        int myWidth =  wSpecSize;
         setMeasuredDimension(myWidth, myHeight);
     }
 }

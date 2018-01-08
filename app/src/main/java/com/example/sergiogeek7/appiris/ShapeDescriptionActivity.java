@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.TextView;
 import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
+import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,7 +38,7 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         this.eyeSide = getIntent().getIntExtra(DetectActivity.EYE_SIDE, 0);
         this.eye = getIntent().getParcelableExtra(DetectActivity.EYE_PARCELABLE);
         description_text.setText(psicosomaticas.getBodyPart(shape, 0));
-        new loadBitmap().execute(eye.getUri());
+        new loadBitmap().execute(eye.getAbsoletePath());
     }
 
     @Override
@@ -46,16 +47,13 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         Log.e("log", "Destroying");
     }
 
-    class loadBitmap extends AsyncTask<Uri, Void, Bitmap> {
+    class loadBitmap extends AsyncTask<String, Void, Bitmap> {
 
-        protected Bitmap doInBackground(Uri... params) {
+        protected Bitmap doInBackground(String... params) {
 
             Bitmap bitmap = null;
             try {
-                bitmap = Picasso.with(ShapeDescriptionActivity.this)
-                        .load(params[0])
-                        .resize(400, 400)
-                        .get();
+                bitmap = BitmapUtils.compressImage(params[0]);
             } catch (Exception ex) {
                 Log.e(TAG, ex.getMessage());
             }
