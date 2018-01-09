@@ -4,14 +4,20 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapeContext;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import org.opencv.core.Point;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -23,12 +29,32 @@ import java.util.List;
 public class InteractiveEyeVIew extends View implements ShapeContext {
 
     private Paint mPaint;
-    private int x;
-    private int y;
     private EyeViewBindings bindings;
     private Bitmap bitmap;
+    private Bitmap bitmapResized;
     private List<Shape> shapes;
     private final int RADIUS = 20;
+
+    public void saveView(Uri uri){
+        Bitmap bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(bitmap);
+        ShapeContext shapeContext = new ShapeContext() {
+            @Override
+            public int getColumn() {
+                return canvas.getWidth();
+            }
+            @Override
+            public int getRow() {
+                return canvas.getHeight();
+            }
+        };
+        for (Shape shape : this.shapes) {
+            Point point = shape.getCoordinates(shapeContext);
+            canvas.drawCircle((float) point.x, (float)  point.y, RADIUS, mPaint);
+        }
+        BitmapUtils.saveBitmap(getContext(), bitmap, uri);
+        bitmap.recycle();
+    }
 
     @Override
     public int getColumn() {
@@ -45,11 +71,12 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
     }
 
     public void updateView (List<Shape> shapes, Bitmap bitmap){
-        if(this.bitmap != null){
-            this.bitmap.recycle();
+        if(this.bitmapResized != null){
+            this.bitmapResized.recycle();
         }
         this.shapes = shapes;
-        this.bitmap = BitmapUtils.getResizedBitmap(bitmap, this.getWidth(), this.getHeight());
+        this.bitmap = bitmap;
+        this.bitmapResized = BitmapUtils.getResizedBitmap(bitmap, this.getWidth(), this.getHeight());
         invalidate();
     }
 
@@ -57,6 +84,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
         mPaint = new Paint();
         mPaint.setARGB(120,255,255,255);
         mPaint.setStyle(Paint.Style.STROKE);
+        setDrawingCacheEnabled(true);
         try {
             bindings = (EyeViewBindings) context;
         }catch (Exception ex){
@@ -86,7 +114,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
             return;
 
         //canvas.drawText("Welcome", positionX, positionY, mPaint);
-        canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(this.bitmapResized, 0, 0, null);
         for (Shape shape : this.shapes) {
             Point point = shape.getCoordinates(this);
             canvas.drawCircle((float) point.x, (float)  point.y, RADIUS, mPaint);
@@ -120,8 +148,8 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
         // hSpecMode == MeasureSpec.AT_MOST Wrap Content
         int hSpecSize = MeasureSpec.getSize(heightMeasureSpec);
         int wSpecSize = MeasureSpec.getSize(widthMeasureSpec);
-        int myHeight = x = hSpecSize;
-        int myWidth = y = wSpecSize;
+        int myHeight  = hSpecSize;
+        int myWidth = wSpecSize;
         setMeasuredDimension(myWidth, myHeight);
     }
 

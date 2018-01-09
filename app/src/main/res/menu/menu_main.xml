@@ -6,13 +6,15 @@
     tools:context="com.example.sergiogeek7.appiris.ImageFilters"
     >
     <item
-        android:id="@+id/action_analyze"
+        android:id="@+id/share"
         android:orderInCategory="100"
-        android:title="@string/action_analyze"
-        app:showAsAction="ifRoom" />
+        android:title="@string/share"
+        app:showAsAction="ifRoom"
+        />
     <item
         android:id="@+id/action_save"
-        android:orderInCategory="102"
+        android:orderInCategory="101"
         android:title="@string/action_save"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
 </menu>

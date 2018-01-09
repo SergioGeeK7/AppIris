@@ -16,9 +16,10 @@
     <string name="tab_edit">EDIT</string>
     <string name="roboto_medium">sans-serif-medium</string>
     <string name="filter_normal">Normal</string>
-    <string name="action_save">SAVE</string>
+    <string name="action_save">Save</string>
     <string name="action_analyze">ANALYZE</string>
-    <string name="action_open">OPEN</string>
+    <string name="share">Share</string>
+    <string name="action_open">Open</string>
     <string name="title_activity_image_filters">ImageFilters</string>
     <string name="permission_denied">Permission denied</string>
     <string name="select_a_picture">Select a picture</string>

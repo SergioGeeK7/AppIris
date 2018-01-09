@@ -305,7 +305,7 @@ public class BitmapUtils {
         else return k;
     }
 
-    private static final String FILE_PROVIDER_AUTHORITY = "com.example.android.fileprovider";
+    private static final String FILE_PROVIDER_AUTHORITY = "com.example.irisfileprovider";
 
 
     /**
@@ -363,12 +363,6 @@ public class BitmapUtils {
         return BitmapFactory.decodeFile(imagePath);
     }
 
-
-
-
-
-
-
     /**
      * Creates the temporary image file in the cache directory.
      *
@@ -391,6 +385,7 @@ public class BitmapUtils {
             return null;
         }
     }
+
 
     /**
      * Deletes image file for a given path.
@@ -449,7 +444,7 @@ public class BitmapUtils {
                 // storeThumbnail(cr, miniThumb, id, 50F, 50F, MediaStore.Images.Thumbnails.MICRO_KIND);
             }
         } catch (Exception e) {
-            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT);
+            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -554,7 +549,7 @@ public class BitmapUtils {
      * @param image   The image to be saved.
      * @return The path of the saved image.
      */
-    static String saveImage(Context context, Bitmap image) {
+    public static String saveImage(Context context, Bitmap image) {
 
         String savedImagePath = null;
 
@@ -597,15 +592,15 @@ public class BitmapUtils {
      * Helper method for sharing an image.
      *
      * @param context   The image context.
-     * @param imagePath The path of the image to be shared.
+     * @param uri The path of the image to be shared.
      */
-    static void shareImage(Context context, String imagePath) {
+    public static void shareImage(Context context, Uri uri) {
         // Create the share intent and start the share activity
-        File imageFile = new File(imagePath);
+        //File imageFile = new File(imagePath);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/*");
-        Uri photoURI = FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, imageFile);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, photoURI);
+        //Uri photoURI = FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, imageFile);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         context.startActivity(shareIntent);
     }
 

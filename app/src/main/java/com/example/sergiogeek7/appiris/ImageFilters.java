@@ -291,15 +291,25 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                 return true;
             }
 
-            if (id == R.id.action_analyze) {
-                goDetectActivity();
+            if(id == R.id.share){
+                share();
                 return true;
             }
-
             return super.onOptionsItemSelected(item);
         }
 
-        private void goDetectActivity(){
+
+        private void share(){
+            // Delete the temporary image file
+            // BitmapUtils.deleteImageFile(this, mTempPhotoPath);
+            // Save the image
+            // BitmapUtils.saveImage(this, mResultsBitmap);
+            // Share the image
+            BitmapUtils.saveBitmap(this, filteredImage, this.currentEye.getFilter().getUri());
+            BitmapUtils.shareImage(this, this.currentEye.getFilter().getUri());
+        }
+
+        public void goDetectActivity(View view){
             BitmapUtils.saveBitmap(this, filteredImage, this.currentEye.getFilter().getUri());
             //filteredImage.recycle();
             Eye eye = this.eyes.get(right_image.isEnabled() ? RIGHT_EYE : LEFT_EYE);
