@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppIris</string>
+    <string name="select_gender">يرجى تحديد الجنس</string>
+    <string name="saved_message">تم حفظ الصورة!</string>
+    <string name="error">حدث خطأ داخلي</string>
+    <string name="activity_title_main">مرشحات</string>
+    <string name="action_settings">إعدادات</string>
+    <string name="filters">مرشحات</string>
+    <string name="edit">تصحيح</string>
+    <string name="lbl_brightness">سطوع</string>
+    <string name="lbl_contrast">تناقض</string>
+    <string name="lbl_saturation">التشبع</string>
+    <string name="tab_filters">مرشحات</string>
+    <string name="tab_edit">تصحيح</string>
+    <string name="action_save">حفظ</string>
+    <string name="action_analyze">الكشف</string>
+    <string name="share">شارك</string>
+    <string name="action_open">افتح</string>
+    <string name="permission_denied">"طلب الاذن مرفوض "</string>
+    <string name="select_a_picture">حدد صورة</string>
+    <string name="take_photo_right">اتخاذ الحق إيريس</string>
+    <string name="take_photo_left">خذ إيريس اليسرى</string>
+    <string name="load_photo_right">تحميل الحق أيرس</string>
+    <string name="load_photo_left">تحميل أيرس اليسار</string>
+    <string name="loading">جار التحميل ...</string>
+    <string name="blur_photo">يرجى محاولة التركيز على قزحية العين، الصورة غير واضحة</string>
+    <string name="alert">محزر</string>
+    <string name="rightImage">حق</string>
+    <string name="leftImage">اليسار</string>
+    <string name="filter_normal">عادي</string>
+</resources>

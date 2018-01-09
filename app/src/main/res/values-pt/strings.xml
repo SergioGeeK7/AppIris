@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppIris</string>
+    <string name="select_gender">"Por favor selecione um gênero "</string>
+    <string name="saved_message">Imagem guardada</string>
+    <string name="error">Ocorreu um erro interno</string>
+    <string name="activity_title_main">Filtros</string>
+    <string name="action_settings">"Configurações "</string>
+    <string name="filters">FILTROS</string>
+    <string name="edit">EDITAR</string>
+    <string name="leftImage">E</string>
+    <string name="rightImage">D</string>
+    <string name="lbl_brightness">BRILHO</string>
+    <string name="lbl_contrast">CONTRASTE</string>
+    <string name="lbl_saturation">SATURAÇÃO</string>
+    <string name="tab_filters">FILTROS</string>
+    <string name="tab_edit">EDITAR</string>
+    <string name="action_analyze">ANALISAR</string>
+    <string name="action_save">Salve</string>
+    <string name="share">"Compartilhar "</string>
+    <string name="action_open">Aberto</string>
+    <string name="permission_denied">"Permissão negada "</string>
+    <string name="select_a_picture">Selecione uma foto</string>
+    <string name="take_photo_right">Pegue a íris direita</string>
+    <string name="take_photo_left">Tire a íris esquerda</string>
+    <string name="load_photo_right">Carregar Iris Direita</string>
+    <string name="load_photo_left">Carregar íris esquerda</string>
+    <string name="loading">"Carregando ... "</string>
+    <string name="blur_photo">Por favor, tente focar a íris, a foto está embaçada</string>
+    <string name="alert">"Alerta "</string>
+    <string name="filter_normal">Normal</string>
+</resources>

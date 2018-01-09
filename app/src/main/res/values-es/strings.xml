@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppIris</string>
+    <string name="select_gender">Por favor Seleccióne un genero</string>
+    <string name="saved_message">Imagen guardada!</string>
+    <string name="error">Ah ocurrido un error interno</string>
+    <string name="activity_title_main">Filtros</string>
+    <string name="action_settings">configuración</string>
+    <string name="filters">FILTROS</string>
+    <string name="edit">EDITAR</string>
+    <string name="leftImage">I</string>
+    <string name="rightImage">D</string>
+    <string name="lbl_brightness">BRILLO</string>
+    <string name="lbl_contrast">CONTRASTE</string>
+    <string name="lbl_saturation">SATURACION</string>
+    <string name="tab_filters">FILTROS</string>
+    <string name="tab_edit">EDITAR</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_analyze">ANALIZAR</string>
+    <string name="share">Compartir</string>
+    <string name="action_open">Abrir</string>
+    <string name="permission_denied">Permiso denegado</string>
+    <string name="select_a_picture">Seleccióne foto</string>
+    <string name="take_photo_right">Tomar iris derecho</string>
+    <string name="take_photo_left">Tomar iris izquierdo</string>
+    <string name="load_photo_right">Cargar iris derecho</string>
+    <string name="load_photo_left">Cargar iris izquierdo</string>
+    <string name="loading">Cargando ...</string>
+    <string name="blur_photo">Por favor trate de enfocar el iris, La captura es borrosa</string>
+    <string name="alert">Alerta</string>
+    <string name="filter_normal">Normal</string>
+</resources>

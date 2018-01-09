@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppIris</string>
+    <string name="select_gender">Si prega di selezionare il sesso</string>
+    <string name="saved_message">Immagine salvata!</string>
+    <string name="error">Si è verificato un errore interno</string>
+    <string name="activity_title_main">filtri</string>
+    <string name="action_settings">"impostazioni "</string>
+    <string name="filters">FILTRI</string>
+    <string name="edit">"MODIFICARE "</string>
+    <string name="leftImage">S</string>
+    <string name="rightImage">D</string>
+    <string name="lbl_brightness">LUMINOSITÀ</string>
+    <string name="lbl_contrast">CONTRASTO</string>
+    <string name="lbl_saturation">SATURAZIONE</string>
+    <string name="tab_filters">FILTRI</string>
+    <string name="tab_edit">"MODIFICARE "</string>
+    <string name="action_save">Salvare</string>
+    <string name="action_analyze">INDIVIDUARE</string>
+    <string name="share">"Condividere "</string>
+    <string name="action_open">"Aperto "</string>
+    <string name="permission_denied">Permesso negato</string>
+    <string name="select_a_picture">Seleziona una foto</string>
+    <string name="take_photo_right">Prendi l\'iride destra</string>
+    <string name="take_photo_left">Prendi l\'iride sinistra</string>
+    <string name="load_photo_right">Caricare l\'iride destra</string>
+    <string name="load_photo_left">Carica l\'iride sinistra</string>
+    <string name="loading">"Caricamento in corso ... "</string>
+    <string name="blur_photo">Si prega di provare a mettere a fuoco l\'iride, la foto è sfocata</string>
+    <string name="alert">Mettere in guardia</string>
+    <string name="filter_normal">Normale</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppIris</string>
+    <string name="select_gender">Veuillez sélectionner le sexe</string>
+    <string name="saved_message">Image enregistrée!</string>
+    <string name="error">Une erreur interne s\'est produite</string>
+    <string name="activity_title_main">Filtres</string>
+    <string name="action_settings">"Paramètres "</string>
+    <string name="filters">FILTRES</string>
+    <string name="edit">MODIFIER</string>
+    <string name="rightImage">D</string>
+    <string name="leftImage">G</string>
+    <string name="lbl_brightness">LUMINOSITÉ</string>
+    <string name="lbl_contrast">CONTRASTE</string>
+    <string name="lbl_saturation">SATURATION</string>
+    <string name="tab_filters">FILTRES</string>
+    <string name="tab_edit">MODIFIER</string>
+    <string name="action_save">sauvegarder</string>
+    <string name="action_analyze">DÉTECTER</string>
+    <string name="share">Partager</string>
+    <string name="action_open">Ouvrir</string>
+    <string name="permission_denied">Permission refusée</string>
+    <string name="select_a_picture">Sélectionnez une photo</string>
+    <string name="take_photo_right">Prenez l\'iris droit</string>
+    <string name="take_photo_left">Prenez l\'iris gauche</string>
+    <string name="load_photo_right">Charge l\'iris droit</string>
+    <string name="load_photo_left">Charge l\'iris gauche</string>
+    <string name="loading">"Chargement ... "</string>
+    <string name="blur_photo">S\'il vous plaît essayez de concentrer l\'iris, la photo est floue</string>
+    <string name="alert">Alerte</string>
+    <string name="filter_normal">Normal</string>
+</resources>
