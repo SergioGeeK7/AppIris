@@ -3,9 +3,12 @@ package com.example.sergiogeek7.appiris;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
@@ -21,7 +24,8 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
     Psicosomaticas psicosomaticas = new Psicosomaticas();
     private static String TAG = ShapeDescriptionActivity.class.getName();
     int eyeSide;
-    EyeFile eye;
+    private EyeFile eye;
+    private Uri shareFilePath;
 
     @BindView(R.id.description_img)
     DescriptionImageView imagePreview;
@@ -41,10 +45,39 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         new loadBitmap().execute(eye.getAbsoletePath());
     }
 
-    @Override
-    protected void onDestroy() {
+    public boolean onCreateOptionsMenu(Menu paramMenu)
+    {
+        getMenuInflater().inflate(R.menu.menu_main, paramMenu);
+        paramMenu.findItem(R.id.action_save).setVisible(false);
+        return true;
+    }
+
+    protected void onDestroy()
+    {
         super.onDestroy();
         Log.e("log", "Destroying");
+    }
+
+    public boolean onOptionsItemSelected(MenuItem paramMenuItem)
+    {
+        if (paramMenuItem.getItemId() == R.id.share)
+        {
+            share();
+            return true;
+        }
+        return super.onOptionsItemSelected(paramMenuItem);
+    }
+
+    public void share()
+    {
+        if (this.shareFilePath == null) {
+            this.shareFilePath =
+                    FileProvider.getUriForFile(this, "com.example.irisfileprovider",
+                            BitmapUtils.createTempImageFile(this));
+        }
+        this.imagePreview.saveView(this.shareFilePath);
+        String str = this.psicosomaticas.getBodyPart(this.shape, 0);
+        BitmapUtils.shareImage(this, this.shareFilePath, str);
     }
 
     class loadBitmap extends AsyncTask<String, Void, Bitmap> {

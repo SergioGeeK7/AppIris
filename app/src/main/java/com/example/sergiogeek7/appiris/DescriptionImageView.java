@@ -2,93 +2,113 @@ package com.example.sergiogeek7.appiris;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapeContext;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import org.opencv.core.Point;
 
-/**
- * Created by sergiogeek7 on 2/01/18.
- */
-
-public class DescriptionImageView extends View implements ShapeContext {
-
-    private Paint mPaint;
-    private Bitmap bitmap;
-    private Shape shape;
+public class DescriptionImageView
+        extends View
+        implements ShapeContext
+{
     private final int RADIUS = 70;
+    private Bitmap bitmap;
+    private Paint mPaint;
+    private Shape shape;
 
-    @Override
-    public int getColumn() {
-        return this.getWidth();
+    public DescriptionImageView(Context paramContext)
+    {
+        super(paramContext);
+        init(paramContext);
     }
 
-    @Override
-    public int getRow() {
-        return this.getHeight();
+    public DescriptionImageView(Context paramContext, AttributeSet paramAttributeSet)
+    {
+        super(paramContext, paramAttributeSet);
+        init(paramContext);
     }
 
-    public void updateView (Shape shape, Bitmap bitmap){
-        if (this.bitmap != null){
+    public DescriptionImageView(Context paramContext, AttributeSet paramAttributeSet, int paramInt)
+    {
+        super(paramContext, paramAttributeSet, paramInt);
+        init(paramContext);
+    }
+
+    private void init(Context paramContext)
+    {
+        this.mPaint = new Paint();
+        this.mPaint.setARGB(100, 255, 255, 255);
+    }
+
+    public int getColumn()
+    {
+        return getWidth();
+    }
+
+    public int getRow()
+    {
+        return getHeight();
+    }
+
+    protected void onDraw(Canvas paramCanvas)
+    {
+        super.onDraw(paramCanvas);
+        if (this.bitmap == null) {
+            return;
+        }
+        Point localPoint = this.shape.getCoordinates(this);
+        paramCanvas.scale(2.0F, 2.0F, 70.0F + (float)localPoint.x,
+                70.0F + (float)localPoint.y);
+        paramCanvas.drawBitmap(BitmapUtils.getResizedBitmap(this.bitmap, getWidth(),
+                getHeight()), 0.0F, 0.0F, null);
+    }
+
+    protected void onMeasure(int paramInt1, int paramInt2)
+    {
+        int i = View.MeasureSpec.getSize(paramInt2);
+        setMeasuredDimension(View.MeasureSpec.getSize(paramInt1), i);
+    }
+
+    public void saveView(Uri paramUri)
+    {
+        Bitmap localBitmap = Bitmap.createBitmap(this.bitmap.getWidth(),
+                this.bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(localBitmap);
+        ShapeContext shapeContext = new ShapeContext()
+        {
+            public int getColumn()
+            {
+                return canvas.getWidth();
+            }
+
+            public int getRow()
+            {
+                return canvas.getHeight();
+            }
+        };
+        Point localPoint = this.shape.getCoordinates(shapeContext);
+        canvas.scale(2.0F, 2.0F, 10.0F + (float)localPoint.x,
+                40.0F + (float)localPoint.y);
+        canvas.drawBitmap(this.bitmap, 0.0F, 0.0F, null);
+        BitmapUtils.saveBitmap(getContext(), localBitmap, paramUri);
+        localBitmap.recycle();
+    }
+
+    public void updateView(Shape paramShape, Bitmap paramBitmap)
+    {
+        if (this.bitmap != null) {
             this.bitmap.recycle();
         }
-        this.shape = shape;
-        this.bitmap = bitmap;
+        this.shape = paramShape;
+        this.bitmap = paramBitmap;
         invalidate();
-    }
-
-    private void init(Context context) {
-        mPaint = new Paint();
-        mPaint.setARGB(100,255,255,255);
-    }
-
-    public DescriptionImageView (Context context){
-        super(context);
-        init(context);
-    }
-
-    public DescriptionImageView (Context context, AttributeSet attrs){
-        super(context, attrs);
-        init(context);
-    }
-
-    public DescriptionImageView (Context context, AttributeSet attrs, int defaultStyle){
-        super(context, attrs, defaultStyle);
-        init(context);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if(this.bitmap == null)
-            return;
-
-        canvas.save();
-        Point point = shape.getCoordinates(this);
-        //canvas.translate((float) point.x - RADIUS, (float)  point.y - RADIUS);
-        //canvas.drawCircle(0, 0, RADIUS, mPaint);
-        canvas.scale(2, 2, (float) point.x + RADIUS, (float)  point.y + RADIUS);
-        Bitmap bitmap = BitmapUtils.getResizedBitmap(this.bitmap, this.getWidth(), this.getHeight());
-        canvas.drawBitmap(bitmap, 0, 0, null);
-        canvas.restore();
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //int hSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-        //int wSpecMode = MeasureSpec.getMode(widthMeasureSpec);
-        // hSpecMode == MeasureSpec.EXACTLY set the minimum with scroll
-        // hSpecMode == MeasureSpec.AT_MOST Wrap Content
-        int hSpecSize = View.MeasureSpec.getSize(heightMeasureSpec);
-        int wSpecSize = View.MeasureSpec.getSize(widthMeasureSpec);
-        int myHeight =  hSpecSize;
-        int myWidth =  wSpecSize;
-        setMeasuredDimension(myWidth, myHeight);
     }
 }

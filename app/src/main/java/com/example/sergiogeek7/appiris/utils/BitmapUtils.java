@@ -604,4 +604,14 @@ public class BitmapUtils {
         context.startActivity(shareIntent);
     }
 
+
+    public static void shareImage(Context paramContext, Uri paramUri, String paramString) {
+        Intent localIntent = new Intent();
+        localIntent.setAction(Intent.ACTION_SEND);
+        localIntent.putExtra(Intent.EXTRA_TEXT, paramString);
+        localIntent.putExtra(Intent.EXTRA_STREAM, paramUri);
+        localIntent.setType("image/jpeg");
+        localIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        paramContext.startActivity(Intent.createChooser(localIntent, "send"));
+    }
 }
