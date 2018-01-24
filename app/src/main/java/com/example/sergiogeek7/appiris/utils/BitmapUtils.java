@@ -305,7 +305,7 @@ public class BitmapUtils {
         else return k;
     }
 
-    private static final String FILE_PROVIDER_AUTHORITY = "com.example.irisfileprovider";
+    private static final String FILE_PROVIDER_AUTHORITY = "com.app.irisfileprovider";
 
 
     /**

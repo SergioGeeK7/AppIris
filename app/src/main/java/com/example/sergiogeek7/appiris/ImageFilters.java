@@ -3,6 +3,7 @@ package com.example.sergiogeek7.appiris;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -56,8 +58,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         @BindView(R.id.image_preview)
         ImageView imagePreview;
 
-        @BindView(R.id.tabs)
-        TabLayout tabLayout;
+//        @BindView(R.id.tabs)
+//        TabLayout tabLayout;
 
         @BindView(R.id.viewpager)
 
@@ -108,7 +110,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             getSupportActionBar().setTitle(getString(R.string.activity_title_main));
             new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath(), false);
             setupViewPager(viewPager);
-            tabLayout.setupWithViewPager(viewPager);
+            //tabLayout.setupWithViewPager(viewPager);
         }
 
         private void setupViewPager(ViewPager viewPager) {
@@ -247,35 +249,6 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             imageSaveState.reset();
         }
 
-        class ViewPagerAdapter extends FragmentPagerAdapter {
-            private final List<Fragment> mFragmentList = new ArrayList<>();
-            private final List<String> mFragmentTitleList = new ArrayList<>();
-
-            public ViewPagerAdapter(FragmentManager manager) {
-                super(manager);
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return mFragmentList.get(position);
-            }
-
-            @Override
-            public int getCount() {
-                return mFragmentList.size();
-            }
-
-            public void addFragment(Fragment fragment, String title) {
-                mFragmentList.add(fragment);
-                mFragmentTitleList.add(title);
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return mFragmentTitleList.get(position);
-            }
-        }
-
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -398,6 +371,37 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             filteredImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
             finalImage = originalImage.copy(Bitmap.Config.ARGB_8888, true);
             imagePreview.setImageBitmap(originalImage);
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+        Drawable drawable; //Drawable you want to display
+
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
         }
     }
 

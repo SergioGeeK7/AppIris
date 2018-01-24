@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.opencv.DetectBlur;
@@ -83,17 +84,15 @@ public class ViewImage extends AppCompatActivity{
     protected static final int REQUEST_STORAGE_PERMISSION = 1;
     protected static final int FIRST_LEFT_EYE = 0;
     protected static final int CAPTURE_IRIS_DONE = 2;
-    protected static final String PROVIDER_AUTHORITY = "com.example.irisfileprovider";
+    protected static final String PROVIDER_AUTHORITY = "com.app.irisfileprovider";
     protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
     private static final String TAG = ViewImage.class.getName();
     private boolean cancellable = false;
     private ArrayList<Eye> eyes = new ArrayList<>();
     @BindView(R.id.take_photo)
-    Button take_photo;
+    TextView take_photo;
     @BindView(R.id.load_photo)
-    Button load_photo;
-    @BindView(R.id.img)
-    ImageView img;
+    TextView load_photo;
 
     public void launchCamera(View view) {
         Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -231,7 +230,6 @@ public class ViewImage extends AppCompatActivity{
     private void nextUIEye(){
         take_photo.setText(R.string.take_photo_right);
         load_photo.setText(R.string.load_photo_right);
-        img.setImageResource(R.drawable.ic_wink_emoticon_square_right);
         cancellable = false;
     }
 

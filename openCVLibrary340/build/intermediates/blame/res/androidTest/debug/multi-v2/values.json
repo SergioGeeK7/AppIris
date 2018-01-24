@@ -1,11 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/sergiogeek7/Documents/AppIris/openCVLibrary340/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
-            "map": []
-        },
-        {
-            "outputFile": "/home/sergiogeek7/Documents/Projects/Android/IrisApp/AppIris/openCVLibrary340/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
+            "outputFile": "/home/sergiogeek7/Documents/Appiris/openCVLibrary340/build/intermediates/incremental/mergeDebugAndroidTestResources/merged.dir/values/values.xml",
             "map": []
         }
     ]

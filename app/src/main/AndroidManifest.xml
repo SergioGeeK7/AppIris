@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sergiogeek7.appiris">
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -16,7 +19,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.irisfileprovider"
+            android:authorities="com.app.irisfileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -24,7 +27,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".TermsAndConditions">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,7 +41,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ShapeDescriptionActivity" />
-        <activity android:name=".DetectActivity"></activity>
+        <activity android:name=".DetectActivity" />
+        <activity android:name=".RegisterForm" />
+        <activity android:name=".MainActivity"/>
+        <activity android:name=".RegiterOptionalActivity"/>
     </application>
 
 </manifest>

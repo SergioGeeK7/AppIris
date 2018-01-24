@@ -30,6 +30,31 @@
     <string name="loading">Loading ...</string>
     <string name="blur_photo">"Please try to focus the iris, The photo is blurry "</string>
     <string name="alert">Alert</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="birth_date">Birth date:</string>
+    <string name="gender">Gender:</string>
+    <string name="weigh">Weigh Kl:</string>
+    <string name="size">Size Cm:</string>
+    <string name="create_account">Create account</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="kl">KL</string>
+    <string name="country">Country:</string>
+    <string name="city">City:</string>
+    <string name="cm">CM</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">553663421652800</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb553663421652800</string>
+    <!-- Twitter consumer key and secret -->
+    <string name="twitter_consumer_key" translatable="false">PO3Lvdik3PMNoeUmLR7l9JKtD</string>
+    <string name="twitter_consumer_secret" translatable="false">n7FeljOE12SkvP49OiDQ4CYmVLQaQJkgB2WbMXH8R7pEe0S6hw</string>
+    <string name="terms_and_conditions">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dolorem ex nisi recusandae unde. Alias atque delectus eos eveniet excepturi, expedita fuga fugit harum, illo iure maiores perspiciatis quasi voluptate.
+
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque exercitationem incidunt, nostrum nulla odit ullam. Accusantium, architecto, autem consequatur culpa dolorum facilis iusto nesciunt quam quasi totam unde voluptatum?.</string>
+    <string name="accept_terms">Accept</string>
+    <string name="decline_terms">Decline</string>
+    <string name="continue_terms">Continue</string>
+    <string name="register">Register now</string>
+<string name="skip_register">Register later</string>
+    <string name="help">Help</string>
 </resources>

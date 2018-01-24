@@ -72,7 +72,7 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
     {
         if (this.shareFilePath == null) {
             this.shareFilePath =
-                    FileProvider.getUriForFile(this, "com.example.irisfileprovider",
+                    FileProvider.getUriForFile(this, "com.app.irisfileprovider",
                             BitmapUtils.createTempImageFile(this));
         }
         this.imagePreview.saveView(this.shareFilePath);

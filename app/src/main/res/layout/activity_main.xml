@@ -9,33 +9,32 @@
 
     <ImageView
         android:id="@+id/man"
-        android:layout_width="150dp"
-        android:layout_height="218dp"
+        android:layout_width="171dp"
+        android:layout_height="151dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginEnd="40dp"
-        android:layout_marginLeft="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="152dp"
         app:layout_constraintEnd_toStartOf="@+id/woman"
         app:layout_constraintHorizontal_bias="0.198"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/man"
+        app:srcCompat="@drawable/male"
         android:onClick="onGenderClick"
         />
 
     <ImageView
         android:id="@+id/woman"
-        android:layout_width="150dp"
-        android:layout_height="218dp"
+        android:layout_width="171dp"
+        android:layout_height="151dp"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="152dp"
         android:layout_toEndOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/girl"
+        app:srcCompat="@drawable/female"
         android:onClick="onGenderClick"
         />
 
