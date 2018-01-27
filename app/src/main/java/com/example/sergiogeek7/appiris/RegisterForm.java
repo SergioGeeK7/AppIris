@@ -1,6 +1,8 @@
 package com.example.sergiogeek7.appiris;
 import android.app.DatePickerDialog;
 import java.util.Calendar;
+
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import com.example.sergiogeek7.appiris.utils.Country;
+import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,9 +31,7 @@ import butterknife.ButterKnife;
 public class RegisterForm extends AppCompatActivity {
 
     private final String TAG = RegisterForm.class.getName();
-    private SimpleDateFormat dateFormatter;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatePickerDialog datePickerDialog;
     DatabaseReference ref = database.getReference("countries");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -47,7 +48,6 @@ public class RegisterForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_form);
         ButterKnife.bind(this);
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -77,7 +77,6 @@ public class RegisterForm extends AppCompatActivity {
                         android.R.layout.simple_spinner_item, country.getCities());
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinner_city.setAdapter(adapter);
-                Log.e(TAG, user.getUid());
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -95,11 +94,10 @@ public class RegisterForm extends AppCompatActivity {
         int mYear = c.get(Calendar.YEAR);
         int mMonth = c.get(Calendar.MONTH);
         int mDay = c.get(Calendar.DAY_OF_MONTH);
-        datePickerDialog = new DatePickerDialog(RegisterForm.this,
+        new DatePickerDialog(RegisterForm.this,
                 (view1, year, monthOfYear, dayOfMonth)
                         -> birth_date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year)
-                , mYear, mMonth, mDay);
-        datePickerDialog.show();
+                , mYear, mMonth, mDay).show();
     }
 
     public void save(View view){
@@ -112,6 +110,13 @@ public class RegisterForm extends AppCompatActivity {
         UserApp userApp = new UserApp(size, weigh, gender, birthDate, country, city);
         DatabaseReference users_ref = database.getReference("users");
         users_ref.child(user.getUid()).setValue(userApp);
+        goToMainScreen(gender);
+    }
+
+    private void goToMainScreen(String gender){
+        Intent intent = new Intent(this, MainScreen.class);
+        intent.putExtra(Gender.class.getName(), gender.equals("m") ? Gender.MAN: Gender.WOMAN);
+        startActivity(intent);
     }
 
 }

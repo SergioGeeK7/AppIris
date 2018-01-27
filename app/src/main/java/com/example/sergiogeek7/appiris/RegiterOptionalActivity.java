@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
 
 public class RegiterOptionalActivity extends AppCompatActivity {
 
-//    @BindView(R.id.register_button) Button register_button;
-//    @BindView(R.id.skip_register_button) Button skip_register_button;
     private static final int RC_SIGN_IN = 123;
     private final String TAG = MainActivity.class.getName();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -36,6 +34,15 @@ public class RegiterOptionalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_regiter_optional);
         ButterKnife.bind(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            goToMainScreen();
+        }
+    }
+
+    private void goToMainScreen(){
+        Intent intent = new Intent(this, MainScreen.class);
+        startActivity(intent);
     }
 
     @Override
@@ -54,7 +61,7 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         RegiterOptionalActivity self = RegiterOptionalActivity.this;
-                        Class c = snapshot.exists() ? MainActivity.class : RegisterForm.class;
+                        Class c = snapshot.exists() ? MainScreen.class : RegisterForm.class;
                         Intent intent = new Intent(self, c);
                         startActivity(intent);
                     }

@@ -43,8 +43,10 @@
         <activity android:name=".ShapeDescriptionActivity" />
         <activity android:name=".DetectActivity" />
         <activity android:name=".RegisterForm" />
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".RegiterOptionalActivity"/>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".RegiterOptionalActivity" />
+        <activity android:name=".MainScreen" />
+        <activity android:name=".History"></activity>
     </application>
 
 </manifest>

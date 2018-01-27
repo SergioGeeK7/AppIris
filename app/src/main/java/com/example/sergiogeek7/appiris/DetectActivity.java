@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,18 +13,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
+import com.example.sergiogeek7.appiris.firemodel.EyeModel;
+import com.example.sergiogeek7.appiris.firemodel.FolderModel;
 import com.example.sergiogeek7.appiris.opencv.DetectShapes;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -62,13 +80,18 @@ public class DetectActivity extends AppCompatActivity
         }
     };
 
-
     @BindView(R.id.eye_view)
     InteractiveEyeVIew eye_view;
     @BindView(R.id.left_image)
     Button left_image;
     @BindView(R.id.right_image)
     Button right_image;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference("detections");
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    public static String prevRefImage = "";
 
 
     private static String TAG = DetectActivity.class.getName();
@@ -87,6 +110,45 @@ public class DetectActivity extends AppCompatActivity
         this.eyes = getIntent().getParcelableArrayListExtra(ViewImage.EYE_PARCELABLE);
         setContentView(R.layout.activity_detect);
         ButterKnife.bind(this);
+    }
+
+    public void uploadImages(){
+
+        String pathLeft = eyes.get(ImageFilters.LEFT_EYE).getOriginal().getAbsoletePath();
+        if(prevRefImage.equals(pathLeft)){
+            Log.e(TAG, "skip upload");
+            return;
+        }else{
+            prevRefImage = pathLeft;
+        }
+        saveToFirebase(pathLeft, snapshotRight -> {
+            String pathRight = eyes.get(ImageFilters.RIGHT_EYE).getOriginal().getAbsoletePath();
+            saveToFirebase(pathRight, snapshotLeft -> {
+
+                EyeModel left = new EyeModel("test", pathLeft);
+                EyeModel right = new EyeModel("test", pathRight);
+//                String label = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
+//                        Locale.getDefault()).format(new Date());
+                DetectionModel detectionModel = new DetectionModel(left, right, new Date());
+
+                database.getReference("detections")
+                        .child(user.getUid())
+                        .push()
+                        .setValue(detectionModel);
+            });
+        });
+    }
+
+
+    private void saveToFirebase(String path, OnSuccessListener callback){
+
+        String fileName = path.substring(path.lastIndexOf("/") + 1);
+
+        UploadTask uploadTaskLeft = storageRef.child(fileName)
+                .putBytes(BitmapUtils.compressImageToByte(path));
+        uploadTaskLeft.addOnFailureListener(exception -> {
+
+        }).addOnSuccessListener(callback);
     }
 
     @Override
@@ -144,7 +206,6 @@ public class DetectActivity extends AppCompatActivity
         intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getOriginal());
         startActivity(intent);
     }
-
     private class DownloadFilesTask extends AsyncTask<Void, Void, String> {
 
         protected String doInBackground(Void... params) {
@@ -158,6 +219,7 @@ public class DetectActivity extends AppCompatActivity
                         ShapesDetected shapes = new DetectShapes(bitmap).detect();
                         shapesDetected.add(shapes);
                 }
+                uploadImages();
             } catch (Exception ex) {
                 Log.e(TAG, ex.getMessage());
             }

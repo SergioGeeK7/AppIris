@@ -55,6 +55,13 @@
     <string name="decline_terms">Decline</string>
     <string name="continue_terms">Continue</string>
     <string name="register">Register now</string>
-<string name="skip_register">Register later</string>
+    <string name="skip_register">Register later</string>
     <string name="help">Help</string>
+    <string name="history">History</string>
+    <string name="capture_iris">Capture iris</string>
+    <string name="send_iris">Send iris</string>
+    <string name="logout">Logout</string>
+    <string name="default_name">Pepito Perez Lopez</string>
+    <string name="history_tooltip">Here you can see the history of all your analysis </string>
+    <string name="register_view_image">Register</string>
 </resources>
