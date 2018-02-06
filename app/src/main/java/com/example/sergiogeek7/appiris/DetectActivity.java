@@ -17,16 +17,23 @@ import android.widget.Button;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.firemodel.EyeModel;
 import com.example.sergiogeek7.appiris.firemodel.FolderModel;
+import com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm;
 import com.example.sergiogeek7.appiris.opencv.DetectShapes;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
+import com.example.sergiogeek7.appiris.utils.Callback;
+import com.example.sergiogeek7.appiris.utils.Gender;
+import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -87,18 +94,17 @@ public class DetectActivity extends AppCompatActivity
     @BindView(R.id.right_image)
     Button right_image;
 
+
+    String detectionKey;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference("detections");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public static String prevRefImage = "";
-
-
     private static String TAG = DetectActivity.class.getName();
     public static String SHAPE_PARCELABLE = "SHAPE_PARCELABLE";
     public static String EYE_SIDE = "EYE_SIDE";
     public static String EYE_PARCELABLE = "EYE_PARCELABLE";
-
     private int eyeSide = 0;
     private List<Eye> eyes;
     private List<ShapesDetected> shapesDetected = new ArrayList<>();
@@ -112,6 +118,12 @@ public class DetectActivity extends AppCompatActivity
         ButterKnife.bind(this);
     }
 
+    public void analyzeWithExpert(View v){
+        Intent intent = new Intent(this, FormMedicalHistory.class);
+        intent.putExtra(MedicalHistoryForm.class.getName(), detectionKey);
+        startActivity(intent);
+    }
+
     public void uploadImages(){
 
         String pathLeft = eyes.get(ImageFilters.LEFT_EYE).getOriginal().getAbsoletePath();
@@ -121,24 +133,35 @@ public class DetectActivity extends AppCompatActivity
         }else{
             prevRefImage = pathLeft;
         }
-        saveToFirebase(pathLeft, snapshotRight -> {
-            String pathRight = eyes.get(ImageFilters.RIGHT_EYE).getOriginal().getAbsoletePath();
-            saveToFirebase(pathRight, snapshotLeft -> {
+        String pathRight = eyes.get(ImageFilters.RIGHT_EYE).getOriginal().getAbsoletePath();
 
-                EyeModel left = new EyeModel("test", pathLeft);
-                EyeModel right = new EyeModel("test", pathRight);
-//                String label = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
-//                        Locale.getDefault()).format(new Date());
-                DetectionModel detectionModel = new DetectionModel(left, right, new Date());
+        saveToFirebase(pathLeft,
+                snapshotRight -> saveToFirebase(pathRight,
+                    snapshotLeft -> getUserName(Callback.valueEventListener((err, data) -> {
 
-                database.getReference("detections")
-                        .child(user.getUid())
-                        .push()
-                        .setValue(detectionModel);
-            });
-        });
+                        if(err != null){
+                            Log.e(TAG, err.getMessage());
+                            return;
+                        }
+
+                        String name = data.getValue(String.class);
+                        EyeModel left = new EyeModel("", pathLeft);
+                        EyeModel right = new EyeModel("", pathRight);
+                        DetectionModel detectionModel = new DetectionModel(left, right, new Date(),
+                                    user.getUid(), name.toLowerCase());
+
+                        DatabaseReference detection = database.getReference("detections")
+                                .push();
+                        detection.setValue(detectionModel);
+                        detectionKey = detection.getKey();
+                    }))));
     }
 
+    private void getUserName(ValueEventListener vl){
+        DatabaseReference ref_user = database.getReference("users")
+                .child(user.getUid()).child("fullName");
+        ref_user.addListenerForSingleValueEvent(vl);
+    }
 
     private void saveToFirebase(String path, OnSuccessListener callback){
 
@@ -146,16 +169,13 @@ public class DetectActivity extends AppCompatActivity
 
         UploadTask uploadTaskLeft = storageRef.child(fileName)
                 .putBytes(BitmapUtils.compressImageToByte(path));
-        uploadTaskLeft.addOnFailureListener(exception -> {
-
-        }).addOnSuccessListener(callback);
+        uploadTaskLeft.addOnFailureListener(exception -> Log.e(TAG, exception.getMessage()))
+                        .addOnSuccessListener(callback);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem saveMenu  = menu.findItem(R.id.action_save);
-        saveMenu.setVisible(false);
         return true;
     }
 

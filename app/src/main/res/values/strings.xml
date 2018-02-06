@@ -30,7 +30,9 @@
     <string name="loading">Loading ...</string>
     <string name="blur_photo">"Please try to focus the iris, The photo is blurry "</string>
     <string name="alert">Alert</string>
+    <string name="search_user">Search ...</string>
     <string name="birth_date">Birth date:</string>
+    <string name="full_name">Full name</string>
     <string name="gender">Gender:</string>
     <string name="weigh">Weigh Kl:</string>
     <string name="size">Size Cm:</string>
@@ -43,8 +45,8 @@
     <string name="city">City:</string>
     <string name="cm">CM</string>
     <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
-    <string name="facebook_application_id" translatable="false">553663421652800</string>
-    <string name="facebook_login_protocol_scheme" translatable="false">fb553663421652800</string>
+    <string name="facebook_application_id" translatable="false">576804335994079</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb576804335994079</string>
     <!-- Twitter consumer key and secret -->
     <string name="twitter_consumer_key" translatable="false">PO3Lvdik3PMNoeUmLR7l9JKtD</string>
     <string name="twitter_consumer_secret" translatable="false">n7FeljOE12SkvP49OiDQ4CYmVLQaQJkgB2WbMXH8R7pEe0S6hw</string>
@@ -61,7 +63,99 @@
     <string name="capture_iris">Capture iris</string>
     <string name="send_iris">Send iris</string>
     <string name="logout">Logout</string>
+    <string name="a_brief">A brief description</string>
     <string name="default_name">Pepito Perez Lopez</string>
-    <string name="history_tooltip">Here you can see the history of all your analysis </string>
+    <string name="history_tooltip">Here you can see the history of all your analysis</string>
     <string name="register_view_image">Register</string>
+    <string name="question_1">Are you currently having any medical treatment?</string>
+    <string name="question_2">Do you take medicine ? </string>
+    <string name="question_3">Did you have any surgery</string>
+    <string name="question_4">What ailments did you have on childhood ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="question_5">What ailments do you currently have?</string>
+    <string name="question_6">What ailments or diseases have your parents?</string>
+    <string name="question_7">Select the types of aliments you prefer</string>
+    <string name="meat">Meat:</string>
+    <string name="aliments">Aliments:</string>
+    <string name="question_8">Describe the aliments you usually eat in breakfast</string>
+    <string name="question_9">What aliments do you usually take in lunch?</string>
+    <string name="question_10">What aliments do you usually take in dinner </string>
+    <string name="question_11">Please select some of the next symptoms in case you have them</string>
+    <string name="digestive_system">Digestive system: </string>
+    <string name="circulatory_system">Circulatory system: </string>
+    <string name="respiratory_system">Respiratory system: </string>
+    <string name="oseo_system">Oseo system: </string>
+    <string name="pain_on">Sore on: </string>
+    <string name="urogenital_system">Urogenital system:</string>
+    <string name="monthly_period">Monthly period:</string>
+    <string name="birth_control">Do you use any birth control?</string>
+    <string name="type_of_birth">Birth type?</string>
+    <string name="next">Next</string>
+    <string name="analyze_with_expert">Analyze with an expert</string>
+    <string name="finish">Finish</string>
+    <string name="others">Others</string>
+    <string name="pending">Pending</string>
+    <string name="show_iris">Show iris</string>
+    <string name="medical_history">Medical history</string>
+    <string name="add_results">Add results</string>
+    <string name="state">State</string>
+    <string name="title_activity_show_iris">ShowIris</string>
+    <string name="save">Save</string>
+    <string name="affected_organs">Affected organs</string>
+    <string name="add_affected_organs">Add affected organs</string>
+    <string name="nutritional_supplements">Nutritional supplements</string>
+    <string name="recommendations">Recommendations</string>
+    <string name="beef">Beef</string>
+    <string name="pork">Pork</string>
+    <string name="chicken">Chicken</string>
+    <string name="sweet">Sweet</string>
+    <string name="salty">Salty</string>
+    <string name="cold">Cold</string>
+    <string name="hot">Hot</string>
+    <string name="constipation">Constipation</string>
+    <string name="gases">Gases</string>
+    <string name="diarrhea">Diarrhea</string>
+    <string name="acidity">Acidity</string>
+    <string name="inapetencia">Lack of appetite</string>
+    <string name="cramps">Cramps</string>
+    <string name="dizziness">Dizziness</string>
+    <string name="hot_flashes">Hot flashes</string>
+    <string name="varicose_ulcers">Varicose ulcers</string>
+    <string name="veins_varicose">Veins varicose</string>
+    <string name="headaches">Headaches</string>
+    <string name="natural">Natural</string>
+    <string name="cesarean">Cesarean</string>
+    <string name="pang_head">Pang head</string>
+    <string name="pang_body">Pang body</string>
+    <string name="cough">Cough</string>
+    <string name="day">Day</string>
+    <string name="night">Night</string>
+    <string name="suffocation">Suffocation</string>
+    <string name="phlegm">Phlegm</string>
+    <string name="fever">Fever</string>
+    <string name="chest_sore">Chest sore</string>
+    <string name="throat_sore">Throat sore</string>
+    <string name="feet">Feet</string>
+    <string name="legs">Legs</string>
+    <string name="knees">Knees</string>
+    <string name="back">Back</string>
+    <string name="waist">Waist</string>
+    <string name="hands">Hands</string>
+    <string name="arms">Arms</string>
+    <string name="shoulders">Shoulders</string>
+    <string name="junctures">Junctures</string>
+    <string name="right_side">Right side</string>
+    <string name="left_side">Left side</string>
+    <string name="few">Few</string>
+    <string name="abundant">Abundant</string>
+    <string name="burning">Burning</string>
+    <string name="pain">Painful</string>
+    <string name="monthly">Monthly</string>
+    <string name="days">Daily</string>
+    <string name="birth">Birth type</string>
+    <string name="colic">Colic</string>
+    <string name="children_number">Children number</string>
+    <string name="urine">Urine</string>
+    <string name="leave_empty">Leave empty in case you don\'t </string>
 </resources>

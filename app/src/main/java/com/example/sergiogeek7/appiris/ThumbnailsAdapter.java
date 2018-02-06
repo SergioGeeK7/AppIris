@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.zomato.photofilters.imageprocessors.Filter;
 import com.zomato.photofilters.utils.ThumbnailItem;
@@ -32,9 +33,11 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.My
         @BindView(R.id.filter_name)
         TextView filterName;
 
+        @BindView(R.id.thumbnail_container)
+        LinearLayout thumbnail_container;
+
         public MyViewHolder(View view) {
             super(view);
-
             ButterKnife.bind(this, view);
         }
     }
@@ -60,21 +63,20 @@ public class ThumbnailsAdapter extends RecyclerView.Adapter<ThumbnailsAdapter.My
 
         holder.thumbnail.setImageBitmap(thumbnailItem.image);
 
-        holder.thumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onFilterSelected(thumbnailItem.filter);
-                selectedIndex = position;
-                notifyDataSetChanged();
-            }
+        holder.thumbnail.setOnClickListener(view -> {
+            listener.onFilterSelected(thumbnailItem.filter);
+            selectedIndex = position;
+            notifyDataSetChanged();
         });
 
         holder.filterName.setText(thumbnailItem.filterName);
 
         if (selectedIndex == position) {
-            holder.filterName.setTextColor(ContextCompat.getColor(mContext, R.color.tw__solid_white));
+                holder.thumbnail_container.setBackground(
+                        ContextCompat.getDrawable(mContext,R.drawable.text_thumbnail_selected));
         } else {
-            holder.filterName.setTextColor(ContextCompat.getColor(mContext, R.color.filter_label_normal));
+            holder.thumbnail_container.setBackground(
+                    ContextCompat.getDrawable(mContext,R.drawable.item_thumbnail));
         }
     }
 

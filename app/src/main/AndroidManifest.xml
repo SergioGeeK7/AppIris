@@ -27,26 +27,34 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".TermsAndConditions">
+        <activity android:name=".TermsAndConditions" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ViewImage" />
-        <activity android:name=".ImageFilters" />
+        <activity android:name=".ViewImage" android:screenOrientation="portrait"/>
+        <activity android:name=".ImageFilters" android:screenOrientation="portrait"/>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ShapeDescriptionActivity" />
-        <activity android:name=".DetectActivity" />
-        <activity android:name=".RegisterForm" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".RegiterOptionalActivity" />
-        <activity android:name=".MainScreen" />
-        <activity android:name=".History"></activity>
+        <activity android:name=".ShapeDescriptionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".DetectActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".RegisterForm" android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".RegiterOptionalActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".MainScreen" android:screenOrientation="portrait"/>
+        <activity android:name=".History" android:screenOrientation="portrait"/>
+        <activity android:name=".FormMedicalHistory" android:screenOrientation="portrait"/>
+        <activity android:name=".HistoryDoctor" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".AnalysisRequest"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShowIris"
+            android:screenOrientation="landscape" />
+        <activity android:name=".AddResultsDoctor" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

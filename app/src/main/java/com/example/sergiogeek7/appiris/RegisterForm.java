@@ -41,6 +41,7 @@ public class RegisterForm extends AppCompatActivity {
     @BindView(R.id.size) EditText text_size;
     @BindView(R.id.birth_date) EditText birth_date;
     @BindView(R.id.weigh) EditText text_weigh;
+    @BindView(R.id.full_name) EditText full_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,9 @@ public class RegisterForm extends AppCompatActivity {
         String size = text_size.getText().toString();
         String weigh = text_weigh.getText().toString();
         String birthDate = birth_date.getText().toString();
-        UserApp userApp = new UserApp(size, weigh, gender, birthDate, country, city);
+        String fullName = full_name.getText().toString();
+
+        UserApp userApp = new UserApp(size, weigh, gender, birthDate, country, city, fullName);
         DatabaseReference users_ref = database.getReference("users");
         users_ref.child(user.getUid()).setValue(userApp);
         goToMainScreen(gender);

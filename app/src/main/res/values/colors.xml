@@ -11,12 +11,15 @@
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
+    <color name="tab_background">#f0f0f0</color>
     <color name="color_option_menu">#FF3990</color>
     <color name="filter_label_normal">#8A8889</color>
     <color name="filter_label_selected">#221F20</color>
     <color name="blue_sea">#56c6c5</color>
     <color name="year">#999999</color>
     <color name="title">#222222</color>
+    <color name="tab_text">#858585</color>
+    <color name="button_disable">#777777</color>
     <!--<color name="ucrop_color_toolbar">#000000</color>-->
 
 

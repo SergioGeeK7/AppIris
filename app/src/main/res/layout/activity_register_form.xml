@@ -19,6 +19,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/full_name"
+                style="@style/label_form"
+                />
+            <EditText
+                android:id="@+id/full_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="@string/birth_date"
+                style="@style/spinner_style"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/birth_date"
                 style="@style/label_form"
                 />

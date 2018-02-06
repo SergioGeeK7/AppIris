@@ -1,13 +1,45 @@
 package com.example.sergiogeek7.appiris.firemodel;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.firebase.database.Exclude;
+
 /**
  * Created by sergiogeek7 on 25/01/18.
  */
 
-public class EyeModel {
-
+public class EyeModel implements Parcelable{
     private String description;
     private String filename;
+    @Exclude
+    public Bitmap bitmap;
+
+    protected EyeModel(Parcel in) {
+        description = in.readString();
+        filename = in.readString();
+    }
+
+    @Exclude
+    public static final Creator<EyeModel> CREATOR = new Creator<EyeModel>() {
+        @Override
+        public EyeModel createFromParcel(Parcel in) {
+            return new EyeModel(in);
+        }
+
+        @Override
+        public EyeModel[] newArray(int size) {
+            return new EyeModel[size];
+        }
+    };
+
+    @Override
+    @Exclude
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(description);
+        parcel.writeString(filename);
+    }
 
     public EyeModel(String description, String path) {
         this.description = description;
@@ -32,4 +64,12 @@ public class EyeModel {
     public void setFilename(String filename) {
         this.filename = filename;
     }
+
+    @Override
+    @Exclude
+    public int describeContents() {
+        return 0;
+    }
+
+
 }

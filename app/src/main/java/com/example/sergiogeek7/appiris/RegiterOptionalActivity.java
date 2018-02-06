@@ -61,7 +61,8 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
                         RegiterOptionalActivity self = RegiterOptionalActivity.this;
-                        Class c = snapshot.exists() ? MainScreen.class : RegisterForm.class;
+                        Class c = !snapshot.exists() ? RegisterForm.class:
+                                snapshot.hasChild("doctor") ? HistoryDoctor.class : MainScreen.class;
                         Intent intent = new Intent(self, c);
                         startActivity(intent);
                     }
@@ -89,7 +90,7 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                         .setAvailableProviders(providers)
-                       // .setLogo(R.drawable.logo)
+                        .setLogo(R.drawable.ic_logo_sin_fondo)
                         .build(),
                 RC_SIGN_IN);
     }

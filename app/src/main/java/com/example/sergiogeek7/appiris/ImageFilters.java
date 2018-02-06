@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.sergiogeek7.appiris.components.ButtonIris;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -69,10 +70,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         CoordinatorLayout coordinatorLayout;
 
         @BindView(R.id.left_image)
-        Button left_image;
+        ButtonIris left_image;
 
         @BindView(R.id.right_image)
-        Button right_image;
+        ButtonIris right_image;
 
         Bitmap originalImage;
         // to backup image with filter applied
@@ -111,6 +112,14 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath(), false);
             setupViewPager(viewPager);
             //tabLayout.setupWithViewPager(viewPager);
+        }
+
+        public void goToSettingsTab(View v){
+            viewPager.setCurrentItem(1);
+        }
+
+        public void goToFiltersTab(View v){
+            viewPager.setCurrentItem(0);
         }
 
         private void setupViewPager(ViewPager viewPager) {
@@ -259,8 +268,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
 
-            if (id == R.id.action_save) {
-                saveImageToGallery();
+            if (id == R.id.load_from_gallery) {
                 return true;
             }
 
@@ -300,7 +308,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         /*
         * saves image to camera gallery
         * */
-        private void saveImageToGallery() {
+        public void saveImageToGallery(View v) {
             Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .withListener(new MultiplePermissionsListener() {
                         @Override

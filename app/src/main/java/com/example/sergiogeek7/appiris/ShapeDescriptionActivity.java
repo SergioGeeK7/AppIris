@@ -48,7 +48,6 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu paramMenu)
     {
         getMenuInflater().inflate(R.menu.menu_main, paramMenu);
-        paramMenu.findItem(R.id.action_save).setVisible(false);
         return true;
     }
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="meet_food">
+        <item>@string/beef</item>
+        <item>@string/pork</item>
+        <item>@string/chicken</item>
+    </string-array>
+    <string-array name="aliments">
+        <item>@string/sweet</item>
+        <item>@string/salty</item>
+        <item>@string/cold</item>
+        <item>@string/hot</item>
+    </string-array>
+
+</resources>

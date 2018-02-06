@@ -25,7 +25,7 @@ tools:showIn="@layout/activity_image_filters">
         />
 
 
-    <Button
+    <com.example.sergiogeek7.appiris.components.ButtonIris
         android:id="@+id/left_image"
         android:onClick="onLeftImage"
         android:layout_width="65dp"
@@ -48,11 +48,11 @@ tools:showIn="@layout/activity_image_filters">
         android:layout_below="@+id/image_preview"
         android:layout_centerHorizontal="true"
         android:background="@drawable/ic_guardar"
-        android:onClick="goDetectActivity"
+        android:onClick="saveImageToGallery"
         android:layout_marginTop="8dp"
         />
 
-    <Button
+    <com.example.sergiogeek7.appiris.components.ButtonIris
         android:id="@+id/right_image"
         android:layout_width="65dp"
         android:textColor="@color/tw__solid_white"
@@ -86,21 +86,25 @@ tools:showIn="@layout/activity_image_filters">
         android:orientation="horizontal"
         >
        <LinearLayout
-           android:layout_width="100dp"
+           android:layout_width="70dp"
            android:layout_height="match_parent"
            android:orientation="vertical"
            >
            <ImageView
-               android:layout_width="match_parent"
+               android:onClick="goToFiltersTab"
+               android:layout_width="50dp"
                android:layout_weight="1"
-               android:layout_height="wrap_content"
-               android:src="@drawable/ic_editar"
+               android:layout_height="50dp"
+               android:layout_marginStart="16dp"
+               android:src="@drawable/ic_editar_2"
                />
            <ImageView
-               android:layout_width="match_parent"
+               android:onClick="goToSettingsTab"
+               android:layout_marginStart="16dp"
+               android:layout_width="50dp"
                android:layout_weight="1"
-               android:layout_height="wrap_content"
-               android:src="@drawable/ic_editar"
+               android:layout_height="50dp"
+               android:src="@drawable/ic_editar_2"
                />
        </LinearLayout>
         <com.example.sergiogeek7.appiris.utils.NonSwipeableViewPager

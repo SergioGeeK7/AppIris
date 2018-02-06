@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
@@ -21,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,20 +38,18 @@ public class History extends AppCompatActivity {
     private final String TAG = History.class.getName();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference refDetections = database.getReference("detections").child(user.getUid());
-
-    public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
-    }
-
+    Query refDetections = database.getReference("detections")
+                                    .orderByChild("userUId")
+                                    .equalTo(user.getUid());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         recyclerView = findViewById(R.id.recycler_view);
+        if(user == null){
+            return;
+        }
         mAdapter = new HistoryAdapter(detections);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -61,14 +62,19 @@ public class History extends AppCompatActivity {
                         new History.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                DetectionModel detection = detections.get(position);
-                Toast.makeText(getApplicationContext(),
-                        detection.getDate() + " is selected!", Toast.LENGTH_SHORT).show();
+                //DetectionModel detection = detections.get(position);
+                //detection.getDate();
             }
 
             @Override
             public void onLongClick(View view, int position) {
-
+                view.findViewById(R.id.date).setVisibility(View.GONE);
+                TextView label = view.findViewById(R.id.label);
+                label.setVisibility(View.GONE);
+                EditText editLabel = view.findViewById(R.id.edit_label);
+                editLabel.setText(label.getText());
+                editLabel.setVisibility(View.VISIBLE);
+                editLabel.requestFocus();
             }
         }));
 
@@ -89,4 +95,8 @@ public class History extends AppCompatActivity {
         });
     }
 
+    public interface ClickListener {
+        void onClick(View view, int position);
+        void onLongClick(View view, int position);
+    }
 }

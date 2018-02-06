@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sergiogeek7.appiris.utils.Gender;
+import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,7 +43,7 @@ public class MainScreen extends AppCompatActivity {
         Gender gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(gender != null){
-            updateUI(gender);
+            updateUI(gender, null);
             return;
         }
         getUserGender();
@@ -50,14 +51,14 @@ public class MainScreen extends AppCompatActivity {
 
     private void getUserGender(){
         DatabaseReference ref_user = database.getReference("users")
-                                            .child(user.getUid())
-                                            .child("gender");
+                                            .child(user.getUid());
 
         ref_user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                String gender = snapshot.getValue(String.class);
-                updateUI(gender.equals("man") ? Gender.MAN : Gender.WOMAN);
+                UserApp userApp = snapshot.getValue(UserApp.class);
+                updateUI(userApp.getGender().equals("man") ? Gender.MAN : Gender.WOMAN,
+                        userApp.getFullName());
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -66,9 +67,9 @@ public class MainScreen extends AppCompatActivity {
         });
     }
 
-    private void updateUI(Gender gender){
+    private void updateUI(Gender gender, String name){
         avatar.setImageResource(gender == Gender.MAN ? R.drawable.male : R.drawable.female);
-        displayName.setText(user == null ? getString(R.string.default_name) : user.getDisplayName());
+        displayName.setText(name == null ? getString(R.string.default_name) : name);
     }
 
     public void logout(View view){

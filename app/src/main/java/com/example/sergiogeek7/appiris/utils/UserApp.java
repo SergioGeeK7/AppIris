@@ -11,18 +11,30 @@ public class UserApp {
     private String birth_date;
     private String country;
     private String city;
+    private String fullName;
 
     public UserApp(){
 
     }
 
-    public UserApp(String size, String weigh, String gender, String birth_date, String country, String city) {
+    public UserApp(String size, String weigh, String gender,
+                   String birth_date, String country, String city,
+                   String fullName) {
         this.size = size;
         this.weigh = weigh;
         this.gender = gender;
         this.birth_date = birth_date;
         this.country = country;
         this.city = city;
+        this.fullName = fullName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getSize() {
