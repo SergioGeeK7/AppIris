@@ -159,7 +159,14 @@
     <string name="urine">Urine</string>
     <string name="leave_empty">Leave empty in case you don\'t </string>
 
-
+    <string name="pleura">(G) pleura</string>
+    <string name="nervio_vago">nervio vago</string>
+    <string name="timo">timo</string>
+    <string name="corazón">corazón</string>
+    <string name="glándulas_mamarias">glándulas mamarias</string>
+    <string name="costillas_superiores">costillas superiores</string>
+    <string name="colon">colon</string>
+    <string name="estomago">Estomago</string>
     <string name="pulmones">(F) pulmones</string>
     <string name="nervio_vago">nervio vago</string>
     <string name="bronquios">bronquios</string>
@@ -205,7 +212,7 @@
     <string name="glandula_pineal">glandula pineal</string>
     <string name="colon_transversal">colon transversal</string>
     <string name="estomago">estomago</string>
-    <string name="Y_cuero_cabelludo">(Y) cuero cabelludo</string>
+    <string name="cuero_cabelludo">(Y) cuero cabelludo</string>
     <string name="cráneo">cráneo</string>
     <string name="cerebro">cerebro</string>
     <string name="septum_lucidum">septum lucidum</string>
@@ -214,8 +221,12 @@
     <string name="colon_transversal">colon transversal</string>
     <string name="estomago">Estomago</string>
     <string name="frente">(X) frente</string>
+    <string name="cuero_cabelludo">Cuero cabelludo</string>
     <string name="cráneo">cráneo</string>
     <string name="cerebro">cerebro</string>
+    <string name="septum_lucidum">Septum lucidum</string>
+    <string name="cuerpo_calloso">Cuerpo calloso</string>
+    <string name="glándula_pineal">Glándula pineal</string>
     <string name="colon_transversal">colon transversal</string>
     <string name="estomago">Estomago</string>
     <string name="orificios_nasales">(V) orificios nasales</string>
@@ -289,7 +300,7 @@
     <string name="glándulas_suprarrenales">glándulas suprarrenales</string>
     <string name="intestino_delgado">Intestino</string>
     <string name="sigmoidea">sigmoidea</string>
-    <string name="ciego_derecho_estomago.">ciego</string>
+    <string name="ciego">ciego</string>
     <string name="estomago">Estomago</string>
     <string name="bajo_abdomen">(L) Bajo abdomen</string>
     <string name="fingle">ingle</string>
@@ -332,14 +343,6 @@
     <string name="plexo_solar">Plexo solar</string>
     <string name="manos">Manos</string>
     <string name="brazos">Brazos</string>
-    <string name="colon">colon</string>
-    <string name="estomago">Estomago</string>
-    <string name="pleura">(G) pleura</string>
-    <string name="nervio_vago">nervio vago</string>
-    <string name="timo">timo</string>
-    <string name="corazón">corazón</string>
-    <string name="glándulas_mamarias">glándulas mamarias</string>
-    <string name="costillas_superiores">costillas superiores</string>
     <string name="colon">colon</string>
     <string name="estomago">Estomago</string>
 </resources>

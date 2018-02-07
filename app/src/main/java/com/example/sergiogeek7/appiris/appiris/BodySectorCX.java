@@ -1,5 +1,9 @@
 package com.example.sergiogeek7.appiris.appiris;
 
+import android.content.Context;
+
+import com.example.sergiogeek7.appiris.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,40 +13,52 @@ import java.util.List;
 
 public class BodySectorCX {
     List<BodyPart> parts;
+    String key;
 
-     <string name="cuero_cabelludo">(C) cuero cabelludo</string>
-    <string name="craneo">craneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="cerebelo">cerebelo</string>
-    <string name="oídos__timpano">oídos (timpano, nervio acústico)</string>
-    <string name="glandula_parotida">. Glandula parótida</string>
-    <string name="nervio_vago">nervio vago</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">estomago</string>
-    <string name="B_cuero_cabelludo">(B) cuero cabelludo</string>
-    <string name="craneo">craneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="cerebelo">cerebelo</string>
-    <string name="nervio_vago">nervio vago</string>
-    <string name="colon_tranversal">colon tranversal</string>
-    <string name="estomago">estomago.</string>
-    <string name="A_cuero_cabelludo">(A) cuero cabelludo</string>
-    <string name="craneo">craneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="septumlucidum">septumlucidum</string>
-    <string name="cuerpo_calloso">cuerpo calloso</string>
-    <string name="glandula_pineal">glandula pineal</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">estomago</string>
-      <string name="frente">(X) frente</string>
-    <string name="cráneo">cráneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">Estomago</string>
-
-    public BodySectorCX(){
+    public BodySectorCX(Context context, String key){
         this.parts = new ArrayList<>();
-        this.parts.add(new BodyPart())
+        this.key = key;
+        this.parts.add(new BodyPart(context.getString(R.string.cuero_cabelludo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.craneo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebro), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebelo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.oídos__timpano), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.glandula_parotida), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.nervio_vago), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.B_cuero_cabelludo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.craneo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebro), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebelo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.nervio_vago), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.colon_tranversal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.A_cuero_cabelludo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.craneo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebro), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.septumlucidum), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cuerpo_calloso), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.glandula_pineal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cuero_cabelludo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cráneo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebro), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.septum_lucidum), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cuerpo_calloso), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.glándula_pineal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.frente), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cuero_cabelludo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cráneo), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebro), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.septum_lucidum), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.cuerpo_calloso), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.glándula_pineal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
     }
 
 }
