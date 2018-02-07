@@ -34,6 +34,7 @@ public class MainScreen extends AppCompatActivity {
     @BindView(R.id.name) TextView displayName;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final String TAG = MainScreen.class.getName();
+    Gender gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class MainScreen extends AppCompatActivity {
     }
 
     private void updateUI(Gender gender, String name){
+        this.gender = gender;
         avatar.setImageResource(gender == Gender.MAN ? R.drawable.male : R.drawable.female);
         displayName.setText(name == null ? getString(R.string.default_name) : name);
     }
@@ -87,6 +89,8 @@ public class MainScreen extends AppCompatActivity {
 
 
     public void goCaptureActivity(View v){
-        startActivity(new Intent(this, ViewImage.class));
+        Intent intent = new Intent(this, ViewImage.class);
+        intent.putExtra(Gender.class.getName(), this.gender);
+        startActivity(intent);
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.provider.MediaStore;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -19,11 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.opencv.DetectBlur;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
+import com.example.sergiogeek7.appiris.utils.Gender;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -44,7 +47,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ViewImage extends AppCompatActivity{
-
 
     @Override
     public void onResume() {
@@ -68,6 +70,8 @@ public class ViewImage extends AppCompatActivity{
                         load_photo.setText(R.string.load_photo_left);
                         load_photo.setEnabled(true);
                         take_photo.setEnabled(true);
+                        int idD = gender == Gender.MAN ? R.drawable.fondo_h_l: R.drawable.fondo_m_l;
+                        capture_layout.setBackgroundResource(idD);
                     }
                 }
                 break;
@@ -81,8 +85,6 @@ public class ViewImage extends AppCompatActivity{
 
     protected static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int SELECT_GALLERY_IMAGE = 101;
-    protected static final int REQUEST_STORAGE_PERMISSION = 1;
-    protected static final int FIRST_LEFT_EYE = 0;
     protected static final int CAPTURE_IRIS_DONE = 2;
     protected static final String PROVIDER_AUTHORITY = "com.app.irisfileprovider";
     protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
@@ -93,6 +95,9 @@ public class ViewImage extends AppCompatActivity{
     TextView take_photo;
     @BindView(R.id.load_photo)
     TextView load_photo;
+    @BindView(R.id.inner_capture)
+    ConstraintLayout capture_layout;
+    Gender gender;
 
     public void launchCamera(View view) {
         Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -160,6 +165,7 @@ public class ViewImage extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
+        this.gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
         ButterKnife.bind(this);
     }
 
@@ -230,6 +236,8 @@ public class ViewImage extends AppCompatActivity{
     private void nextUIEye(){
         take_photo.setText(R.string.take_photo_right);
         load_photo.setText(R.string.load_photo_right);
+        int idD = gender == Gender.MAN ? R.drawable.fondo_h_r: R.drawable.fondo_m_r;
+        capture_layout.setBackgroundResource(idD);
         cancellable = false;
     }
 

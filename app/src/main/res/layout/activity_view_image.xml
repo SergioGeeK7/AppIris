@@ -6,71 +6,85 @@
     android:layout_height="match_parent"
     tools:context="com.example.sergiogeek7.appiris.ViewImage">
 
+   <LinearLayout
+       android:id="@+id/capture"
+       android:layout_width="match_parent"
+       android:layout_height="376dp"
+       android:padding="16dp"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintBottom_toTopOf="@id/action_panel"
+       >
+
+       <android.support.constraint.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:id="@+id/inner_capture"
+           >
+
+           <ImageView
+               android:id="@+id/take_photo_img"
+               android:src="@drawable/ic_iris1"
+               android:onClick="launchCamera"
+               android:layout_width="100dp"
+               android:layout_height="70dp"
+               android:layout_marginTop="35dp"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintTop_toTopOf="parent"
+               />
+
+           <TextView
+               android:enabled="false"
+               android:textColor="@color/tw__solid_white"
+               android:id="@+id/take_photo"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:onClick="launchCamera"
+               android:text="@string/loading"
+               android:layout_marginStart="10dp"
+               app:layout_constraintTop_toBottomOf="@+id/take_photo_img"
+               app:layout_constraintStart_toStartOf="@+id/take_photo_img" />
+
+           <ImageView
+               android:id="@+id/load_photo_img"
+               android:layout_width="100dp"
+               android:layout_height="50dp"
+               android:onClick="loadPhoto"
+               android:layout_marginTop="110dp"
+               android:layout_marginStart="12dp"
+               android:src="@drawable/ic_galeria"
+               app:layout_constraintEnd_toEndOf="@+id/take_photo_img"
+               app:layout_constraintHorizontal_bias="1.0"
+               app:layout_constraintStart_toStartOf="@+id/take_photo_img"
+               app:layout_constraintTop_toBottomOf="@+id/take_photo_img" />
+
+
+           <TextView
+               android:id="@+id/load_photo"
+               android:enabled="false"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="@string/loading"
+               android:textColor="@color/tw__solid_white"
+               android:onClick="loadPhoto"
+               android:layout_marginStart="10dp"
+               android:layout_marginTop="9dp"
+               app:layout_constraintTop_toBottomOf="@+id/load_photo_img"
+               app:layout_constraintStart_toStartOf="@+id/load_photo_img"
+               tools:layout_editor_absoluteX="8dp"
+               tools:layout_editor_absoluteY="101dp" />
+
+
+       </android.support.constraint.ConstraintLayout>
+
+   </LinearLayout>
+
     <android.support.constraint.ConstraintLayout
-        android:layout_marginTop="32dp"
-        android:id="@+id/capture"
+        android:id="@+id/action_panel"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-        
-        <ImageView
-            android:id="@+id/take_photo_img"
-            android:src="@drawable/ic_iris1"
-            android:onClick="launchCamera"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <TextView
-            android:enabled="false"
-            android:id="@+id/take_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="launchCamera"
-            android:text="@string/loading"
-            android:layout_marginStart="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/take_photo_img"
-            app:layout_constraintStart_toStartOf="@+id/take_photo_img" />
-
-
-        <ImageView
-            android:id="@+id/load_photo_img"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:onClick="loadPhoto"
-            android:layout_marginTop="148dp"
-            android:src="@drawable/ic_galeria"
-            app:layout_constraintEnd_toEndOf="@+id/take_photo_img"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/take_photo_img"
-            app:layout_constraintTop_toBottomOf="@+id/take_photo_img" />
-
-
-        <TextView
-            android:id="@+id/load_photo"
-            android:enabled="false"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/loading"
-            android:onClick="loadPhoto"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="9dp"
-            app:layout_constraintTop_toBottomOf="@+id/load_photo_img"
-            app:layout_constraintStart_toStartOf="@+id/load_photo_img"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="101dp" />
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/capture"
         android:background="@drawable/gradient_solo"

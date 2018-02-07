@@ -9,11 +9,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import com.example.sergiogeek7.appiris.components.GridButtons;
 import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
-import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -29,9 +30,8 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
 
     @BindView(R.id.description_img)
     DescriptionImageView imagePreview;
-
-    @BindView(R.id.description_text)
-    TextView description_text;
+    @BindView(R.id.shape_description_layout)
+    RelativeLayout mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,19 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         this.shape = getIntent().getParcelableExtra(DetectActivity.SHAPE_PARCELABLE);
         this.eyeSide = getIntent().getIntExtra(DetectActivity.EYE_SIDE, 0);
         this.eye = getIntent().getParcelableExtra(DetectActivity.EYE_PARCELABLE);
-        description_text.setText(psicosomaticas.getBodyPart(shape, 0));
+        addOrgans();
         new loadBitmap().execute(eye.getAbsoletePath());
+    }
+
+    void addOrgans (){
+        GridButtons gridButtons = new GridButtons(this,
+                psicosomaticas.getBodyPart(shape, 0).split(",") );
+        RelativeLayout.LayoutParams lParams =
+                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+        lParams.addRule(RelativeLayout.BELOW, R.id.description_img);
+        lParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+        mainLayout.addView(gridButtons, 0, lParams);
     }
 
     public boolean onCreateOptionsMenu(Menu paramMenu)
