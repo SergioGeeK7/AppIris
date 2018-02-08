@@ -1,5 +1,7 @@
 package com.example.sergiogeek7.appiris;
 
+
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,20 +11,28 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import com.example.sergiogeek7.appiris.appiris.BodyPart;
 import com.example.sergiogeek7.appiris.components.GridButtons;
 import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
+import com.example.sergiogeek7.appiris.utils.Gender;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ShapeDescriptionActivity extends AppCompatActivity {
 
-
     Shape shape;
-    Psicosomaticas psicosomaticas = new Psicosomaticas();
+    Psicosomaticas psicosomaticas;
     private static String TAG = ShapeDescriptionActivity.class.getName();
     int eyeSide;
     private EyeFile eye;
@@ -30,30 +40,70 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
 
     @BindView(R.id.description_img)
     DescriptionImageView imagePreview;
-    @BindView(R.id.shape_description_layout)
-    RelativeLayout mainLayout;
+    @BindView(R.id.scrollView)
+    HorizontalScrollView scrollView;
+    @BindView(R.id.diagnosis)
+    TextView txtDiagnosis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape_description);
         ButterKnife.bind(this);
+        psicosomaticas = new Psicosomaticas(this, Gender.MAN);
         this.shape = getIntent().getParcelableExtra(DetectActivity.SHAPE_PARCELABLE);
         this.eyeSide = getIntent().getIntExtra(DetectActivity.EYE_SIDE, 0);
         this.eye = getIntent().getParcelableExtra(DetectActivity.EYE_PARCELABLE);
         addOrgans();
+        setDescriptionText();
         new loadBitmap().execute(eye.getAbsoletePath());
+    }
+
+    public void done(View v){
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(DetectActivity.SHAPE_PARCELABLE, shape);
+        setResult(RESULT_OK, returnIntent);
+        finish();
+    }
+
+    void toggleParts(BodyPart newPart){
+        BodyPart partFound = findPart(newPart);
+        if(partFound != null){
+            shape.selectedParts.remove(partFound);
+        }else{
+            shape.selectedParts.add(newPart);
+        }
+        setDescriptionText();
+    }
+
+    void setDescriptionText(){
+        StringBuilder diagnosis = new StringBuilder(getString(R.string.diagnosis));
+        for (BodyPart part: shape.selectedParts){
+            if(diagnosis.indexOf(part.description) == -1){
+                diagnosis.append("\n").append(part.description);
+            }
+        }
+        shape.description = diagnosis.toString();
+        txtDiagnosis.setText(diagnosis);
+    }
+
+    BodyPart findPart(BodyPart newPart){
+        for (BodyPart part: shape.selectedParts){
+            if(part.id == newPart.id){
+                return part;
+            }
+        }
+        return null;
     }
 
     void addOrgans (){
         GridButtons gridButtons = new GridButtons(this,
-                psicosomaticas.getBodyPart(shape, 0).split(",") );
+                psicosomaticas.getBodyPart(shape, eyeSide), this::toggleParts);
+        gridButtons.setSelectedItems(shape.selectedParts);
         RelativeLayout.LayoutParams lParams =
-                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-        lParams.addRule(RelativeLayout.BELOW, R.id.description_img);
-        lParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-        mainLayout.addView(gridButtons, 0, lParams);
+        scrollView.addView(gridButtons, 0, lParams);
     }
 
     public boolean onCreateOptionsMenu(Menu paramMenu)
@@ -86,8 +136,8 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
                             BitmapUtils.createTempImageFile(this));
         }
         this.imagePreview.saveView(this.shareFilePath);
-        String str = this.psicosomaticas.getBodyPart(this.shape, 0);
-        BitmapUtils.shareImage(this, this.shareFilePath, str);
+        BitmapUtils.shareImage(this, this.shareFilePath,
+                txtDiagnosis.getText().toString());
     }
 
     class loadBitmap extends AsyncTask<String, Void, Bitmap> {

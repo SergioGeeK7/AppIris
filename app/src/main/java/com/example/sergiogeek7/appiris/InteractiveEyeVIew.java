@@ -33,7 +33,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
     private Bitmap bitmap;
     private Bitmap bitmapResized;
     private List<Shape> shapes;
-    private final int RADIUS = 20;
+    private final int RADIUS = 25;
 
     public void saveView(Uri uri){
         Bitmap bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -82,7 +82,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
 
     private void init(Context context) {
         mPaint = new Paint();
-        mPaint.setARGB(120,255,255,255);
+        mPaint.setARGB(120,230,0,0);
         mPaint.setStyle(Paint.Style.STROKE);
         setDrawingCacheEnabled(true);
         try {

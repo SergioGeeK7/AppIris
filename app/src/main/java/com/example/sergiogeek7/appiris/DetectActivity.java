@@ -95,16 +95,19 @@ public class DetectActivity extends AppCompatActivity
     Button right_image;
 
 
-    String detectionKey;
+    private String detectionKey;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference("detections");
+    DatabaseReference detectionRef = database.getReference("detections");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     public static String prevRefImage = "";
-    private static String TAG = DetectActivity.class.getName();
-    public static String SHAPE_PARCELABLE = "SHAPE_PARCELABLE";
-    public static String EYE_SIDE = "EYE_SIDE";
-    public static String EYE_PARCELABLE = "EYE_PARCELABLE";
+    private final static String TAG = DetectActivity.class.getName();
+    public final static String SHAPE_PARCELABLE = "SHAPE_PARCELABLE";
+    public final static String EYE_SIDE = "EYE_SIDE";
+    public final static String EYE_PARCELABLE = "EYE_PARCELABLE";
+    public final static int SHAPE_DESCRIPTION_ACTIVITY = 1;
+    private Shape latestShape;
     private int eyeSide = 0;
     private List<Eye> eyes;
     private List<ShapesDetected> shapesDetected = new ArrayList<>();
@@ -150,8 +153,8 @@ public class DetectActivity extends AppCompatActivity
                         DetectionModel detectionModel = new DetectionModel(left, right, new Date(),
                                     user.getUid(), name.toLowerCase());
 
-                        DatabaseReference detection = database.getReference("detections")
-                                .push();
+
+                        DatabaseReference detection = detectionRef.push();
                         detection.setValue(detectionModel);
                         detectionKey = detection.getKey();
                     }))));
@@ -220,12 +223,43 @@ public class DetectActivity extends AppCompatActivity
 
     @Override
     public void onShapeClick(Shape shape) {
+        this.latestShape = shape;
         Intent intent = new Intent(this, ShapeDescriptionActivity.class);
         intent.putExtra(SHAPE_PARCELABLE, shape);
-        intent.putExtra(EYE_SIDE,eyeSide);
+        intent.putExtra(EYE_SIDE, eyeSide);
         intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getOriginal());
-        startActivity(intent);
+        startActivityForResult(intent, SHAPE_DESCRIPTION_ACTIVITY);
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == SHAPE_DESCRIPTION_ACTIVITY) {
+            if(resultCode == RESULT_OK){
+                Shape shape = data.getParcelableExtra(SHAPE_PARCELABLE);
+                latestShape.selectedParts = shape.selectedParts;
+                if(!latestShape.description.equals(shape.description)){
+                    latestShape.description = shape.description;
+                    saveEyesDescription();
+                }
+            }
+            // (resultCode == RESULT_CANCELED)//Write your code if there's no result
+        }
+    }
+
+
+    void saveEyesDescription(){
+        ShapesDetected shapes = this.shapesDetected.get(eyeSide);
+        String eyeNode = eyeSide == ImageFilters.LEFT_EYE ? "left" : "right";
+        StringBuilder description = new StringBuilder();
+        for (Shape shape: shapes.shapes){
+            description.append(shape.description);
+        }
+        detectionRef.child(detectionKey).child(eyeNode).child("description")
+                .setValue(description.toString());
+    }
+
     private class DownloadFilesTask extends AsyncTask<Void, Void, String> {
 
         protected String doInBackground(Void... params) {

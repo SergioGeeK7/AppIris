@@ -162,187 +162,289 @@
     <string name="pleura">(G) pleura</string>
     <string name="nervio_vago">nervio vago</string>
     <string name="timo">timo</string>
-    <string name="corazón">corazón</string>
-    <string name="glándulas_mamarias">glándulas mamarias</string>
+    <string name="glandulas_mamarias">glándulas mamarias</string>
     <string name="costillas_superiores">costillas superiores</string>
     <string name="colon">colon</string>
     <string name="estomago">Estomago</string>
     <string name="pulmones">(F) pulmones</string>
-    <string name="nervio_vago">nervio vago</string>
     <string name="bronquios">bronquios</string>
-    <string name="timo">timo</string>
-    <string name="corazón">corazón</string>
-    <string name="colon">Colon</string>
+    <string name="corazon">corazón</string>
     <string name="estomago.">estomago.</string>
     <string name="E_axilas">(E) axilas</string>
-    <string name="pulmones">pulmones</string>
     <string name="traquea">traquea</string>
-    <string name="nervio_vago">nervio vago</string>
-    <string name="bronquios">bronquios</string>
     <string name="aorta">aorta</string>
     <string name="aurículas_corazon">aurículas del corazón</string>
-    <string name="estomago">estomago</string>
     <string name="D_cuello">(D) cuello</string>
-    <string name="nervio_vago">nervio vago</string>
     <string name="glandula_axiliar">glandula axiliar</string>
     <string name="clavicula">clavicula</string>
-    <string name="colon">Colon</string>
-    <string name="estomago">Estomago</string>
     <string name="cuero_cabelludo">(C) cuero cabelludo</string>
     <string name="craneo">craneo</string>
     <string name="cerebro">cerebro</string>
     <string name="cerebelo">cerebelo</string>
-    <string name="oídos__timpano">oídos (timpano, nervio acústico)</string>
+    <string name="oidos">oídos (timpano, nervio acústico)</string>
     <string name="glandula_parotida">. Glandula parótida</string>
-    <string name="nervio_vago">nervio vago</string>
     <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">estomago</string>
-    <string name="B_cuero_cabelludo">(B) cuero cabelludo</string>
-    <string name="craneo">craneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="cerebelo">cerebelo</string>
-    <string name="nervio_vago">nervio vago</string>
     <string name="colon_tranversal">colon tranversal</string>
-    <string name="estomago">estomago.</string>
-    <string name="A_cuero_cabelludo">(A) cuero cabelludo</string>
-    <string name="craneo">craneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="septumlucidum">septumlucidum</string>
+    <string name="septum_pellucidum">septum pellucidum</string>
     <string name="cuerpo_calloso">cuerpo calloso</string>
-    <string name="glandula_pineal">glandula pineal</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">estomago</string>
-    <string name="cuero_cabelludo">(Y) cuero cabelludo</string>
+    <string name="glandula_pineal">glándula pineal</string>
     <string name="cráneo">cráneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="septum_lucidum">septum lucidum</string>
-    <string name="cuerpo_calloso">cuerpo calloso</string>
-    <string name="glándula_pineal">glándula pineal</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">Estomago</string>
     <string name="frente">(X) frente</string>
-    <string name="cuero_cabelludo">Cuero cabelludo</string>
-    <string name="cráneo">cráneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="septum_lucidum">Septum lucidum</string>
-    <string name="cuerpo_calloso">Cuerpo calloso</string>
-    <string name="glándula_pineal">Glándula pineal</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">Estomago</string>
     <string name="orificios_nasales">(V) orificios nasales</string>
     <string name="ojos">ojos</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="estomago">Estomago</string>
     <string name="maxilar_superior">(U) maxilar superior</string>
     <string name="lengua">lengua</string>
-    <string name="amígdalas">amígdalas</string>
+    <string name="amigdalas">amígdalas</string>
     <string name="nariz">nariz</string>
     <string name="intestino_delgado">intestino delgado</string>
-    <string name="estomago">Estomago</string>
     <string name="torioides">(T) toroiodes</string>
     <string name="laringe">laringe</string>
     <string name="glandulas_linguales">glándulas linguales</string>
-    <string name="lengua">lengua</string>
     <string name="cuerdas_bocales">cuerdas bocales</string>
     <string name="maxilar_inferior">maxilar inferior</string>
-    <string name="intestino_delgado">intestino delgado</string>
-    <string name="estomago">Estomago</string>
     <string name="garganta">(S) garganta</string>
-    <string name="traquea">traquea</string>
     <string name="glandula_tiroide_paratiroides">glandula tiroide</string>
     <string name="paratiroides">paratiroides</string>
-    <string name="intestino_delgado">intestino delgado</string>
-    <string name="estomago">Estomago</string>
     <string name="esfínteres_cardias_piloro">esfínteres del cardias</string>
     <string name="piloro">Piloro</string>
     <string name="esófago">(R) esófago</string>
     <string name="omoplato">omoplato</string>
-    <string name="traquea">traquea</string>
-    <string name="intestino_delgado">intestino delgado</string>
-    <string name="estomago">Estomago</string>
     <string name="zona_umbilical">(Q) zona umbilical</string>
     <string name="columna_vertebral">columna vertebral</string>
-    <string name="omoplato">omoplato</string>
-    <string name="intestino_delgado">intestino delgado</string>
-    <string name="estomago">Estomago</string>
     <string name="pene">(P) pene</string>
     <string name="uretra">uretra</string>
     <string name="vejiga">vejiga</string>
     <string name="ureter">uréter</string>
     <string name="coxis">coxis</string>
-    <string name="columna_vertebral">columna vertebral</string>
-    <string name="intestino_delgado">intestino delgado.</string>
-    <string name="estomago">Estomago</string>
     <string name="vagina">(O) vagina</string>
-    <string name="uretra">uretra</string>
-    <string name="utero">utero</string>
-    <string name="vejiga">vejiga</string>
-    <string name="uréter">uréter</string>
-    <string name="coxis">coxis</string>
-    <string name="columna_vertebral">columna vertebral</string>
-    <string name="intestino_delgado">intestino delgado</string>
-    <string name="estomago">Estomago</string>
-    <string name="vagina">(N) vagina</string>
-    <string name="uretra">uretra</string>
     <string name="utero">utero</string>
     <string name="trompa_falopio">trompa de Falopio</string>
     <string name="rinones">riñones</string>
     <string name="capas_suprarrenales">capas suprarrenales</string>
     <string name="intestino">intestino</string>
-    <string name="estomago">Estomago</string>
     <string name="ano">ano</string>
     <string name="recto">recto</string>
-    <string name="intestino_delgado">intestino delgado</string>
     <string name="pies">(M) pies</string>
     <string name="piernas">piernas</string>
     <string name="trompas_de_falopio">trompas de Falopio</string>
-    <string name="rinones">riñones</string>
     <string name="glándulas_suprarrenales">glándulas suprarrenales</string>
-    <string name="intestino_delgado">Intestino</string>
     <string name="sigmoidea">sigmoidea</string>
     <string name="ciego">ciego</string>
-    <string name="estomago">Estomago</string>
     <string name="bajo_abdomen">(L) Bajo abdomen</string>
     <string name="fingle">ingle</string>
-    <string name="piernas">piernas</string>
     <string name="trompa">trompa</string>
     <string name="intestinos">intestinos</string>
-    <string name="estomago">Estomago</string>
     <string name="colon_sigmoideo">Colon sigmoideo</string>
     <string name="apendice">Apendice</string>
-    <string name="ciego">Ciego</string>
     <string name="ileon">íleon</string>
     <string name="pelvis">(K) pelvis</string>
     <string name="ovarios">ovarios</string>
-    <string name="intestinos">intestinos</string>
-    <string name="estomago">Estomago</string>
-    <string name="colon_sigmoideo">Colon sigmoideo</string>
-    <string name="apendice">Apendice</string>
-    <string name="ciego">Ciego</string>
-    <string name="ileon">íleon</string>
     <string name="ovarios_testículos">(J) Ovarios</string>
-    <string name="páncreas">páncreas</string>
-    <string name="intestinos">intestinos</string>
-    <string name="estomago">Estomago</string>
-    <string name="colon">colon</string>
+    <string name="pancreas">páncreas</string>
     <string name="higado">Higado</string>
     <string name="vesicula">Vesícula</string>
     <string name="conducto_cistico">Conducto cistico</string>
     <string name="manos">(I) manos</string>
     <string name="brazos">Brazos</string>
     <string name="bazo">Bazos</string>
-    <string name="higado">Higado</string>
-    <string name="vesicula">Vesícula</string>
-    <string name="colon">colon</string>
-    <string name="estomago">Estomago</string>
     <string name="caderas_ilion">(H) caderas (ilion)</string>
     <string name="caja_toraxica">caja toraxica</string>
     <string name="costillas_inferiores">costillas inferiores</string>
     <string name="esternon">esternón</string>
-    <string name="nervio_vago">Nervio vago</string>
     <string name="plexo_solar">Plexo solar</string>
-    <string name="manos">Manos</string>
-    <string name="brazos">Brazos</string>
-    <string name="colon">colon</string>
-    <string name="estomago">Estomago</string>
+    <string name="diagnosis">Diagnosis: </string>
+    <string name="diagnosis_cabeza">-Esfuerzo por pensar constantemente en alcanzar un objetivo o meta llegando al
+punto de la obsesión, es decir, todo alrededor gira entorno a ese pensamiento.\n
+- Represión de sentimientos o pensamientos que la persona particularmente
+considera incorrectos o inapropiados</string>
+    <string name="diagnosis_cara">
+        -Inconformidad con sí mismo, falta de autoestima o auto-amor.\n
+- Relacionado con el rechazo o aprobación de los demás
+    </string>
+    <string name="diagnosis_ojos">
+        - Dificultades para observar la realidad\n
+- Miopía: inconvenientes con el presente o el pasado (no se asimila de forma\n
+adecuada)
+- Hipermetropía: Miedo a enfrentar el futuro
+    </string>
+    <string name="diagnosis_oidos">
+- Existe dolor cuando nos dicen algo que no nos gusta, no aceptamos o no
+asimilamos.\n
+- Falta de estabilidad emocional o pérdida de equilibrio en la vida. Indica que se
+debe buscar un estado de seguridad interna.
+    </string>
+    <string name="diagnosis_nariz">
+        - Relacionado con las dificultades para respirar, para aceptar la vida.\n
+- En caso de resfriado tiene relación con la necesidad de expulsar sentimientos
+albergados con anterioridad y que son de tipo negativo para la persona.
+    </string>
+    <string name="diagnosis_boca">
+        - Inconvenientes para aceptar la realidad actual
+- Ira reprimida por diversas situaciones, hace que en la boca se manifieste en\n
+forma de infecciones, se da por la incapacidad de decir o afrontar lo que se siente
+en el momento indicado.
+    </string>
+    <string name="diagnosis_cuello">
+        - Si existen dificultades en el cuello, es porque no se está teniendo una debida
+conexión entre lo que se piensa y lo que se siente. Ya que este es el canal que\n
+conecta el cerebro y el corazón.
+- Problemas para aceptar o asumir la realidad.\n
+- Represión de expresión de tipo verbal\n
+- El cuello rígido indica que no se aceptan las opiniones de los demás, solo la de
+cada uno es la correcta.
+    </string>
+    <string name="diagnosis_hombros">
+        - Existe dolor cuando, existe dificultad en llevar a cabo las labores del día a día,
+se siente demasiada carga en lo que respecta a la vida. (Tener en cuenta en qué
+lado se manifiesta el dolor)
+    </string>
+
+
+    <string name="diagnosis_brazos">
+        - Las falencias en los brazos representan dificultades en la manera en que se está
+manejando la forma de vivir, o lo que esta acarrea. No se logra sujetar ni tener el
+control de las situaciones.
+    </string>
+
+    <string name="diagnosis_espalda">
+        - Relacionado con situaciones que no se quieren enfrentar, por ello se prefiere dar
+la espalda\n
+- Dolor de espalda ligado al peso de las diferentes vivencias (demasiada carga
+emocional)
+    </string>
+
+    <string name="diagnosis_columna_vertebral">
+        - Ausencia o escases de fortalecimiento espiritual (se debe creer en algo, que
+soporte el diario vivir de la persona. Si no se tiene, habrá sensación de vacío y
+soledad)
+    </string>
+
+    <string name="diagnosis_top_espalda">
+        - Irritación inconformidad por hacer lo que no se desea, es decir por cumplir el
+deseo del otro. (Esto se ve muy frecuentemente con los padres, lo cuales indican
+a sus hijos lo que deben hacer sin pensar en los deseos propios del hijo)
+    </string>
+
+    <string name="diagnosis_middle_espalda">
+        - Existe un bloqueo en el flujo de sentimientos, haciendo que se retenga en esta
+parte del cuerpo, impidiendo que aflore en el exterior.\n
+- Miedo a exteriorizar
+    </string>
+
+    <string name="diagnosis_bottom_espalda">
+        - Resistencia o no se asume el crecimiento, en otras palabras dificultad para
+elaborar el duelo de la niñez a la etapa adulta, de pasar a ser dependiente a
+independiente. En esta etapa se evidencia la dificultad para entablar relaciones y
+valerse por sí mismo.
+    </string>
+
+    <string name="diagnosis_pelvis">
+        -Temores y conflictos con entablar relaciones, en términos de familia, grupo, y
+sociedad. Temores a expresar sentimientos o pensamientos a los anteriormente
+mencionados.
+    </string>
+
+    <string name="diagnosis_pecho">
+        - Inseguridad, inconformidad con sí mismo, falta de autoconfianza, autoestima,
+auto concepto.
+    </string>
+
+    <string name="diagnosis_corazon">
+        Dificultad para expresar “amor”; barreras para experimentarlo y expresarlo.
+    </string>
+
+    <string name="diagnosis_pulmones">
+        Indica que existe algo dentro de nosotros que se quiere expulsar y no se ha
+podido (se relaciona con la tos).
+    </string>
+
+    <string name="diagnosis_senos">
+        Inconvenientes con el rol femenino, con la parte maternal (compasión, nutrición
+cariño).
+    </string>
+
+    <string name="diagnosis_caja_toracica">
+        Indica desprotección y vulnerabilidad ante el exterior.
+    </string>
+
+    <string name="diagnosis_diafragma">
+        Dificultades en la comunicación, en la expresión de pensamientos, de aceptación
+de lo que la vida trae con sí.
+    </string>
+
+    <string name="diagnosis_abdomen">
+        Conflictos entre el yo y los demás, dificultades para asimilar la realidad propia con
+el contexto.
+    </string>
+
+    <string name="diagnosis_estomago">
+        Existen inconvenientes en esta área cuando no se deja fluir los sentimientos, es
+decir, que se tratan de retener apegándose a situaciones que eviten generar
+cambios (miedo al cambio)
+    </string>
+
+    <string name="diagnosis_intestinos">
+        Represión o retención de emociones (usado como mecanismo defensivo para no
+mostrarse vulnerable ante los demás)
+    </string>
+
+    <string name="diagnosis_higado">
+        El hígado se afecta, cuando hay querencia de amor hacía sí mismo; cuando el
+estado de ánimo decae dando indicio de estados depresivos.
+    </string>
+
+    <string name="diagnosis_vesicula_biliar">
+        Irritación, rabia, desacuerdo con las demás personas.
+    </string>
+
+    <string name="diagnosis_vaso">
+        Existen problemas en el vaso cuando hay situaciones que generan mal humor o
+malestar
+    </string>
+
+    <string name="diagnosis_pancreas">
+        En el páncreas indica conflictos de expresión, de la capacidad de recibir afecto por
+parte de los demás.
+    </string>
+
+    <string name="diagnosis_rinones_vejiga">
+        En la orina se eliminan emociones negativas (poner atención al color) \n
+        Miedo a entablar relaciones, ya sea de amistad o amorosas, por el miedo de
+expresar sentimientos que lo pueden mostrar vulnerable ante el medio.
+    </string>
+
+    <string name="diagnosis_organos_reproductores">
+        - Identificación sexual, Femenino – masculino
+Dificultades con el mismo género u opuesto.
+    </string>
+
+    <string name="diagnosis_piernas">
+        - Piernas frágiles, indica inestabilidad o falta de energía ligado a la dependencia.
+Piernas firmes indican seguridad y autonomía
+    </string>
+
+    <string name="diagnosis_rodillas">
+        - Problemas en las rodillas indican dificultades para ceder o dejar ganar a los
+demás, son personas que no aceptan el hecho de perder bajo ninguna
+circunstancia.
+    </string>
+
+    <string name="diagnosis_colon">
+        - Dificultades en el proceso de aceptación o asimilación de la información del
+medio externo, impidiendo que se haga una selección adecuada de las emociones
+que sirven de las que no.
+    </string>
+
+    <string name="diagnosis_genitales">
+        Miedo, vergüenza (ligado a la infancia)
+    </string>
+
+    <string name="diagnosis_prostata">
+        Miedo a sentirse inútil ( Por lo general en la edad adulta)
+    </string>
+
+    <string name="diagnosis_testiculos">
+        Impotencia frente a las situaciones que se presentan en el diario vivir.
+    </string>
+
 </resources>

@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+
+import com.example.sergiogeek7.appiris.appiris.BodyPart;
 
 import org.apmem.tools.layouts.FlowLayout;
 
@@ -14,20 +17,20 @@ import java.util.List;
  * Created by sergiogeek7 on 6/02/18.
  */
 
-public class GridButtons extends FlowLayout {
+public class GridButtons extends GridLayout {
 
     private List<ButtonTab> buttons = new ArrayList<>();
 
-    public GridButtons(Context context, String[] items) {
+    public GridButtons(Context context, List<BodyPart> items, ButtonTab.ButtonTabListener listener) {
         super(context);
         this.setPadding(32,32,32,32);
-        buildButtons(items);
+        this.setColumnCount(6);
+        buildButtons(items, listener);
     }
 
-
-    void buildButtons(String[] items){
-        for(String name: items){
-            buttons.add(this.addButton(name));
+    void buildButtons(List<BodyPart> pars, ButtonTab.ButtonTabListener listener){
+        for(BodyPart part: pars){
+            buttons.add(this.addButton(part, listener));
         }
     }
 
@@ -41,8 +44,18 @@ public class GridButtons extends FlowLayout {
         return selected;
     }
 
-    ButtonTab addButton(String name){
-        ButtonTab txt = new ButtonTab(getContext(), name);
+    public void setSelectedItems(List<BodyPart> parts){
+        for (BodyPart part : parts){
+            for (ButtonTab btn : buttons){
+                if(btn.part.id == part.id){
+                    btn.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    ButtonTab addButton(BodyPart part, ButtonTab.ButtonTabListener listener){
+        ButtonTab txt = new ButtonTab(getContext(), part, listener);
 
         int pxHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 20, getResources().getDisplayMetrics());

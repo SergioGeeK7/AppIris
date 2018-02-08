@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.example.sergiogeek7.appiris.R;
+import com.example.sergiogeek7.appiris.appiris.BodyPart;
 
 /**
  * Created by sergiogeek7 on 6/02/18.
@@ -17,10 +18,14 @@ import com.example.sergiogeek7.appiris.R;
 public class ButtonTab extends android.support.v7.widget.AppCompatButton {
 
     private boolean enable;
+    public BodyPart part;
+    private ButtonTabListener listener;
 
-    public ButtonTab(Context context, String text) {
+    public ButtonTab(Context context, BodyPart part, ButtonTabListener listener) {
         super(context);
-        this.setText(text);
+        this.setText(part.name);
+        this.part = part;
+        this.listener = listener;
         setUpUI();
     }
 
@@ -28,7 +33,10 @@ public class ButtonTab extends android.support.v7.widget.AppCompatButton {
         this.setPadding(8,0,8,4);
         this.setAllCaps(false);
         setEnabled(false);
-        this.setOnClickListener((v) -> setEnabled(!isEnabled()));
+        this.setOnClickListener((v) -> {
+            setEnabled(!isEnabled());
+            listener.onCLick(part);
+        });
     }
 
     public boolean isEnabled(){
@@ -56,4 +64,10 @@ public class ButtonTab extends android.support.v7.widget.AppCompatButton {
     public ButtonTab(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
+
+
+    public interface ButtonTabListener {
+        void onCLick(BodyPart bp);
+    }
+
 }

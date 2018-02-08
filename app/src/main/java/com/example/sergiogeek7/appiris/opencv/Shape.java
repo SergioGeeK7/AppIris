@@ -4,7 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.example.sergiogeek7.appiris.appiris.BodyPart;
+
 import org.opencv.core.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by sergiogeek7 on 27/12/17.
@@ -18,6 +23,8 @@ public class Shape implements Parcelable{
     private double rowPercentage;
     private double originColumn;
     private double originRow;
+    public List<BodyPart> selectedParts = new ArrayList<>();
+    public String description = "";
 
     public Shape(double column, double row, ShapeContext context){
         this.column = column;
@@ -82,6 +89,8 @@ public class Shape implements Parcelable{
         parcel.writeDouble(this.rowPercentage);
         parcel.writeDouble(this.originColumn);
         parcel.writeDouble(this.originRow);
+        parcel.writeList(selectedParts);
+        parcel.writeString(description);
     }
 
     protected Shape(Parcel in) {
@@ -91,6 +100,8 @@ public class Shape implements Parcelable{
         rowPercentage = in.readDouble();
         originColumn = in.readDouble();
         originRow = in.readDouble();
+        in.readList(selectedParts, BodyPart.class.getClassLoader());
+        description = in.readString();
     }
 
     @Override

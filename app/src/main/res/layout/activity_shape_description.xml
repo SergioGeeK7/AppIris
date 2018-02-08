@@ -15,8 +15,74 @@
             android:id="@+id/description_img"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:layout_margin="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@android:color/background_light" />
+
+
+        <ImageView
+            android:id="@+id/separator_scrollview"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/description_img"
+            android:layout_marginStart="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/blue_sea"
+            />
+
+        <HorizontalScrollView
+            android:id="@+id/scrollView"
+            android:layout_below="@id/separator_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:fillViewport="true"
+            android:measureAllChildren="false"
+            android:scrollbars="none">
+        </HorizontalScrollView>
+
+
+        <ImageView
+            android:id="@+id/separator_bottom_scrollview"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/scrollView"
+            android:layout_marginStart="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/blue_sea"
+            android:layout_marginBottom="4dp"
+            />
+
+        <TextView
+            android:id="@+id/diagnosis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="12sp"
+            android:layout_marginEnd="12sp"
+            android:padding="4sp"
+            android:layout_below="@id/separator_bottom_scrollview"
+            android:background="@drawable/border_sea"
+            android:text="@string/diagnosis"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_below="@+id/diagnosis"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/gradient"
+            android:onClick="done"
+            android:paddingEnd="40dp"
+            android:paddingStart="40dp"
+            android:text="@string/finish"
+            android:textColor="@color/tw__solid_white"/>
+
     </RelativeLayout>
+
+
+
 </ScrollView>

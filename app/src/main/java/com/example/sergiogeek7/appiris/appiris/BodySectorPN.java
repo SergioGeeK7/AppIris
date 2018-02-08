@@ -3,6 +3,7 @@ package com.example.sergiogeek7.appiris.appiris;
 import android.content.Context;
 
 import com.example.sergiogeek7.appiris.R;
+import com.example.sergiogeek7.appiris.utils.Gender;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,42 +12,46 @@ import java.util.List;
  * Created by sergiogeek7 on 7/02/18.
  */
 
-public class BodySectorPN {
+public class BodySectorPN extends BodySector{
 
-    String key;
-    List<BodyPart> parts;
+    public BodySectorPN(Context context, int[] rightKey, int[] leftKey, Gender gender){
+        super(rightKey, leftKey);
+        int id = -1;
+        if (gender == Gender.MAN){
+            this.parts.add(new BodyPart(context.getString(R.string.pene),
+                    context.getString(R.string.diagnosis_organos_reproductores), ++id));
+        }else{
+            this.parts.add(new BodyPart(context.getString(R.string.uretra),
+                    context.getString(R.string.diagnosis_pelvis), ++id));
+            this.parts.add(new BodyPart(context.getString(R.string.vagina),
+                    context.getString(R.string.diagnosis_organos_reproductores), ++id));
+            this.parts.add(new BodyPart(context.getString(R.string.utero),
+                    context.getString(R.string.diagnosis_organos_reproductores), ++id));
+            this.parts.add(new BodyPart(context.getString(R.string.trompa_falopio),
+                    context.getString(R.string.diagnosis_organos_reproductores), ++id));
+        }
 
-
-    public BodySectorPN(Context context, String key){
-        this.key = key;
-        this.parts = new ArrayList<>();
-        this.parts.add(new BodyPart(context.getString(R.string.pene), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.uretra), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.vejiga), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.ureter), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.coxis), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.columna_vertebral), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.vagina), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.uretra), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.utero), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.vejiga), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.uréter), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.coxis), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.columna_vertebral), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.vagina), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.uretra), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.utero), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.trompa_falopio), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.rinones), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.capas_suprarrenales), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.intestino), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.estomago), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.ano), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.recto), ""));
-        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado), ""));
+        this.parts.add(new BodyPart(context.getString(R.string.vejiga),
+                context.getString(R.string.diagnosis_pelvis), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.ureter),
+                context.getString(R.string.diagnosis_pelvis), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.coxis),
+                context.getString(R.string.diagnosis_pelvis), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.columna_vertebral),
+                context.getString(R.string.diagnosis_columna_vertebral), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado),
+                context.getString(R.string.diagnosis_intestinos), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago),
+                context.getString(R.string.diagnosis_estomago), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.rinones),
+                context.getString(R.string.diagnosis_rinones_vejiga) , ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.capas_suprarrenales),
+                context.getString(R.string.diagnosis_rinones_vejiga), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.intestino),
+                context.getString(R.string.diagnosis_intestinos), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.ano),
+                context.getString(R.string.diagnosis_pelvis), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.recto),
+                context.getString(R.string.diagnosis_pelvis), ++id));
     }
 }
