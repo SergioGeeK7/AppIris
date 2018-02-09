@@ -253,6 +253,7 @@
     <string name="esternon">esternón</string>
     <string name="plexo_solar">Plexo solar</string>
     <string name="diagnosis">Diagnosis: </string>
+    <string name="no_doctor">You have to analyze it with a doctor to see this field</string>
     <string name="diagnosis_cabeza">-Esfuerzo por pensar constantemente en alcanzar un objetivo o meta llegando al
 punto de la obsesión, es decir, todo alrededor gira entorno a ese pensamiento.\n
 - Represión de sentimientos o pensamientos que la persona particularmente

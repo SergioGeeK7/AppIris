@@ -38,16 +38,21 @@ public class AddResultsDoctor extends AppCompatActivity {
     private String TAG = AddResultsDoctor.class.getName();
     private EyeModel currentEye;
     private int previousTabId = R.id.affected_organs_tab;
+    private boolean doctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_results_doctor);
         ButterKnife.bind(this);
-        detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
+        this.detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
+        this.doctor = getIntent().getBooleanExtra(History.ISDOCTOR, true);
         currentEye = detection.getLeft();
         affected_organs_tab.setEnabled(true);
         content_text.setText(currentEye.getDescription());
+        if(!doctor){
+            content_text.setEnabled(false);
+        }
     }
 
     public void changeEditorTab(View v){
@@ -66,7 +71,9 @@ public class AddResultsDoctor extends AppCompatActivity {
     void setEyeData(int tabId){
         if(tabId == affected_organs_tab.getId()){
             content_text.setText(currentEye.getDescription());
-        }else if(tabId == nutritional_supplements_tab.getId()){
+        }else if(!this.doctor){
+            content_text.setText(R.string.no_doctor);
+        } else if(tabId == nutritional_supplements_tab.getId()){
             content_text.setText(detection.getSupplements());
         }else if (tabId == recommendations_tab.getId()){
             content_text.setText(detection.getRecommendations());
@@ -103,10 +110,15 @@ public class AddResultsDoctor extends AppCompatActivity {
     public void goToShowIris (View v){
         Intent intent = new Intent(this, ShowIris.class);
         intent.putExtra(HistoryDoctor.DETECTION, detection);
+        intent.putExtra(History.ISDOCTOR, this.doctor);
         startActivity(intent);
     }
 
     public void save(View view){
+        if(!this.doctor){
+            finish();
+            return;
+        }
         saveEyeData(previousTabId);
         detectionsRef.child(detection.getKey())
                     .setValue(detection);

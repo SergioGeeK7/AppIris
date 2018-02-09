@@ -1,5 +1,6 @@
 package com.example.sergiogeek7.appiris;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -34,6 +35,7 @@ public class History extends AppCompatActivity {
     private List<DetectionModel> detections = new ArrayList<>();
     private RecyclerView recyclerView;
     private HistoryAdapter mAdapter;
+    public static final String ISDOCTOR = "ISDOCTOR";
 
     private final String TAG = History.class.getName();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -62,8 +64,11 @@ public class History extends AppCompatActivity {
                         new History.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                //DetectionModel detection = detections.get(position);
-                //detection.getDate();
+                DetectionModel detection = detections.get(position);
+                Intent intent = new Intent(History.this, AddResultsDoctor.class);
+                intent.putExtra(HistoryDoctor.DETECTION, detection);
+                intent.putExtra(ISDOCTOR, false);
+                startActivity(intent);
             }
 
             @Override

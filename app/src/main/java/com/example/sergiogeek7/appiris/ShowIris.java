@@ -36,6 +36,7 @@ public class ShowIris extends AppCompatActivity {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference detectionsRef = database.getReference("detections");
     EyeModel currentEye;
+    private boolean doctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,10 @@ public class ShowIris extends AppCompatActivity {
         setContentView(R.layout.activity_show_iris);
         ButterKnife.bind(this);
         detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
+        this.doctor = getIntent().getBooleanExtra(History.ISDOCTOR, true);
+        if(!this.doctor){
+            description.setEnabled(false);
+        }
         updateUI(detection.getLeft());
     }
 
@@ -57,6 +62,10 @@ public class ShowIris extends AppCompatActivity {
     }
 
     public void end(View v){
+        if(!this.doctor){
+            finish();
+            return;
+        }
         currentEye.setDescription(description.getText().toString());
         detectionsRef.child(detection.getKey())
                      .child("right")
