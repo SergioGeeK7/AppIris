@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.sergiogeek7.appiris.opencv.DetectBlur;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
+import com.example.sergiogeek7.appiris.utils.GlobalState;
 import com.firebase.ui.auth.AuthUI;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -88,6 +89,7 @@ public class ViewImage extends AppCompatActivity{
     protected static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int SELECT_GALLERY_IMAGE = 101;
     protected static final int CAPTURE_IRIS_DONE = 2;
+    private static final int FIRST_EYE_TO_TAKE = 0;
     private static final int RC_SIGN_IN = 123;
     protected static final String PROVIDER_AUTHORITY = "com.app.irisfileprovider";
     protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
@@ -103,6 +105,11 @@ public class ViewImage extends AppCompatActivity{
     Gender gender;
 
     public void launchCamera(View view) {
+        String rightOrLeftLabel = eyes.size() == FIRST_EYE_TO_TAKE ? getString(R.string.taking_photo_left) :
+                                                                    getString(R.string.taking_photo_right);
+
+        Toast.makeText(this, rightOrLeftLabel + ", " + getString(R.string.turn_on_flash) ,
+                Toast.LENGTH_LONG).show();
         Dexter.withActivity(this).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
@@ -148,8 +155,9 @@ public class ViewImage extends AppCompatActivity{
 
     private Uri createEye (){
 
-        if(this.eyes.size() == CAPTURE_IRIS_DONE)
+        if(this.eyes.size() == CAPTURE_IRIS_DONE) {
             return this.eyes.get(this.eyes.size() - 1).getFilter().getUri();
+        }
 
         File original = BitmapUtils.createTempImageFile(ViewImage.this);
         File filter = BitmapUtils.createTempImageFile(ViewImage.this);
@@ -168,7 +176,7 @@ public class ViewImage extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_image);
-        this.gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
+        this.gender = ((GlobalState)getApplication()).gender;
         ButterKnife.bind(this);
     }
 

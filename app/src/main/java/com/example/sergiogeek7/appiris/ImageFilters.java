@@ -276,6 +276,9 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                 share();
                 return true;
             }
+            if(id == R.id.go_to_main_screen){
+                startActivity(new Intent(this, MainScreen.class));
+            }
             return super.onOptionsItemSelected(item);
         }
 

@@ -60,12 +60,12 @@ public class Callback {
         };
     }
 
-    public static OnSuccessListener<UploadTask.TaskSnapshot> onSuccessListener (
+    public static OnSuccessListener<UploadTask.TaskSnapshot> onSuccessListener (String message,
             CB2<UploadTask.TaskSnapshot> cb, Context c){
         ProgressDialog p = new ProgressDialog(c);
-        p.setMessage(c.getString(R.string.loading));
+        p.setMessage(message);
+        p.setTitle(message);
         p.show();
-        p.setTitle(c.getString(R.string.loading));
         return o -> {
             p.dismiss();
             cb.call(o);

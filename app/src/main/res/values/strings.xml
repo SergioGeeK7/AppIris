@@ -26,9 +26,11 @@
     <string name="take_photo_right">Take Right Iris</string>
     <string name="take_photo_left">Take Left Iris</string>
     <string name="load_photo_right">Load Right Iris</string>
+    <string name="taking_photo_right">Taking right iris</string>
+    <string name="taking_photo_left">Taking left iris</string>
     <string name="load_photo_left">Load Left Iris</string>
     <string name="loading">Loading ...</string>
-    <string name="blur_photo">"Please try to focus the iris, The photo is blurry "</string>
+    <string name="blur_photo">Please try to focus the iris, The photo is blurry </string>
     <string name="alert">Alert</string>
     <string name="search_user">Search ...</string>
     <string name="birth_date">Birth date:</string>
@@ -64,7 +66,7 @@
     <string name="send_iris">Send iris</string>
     <string name="logout">Logout</string>
     <string name="a_brief">A brief description</string>
-    <string name="default_name">Pepito Perez Lopez</string>
+    <string name="default_name">User no register</string>
     <string name="history_tooltip">Here you can see the history of all your analysis</string>
     <string name="register_view_image">Register</string>
     <string name="question_1">Are you currently having any medical treatment?</string>
@@ -304,8 +306,7 @@ lado se manifiesta el dolor)
     </string>
 
 
-    <string name="diagnosis_brazos">
-        - Las falencias en los brazos representan dificultades en la manera en que se está
+    <string name="diagnosis_brazos">Las falencias en los brazos representan dificultades en la manera en que se está
 manejando la forma de vivir, o lo que esta acarrea. No se logra sujetar ni tener el
 control de las situaciones.
     </string>
@@ -488,4 +489,7 @@ observación y su debida atención.
     </string>
 
     <string name="must_register_first">Must register first to use this function</string>
+    <string name="go_to_main_screen">Main screen</string>
+    <string name="turn_on_flash">Please turn on the flash camera to take a better photo and use the back camera for better resolution</string>
+    <string name="analyzing">Analyzing ...</string>
 </resources>

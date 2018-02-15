@@ -66,11 +66,10 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                                         Log.e(TAG, err.getMessage());
                                         return;
                                     }
-                                    RegiterOptionalActivity self = RegiterOptionalActivity.this;
-                                    Class c = !data1.exists() ? RegisterForm.class:
-                                            data1.hasChild("doctor") ?
+                                    Class next = !data1.exists() ? RegisterForm.class:
+                                                    data1.hasChild("doctor") ?
                                                     HistoryDoctor.class : MainScreen.class;
-                                    Intent intent = new Intent(self, c);
+                                    Intent intent = new Intent(this, next);
                                     startActivity(intent);
                         }, RegiterOptionalActivity.this));
             } else {

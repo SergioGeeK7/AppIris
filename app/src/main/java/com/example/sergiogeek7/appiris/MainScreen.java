@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Gender;
+import com.example.sergiogeek7.appiris.utils.GlobalState;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,53 +33,41 @@ import butterknife.ButterKnife;
 
 public class MainScreen extends AppCompatActivity {
 
-    private FirebaseUser user;
     @BindView(R.id.avatar) ImageView avatar;
     @BindView(R.id.name) TextView displayName;
-    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final String TAG = MainScreen.class.getName();
-    Gender gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         ButterKnife.bind(this);
-        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
         Gender gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(user != null && CloudMessagingIDService.refreshedToken != null){
-            saveMessagingToken();
+        if(user != null){
+            getUserApp(user.getUid());
+            if(CloudMessagingIDService.refreshedToken != null){
+                saveMessagingToken(user.getUid());
+            }
+        }else{
+            updateUI(gender, getString(R.string.default_name));
         }
-
-        if(gender != null){
-            updateUI(gender, null);
-            return;
-        }
-        getUserGender();
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.e(TAG, FirebaseInstanceId.getInstance().getToken());
-    }
-
-    void saveMessagingToken(){
+    void saveMessagingToken(String Uid){
         Callback.taskManager(this, database
                 .getReference("users")
-                .child(user.getUid())
+                .child(Uid)
                 .child("messagingToken")
                 .setValue(CloudMessagingIDService.refreshedToken));
     }
 
-    private void getUserGender(){
-        DatabaseReference ref_user = database.getReference("users")
-                                            .child(user.getUid());
-
-        ref_user.addListenerForSingleValueEvent(
+    private void getUserApp(String Uid){
+        database.getReference("users")
+                .child(Uid)
+                .addListenerForSingleValueEvent(
                 Callback.valueEventListener(
                         (err, data) -> {
                             if(err != null){
@@ -86,15 +75,20 @@ public class MainScreen extends AppCompatActivity {
                                 return;
                             }
                             UserApp userApp = data.getValue(UserApp.class);
-                            updateUI(userApp.getGender().equals("man") ? Gender.MAN : Gender.WOMAN,
-                                    userApp.getFullName());
-                }, MainScreen.this));
+                            Gender gender = userApp.getGender().equals("m") ? Gender.MAN : Gender.WOMAN;
+                            updateUI(gender, userApp.getFullName());
+                }, this));
     }
 
     private void updateUI(Gender gender, String name){
-        this.gender = gender;
+        saveGender(gender);
         avatar.setImageResource(gender == Gender.MAN ? R.drawable.male : R.drawable.female);
-        displayName.setText(name == null ? getString(R.string.default_name) : name);
+        displayName.setText(name);
+    }
+
+    void saveGender(Gender gender){
+        GlobalState gs = (GlobalState) getApplication();
+        gs.gender = gender;
     }
 
     public void logout(View view){
@@ -110,15 +104,12 @@ public class MainScreen extends AppCompatActivity {
         startActivity(new Intent(this, History.class));
     }
 
-
     public void goAbout(View v){
         startActivity(new Intent(this, about.class));
     }
 
-
     public void goCaptureActivity(View v){
         Intent intent = new Intent(this, ViewImage.class);
-        intent.putExtra(Gender.class.getName(), this.gender);
         startActivity(intent);
     }
 }

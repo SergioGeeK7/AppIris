@@ -1,9 +1,7 @@
 package com.example.sergiogeek7.appiris;
 
-
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
@@ -23,18 +21,16 @@ import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.sergiogeek7.appiris.utils.GlobalState;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ShapeDescriptionActivity extends AppCompatActivity {
+public class ShapeDescriptionActivity extends AppCompatActivity{
 
     Shape shape;
     Psicosomaticas psicosomaticas;
     private static String TAG = ShapeDescriptionActivity.class.getName();
+
     int eyeSide;
     private EyeFile eye;
     private Uri shareFilePath;
@@ -47,16 +43,17 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
     TextView txtDiagnosis;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape_description);
         ButterKnife.bind(this);
-        psicosomaticas = new Psicosomaticas(this, Gender.MAN);
+        Gender gender = ((GlobalState)getApplication()).gender;
+        psicosomaticas = new Psicosomaticas(this, gender);
         this.shape = getIntent().getParcelableExtra(DetectActivity.SHAPE_PARCELABLE);
         this.eyeSide = getIntent().getIntExtra(DetectActivity.EYE_SIDE, 0);
         this.eye = getIntent().getParcelableExtra(DetectActivity.EYE_PARCELABLE);
-        addOrgans();
         setDescriptionText();
+        addOrgans();
         new loadBitmap().execute(eye.getAbsoletePath());
     }
 
@@ -80,8 +77,11 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
     void setDescriptionText(){
         StringBuilder diagnosis = new StringBuilder(getString(R.string.diagnosis));
         for (BodyPart part: shape.selectedParts){
-            if(diagnosis.indexOf(part.description) == -1){
-                diagnosis.append("\n").append(part.description);
+            int indexParagraph = diagnosis.indexOf(part.description);
+            if(indexParagraph == -1){
+                diagnosis.append("\n").append(part.name).append(": ").append(part.description);
+            }else{
+                diagnosis.insert(indexParagraph - 2,", " + part.name);
             }
         }
         shape.description = diagnosis.toString();
@@ -107,20 +107,12 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         scrollView.addView(gridButtons, 0, lParams);
     }
 
-    public boolean onCreateOptionsMenu(Menu paramMenu)
-    {
+    public boolean onCreateOptionsMenu(Menu paramMenu){
         getMenuInflater().inflate(R.menu.menu_main, paramMenu);
         return true;
     }
 
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        Log.e("log", "Destroying");
-    }
-
-    public boolean onOptionsItemSelected(MenuItem paramMenuItem)
-    {
+    public boolean onOptionsItemSelected(MenuItem paramMenuItem){
         if (paramMenuItem.getItemId() == R.id.share)
         {
             share();
@@ -129,8 +121,7 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(paramMenuItem);
     }
 
-    public void share()
-    {
+    public void share(){
         if (this.shareFilePath == null) {
             this.shareFilePath =
                     FileProvider.getUriForFile(this, "com.app.irisfileprovider",
@@ -141,9 +132,9 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
                 txtDiagnosis.getText().toString());
     }
 
-    class loadBitmap extends AsyncTask<String, Void, Bitmap> {
+    class loadBitmap extends AsyncTask<String, Void, Bitmap>{
 
-        protected Bitmap doInBackground(String... params) {
+        protected Bitmap doInBackground(String... params){
 
             Bitmap bitmap = null;
             try {
@@ -154,11 +145,11 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
             return bitmap;
         }
 
-        protected void onProgressUpdate() {
+        protected void onProgressUpdate(){
             // TODO: make a progress bar
         }
 
-        protected void onPostExecute(Bitmap bitmap) {
+        protected void onPostExecute(Bitmap bitmap){
             int drawableBodyPart = psicosomaticas.getBodyPart(shape, eyeSide).drawableResource;
             imagePreview.updateView(shape, bitmap, drawableBodyPart);
         }

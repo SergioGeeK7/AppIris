@@ -24,8 +24,6 @@ import java.util.List;
  * Created by sergiogeek7 on 21/12/17.
  */
 
- // TODO: injection with Dagger or using the Android data binding library.
-
 public class InteractiveEyeVIew extends View implements ShapeContext {
 
     private Paint mPaint;

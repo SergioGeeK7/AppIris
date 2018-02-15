@@ -20,5 +20,10 @@
         android:visible="false"
         android:icon="@drawable/ic_galeria"
         />
+    <item
+        android:orderInCategory="102"
+        android:title="@string/go_to_main_screen"
+        android:id="@+id/go_to_main_screen"
+        />
 
 </menu>

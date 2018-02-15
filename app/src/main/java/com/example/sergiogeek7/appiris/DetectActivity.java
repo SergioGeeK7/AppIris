@@ -4,38 +4,28 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.sergiogeek7.appiris.appiris.BodyPart;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.firemodel.EyeModel;
-import com.example.sergiogeek7.appiris.firemodel.FolderModel;
 import com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm;
 import com.example.sergiogeek7.appiris.opencv.DetectShapes;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Callback;
-import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.UserApp;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -46,7 +36,6 @@ import com.squareup.picasso.Picasso;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -54,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -124,7 +112,6 @@ public class DetectActivity extends AppCompatActivity
         this.eyes = getIntent().getParcelableArrayListExtra(ViewImage.EYE_PARCELABLE);
         setContentView(R.layout.activity_detect);
         ButterKnife.bind(this);
-
     }
 
     public void analyzeWithExpert(View v){
@@ -140,26 +127,25 @@ public class DetectActivity extends AppCompatActivity
 
     public void uploadImages(Bitmap left, Bitmap right){
 
-        Log.e(TAG,"Saving 1");
         saveToFirebase(left,
-                Callback.onSuccessListener(leftSnap ->
+                Callback.onSuccessListener(getString(R.string.analyzing), leftSnap ->
                         saveToFirebase(right,
-                            Callback.onSuccessListener(rightSnap -> getUserApp(
+                            Callback.onSuccessListener(getString(R.string.analyzing), rightSnap ->
+                                            getUserApp(
                                     Callback.valueEventListener((err, data) -> {
 
                                             if(err != null){
                                                 Log.e(TAG, err.getMessage());
                                                 return;
                                             }
-                                            Log.e(TAG,"Saving2");
                                             UserApp userapp = data.getValue(UserApp.class);
                                             EyeModel leftEye = new EyeModel("",
                                                     leftSnap.getMetadata().getName());
                                             EyeModel rightEye = new EyeModel("",
                                                     rightSnap.getMetadata().getName());
                                             DetectionModel detectionModel
-                                                    = new DetectionModel(leftEye, rightEye, new Date(),
-                                                    user.getUid(),
+                                                    = new DetectionModel(leftEye, rightEye,
+                                                            new Date(), user.getUid(),
                                                     userapp.getFullName().toLowerCase()
                                                     , userapp.getMessagingToken());
 
@@ -168,9 +154,8 @@ public class DetectActivity extends AppCompatActivity
                                             Callback.taskManager(this,
                                                     detection.setValue(detectionModel));
                                             detectionKey = detection.getKey();
-
-                                    }, DetectActivity.this) )
-                        , DetectActivity.this)),DetectActivity.this));
+                                    }, this) )
+                        , this)),this));
     }
 
     private void getUserApp(ValueEventListener vl){
@@ -207,6 +192,9 @@ public class DetectActivity extends AppCompatActivity
         if(id == R.id.share){
             share();
             return true;
+        }
+        if(id == R.id.go_to_main_screen){
+            startActivity(new Intent(this, MainScreen.class));
         }
         return super.onOptionsItemSelected(item);
     }

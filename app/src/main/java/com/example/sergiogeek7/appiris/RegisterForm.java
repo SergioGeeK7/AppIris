@@ -109,10 +109,9 @@ public class RegisterForm extends AppCompatActivity {
         String weigh = text_weigh.getText().toString();
         String birthDate = birth_date.getText().toString();
         String fullName = full_name.getText().toString();
-
         UserApp userApp = new UserApp(size, weigh, gender, birthDate, country, city, fullName);
         DatabaseReference users_ref = database.getReference("users");
-        Callback.taskManager(this,users_ref.child(user.getUid()).setValue(userApp));
+        Callback.taskManager(this, users_ref.child(user.getUid()).setValue(userApp));
         goToMainScreen(gender);
     }
 
