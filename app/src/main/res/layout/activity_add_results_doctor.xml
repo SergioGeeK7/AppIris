@@ -15,6 +15,7 @@
 
         <Button
             android:layout_width="65dp"
+            android:id="@+id/save_btn"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
@@ -22,6 +23,22 @@
             android:drawableTop="@drawable/ic_guardar_1"
             android:text="@string/save"
             android:onClick="save"
+            android:textColor="@color/tw__solid_white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:layout_width="65dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:id="@+id/send_btn"
+            android:visibility="gone"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:drawableTop="@drawable/ic_enviar"
+            android:text="@string/send"
+            android:onClick="send"
             android:textColor="@color/tw__solid_white"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +141,7 @@
     android:layout_width="match_parent"
     android:gravity="top|start"
     android:padding="12dp"
-    android:layout_height="280dp"
+    android:layout_height="270dp"
     android:layout_margin="8dp"
     android:hint="@string/add_affected_organs"
     android:inputType="textCapSentences|textMultiLine"
@@ -132,5 +149,25 @@
     android:lines="100"
     android:background="@drawable/text_area"
     />
+
+    <Button
+        android:id="@+id/done_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/gradient"
+        android:onClick="done"
+        android:paddingEnd="90dp"
+        android:paddingStart="90dp"
+        android:drawableEnd="@drawable/send_vector"
+        android:drawablePadding="3dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/send"
+        android:textColor="@color/tw__solid_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_text" />
 
 </LinearLayout>

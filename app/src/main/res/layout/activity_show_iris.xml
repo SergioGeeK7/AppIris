@@ -33,40 +33,44 @@
         android:background="@drawable/text_area"
         />
 
-    <Button
+
+
+    <com.example.sergiogeek7.appiris.components.ButtonIris
         android:id="@+id/left_image"
-        android:layout_width="65dp"
-        android:layout_marginStart="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:onClick="setLeftEye"
-        android:background="@drawable/gradient_button"
-        android:drawableStart="@drawable/ic_iris1"
+        android:layout_width="70dp"
         android:layout_height="25dp"
         android:paddingStart="5dp"
-        android:text="@string/leftImage"
+        android:enabled="false"
+        android:onClick="setLeftEye"
         android:textColor="@color/tw__solid_white"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photo_view" />
-
-    <Button
-        android:id="@+id/right_image"
-        android:layout_width="65dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="8dp"
-        android:onClick="setRightEye"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/image_preview"
-        android:layout_marginEnd="24dp"
+        android:drawableStart="@drawable/ic_iris1"
         android:background="@drawable/gradient_button"
-        android:drawableEnd="@drawable/ic_iris1"
-        android:paddingEnd="5dp"
-        android:text="@string/rightImage"
-        android:textColor="@color/tw__solid_white"
+        android:layout_alignParentStart="true"
+        android:text="@string/leftImage"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_view"
+        />
+
+
+    <com.example.sergiogeek7.appiris.components.ButtonIris
+        android:id="@+id/right_image"
+        android:layout_width="70dp"
+        android:layout_height="25dp"        android:textColor="@color/tw__solid_white"
         android:textSize="12sp"
+        android:paddingEnd="5dp"
+        android:layout_alignParentEnd="true"
+        android:onClick="setRightEye"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/description"
+        android:text="@string/rightImage"
+        android:layout_marginEnd="16dp"
+        android:drawableEnd="@drawable/ic_iris1"
+        android:background="@drawable/gradient_button"
+        android:layout_marginTop="16dp"
+        />
 
     <Button
         android:layout_width="wrap_content"

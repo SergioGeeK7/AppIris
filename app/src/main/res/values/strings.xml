@@ -102,6 +102,8 @@
     <string name="state">State</string>
     <string name="title_activity_show_iris">ShowIris</string>
     <string name="save">Save</string>
+    <string name="send">Send</string>
+    <string name="sent">Files has been sent to our doctors</string>
     <string name="affected_organs">Affected organs</string>
     <string name="add_affected_organs">Add affected organs</string>
     <string name="nutritional_supplements">Nutritional supplements</string>
@@ -253,6 +255,7 @@
     <string name="esternon">esternón</string>
     <string name="plexo_solar">Plexo solar</string>
     <string name="diagnosis">Diagnosis: </string>
+    <string name="about">About</string>
     <string name="no_doctor">You have to analyze it with a doctor to see this field</string>
     <string name="diagnosis_cabeza">-Esfuerzo por pensar constantemente en alcanzar un objetivo o meta llegando al
 punto de la obsesión, es decir, todo alrededor gira entorno a ese pensamiento.\n
@@ -448,4 +451,41 @@ que sirven de las que no.
         Impotencia frente a las situaciones que se presentan en el diario vivir.
     </string>
 
+    <string name="about_app">
+        Aplicación que brindara Accesibilidad, confiabilidad, seguridad, veracidad
+y calidad al momento de interpretar la estructura del iris, esta aplicación brindara un
+posible estado de salud general y especifico de la salud de las personas, con base
+en la iridologia; también se ofrece la posibilidad de hacer seguimiento a las
+respectivas evoluciones evidenciadas en el iris. Además, el usuario puede pagar
+por una consulta personalizada, donde nuestros iridologos interpretaran de manera
+clara y especifica los iris de las personas y dar un diagnóstico y tratamiento más
+acertado de acuerdo al estado de salud particular “Salud al alcance de su mano”.
+Nuestro principal objetivo es llegar a todo el mundo siendo accesibles a cualquier
+tipo de usuario y así mejorar el estado de salud particular y general de una
+población.
+    </string>
+
+    <string name="appiris">App iris </string>
+    <string name="title_iridologia">Que es la iridologia </string>
+
+    <string name="about_iridologia">
+        Es el arte de determinar el estado de salud a través del
+aspecto de los ojos, las lesiones causadas a nuestro organismo humano, se
+presentan en el Iris de los ojos por medio de puntos y líneas de colores negros o
+blancos, mayores y menores, también por cambios de tonos en pequeñas áreas de
+su estructura.
+Además, es posible advertir el proceso reversible de las primeras fases
+comprobando su mejoría; de manera que esas líneas negras o blancas, al borrar su
+veteada figura, con el tono original dejan el surco de la salud limpio, normalizándose
+el sector.
+Lo notable o magnifico de la revelación, es que el afectado podrá seguir el curso de
+su propia curación, esto es auspicioso, pues, al constatar las deficiencias de su
+organismo, el paciente acudirá al consejo del médico, con mayor asiduidad.
+No hay efectos secundarios, todo lo contrario el diagnostico de nuestro cuerpo por
+intermedio del Iris, fue y será de carácter fundamental en la vida para los anhelos
+de una buena salud en aquellos que la practiquen, sencillamente por medio de la
+observación y su debida atención.
+    </string>
+
+    <string name="must_register_first">Must register first to use this function</string>
 </resources>

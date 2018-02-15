@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.components.TabIris;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.firemodel.EyeModel;
+import com.example.sergiogeek7.appiris.utils.Callback;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +36,13 @@ public class AddResultsDoctor extends AppCompatActivity {
     Button right_eye_button;
     @BindView(R.id.left_eye)
     Button left_eye_button;
+    @BindView(R.id.save_btn)
+    Button save_btn;
+    @BindView(R.id.send_btn)
+    Button send_btn;
+    @BindView(R.id.done_btn)
+    Button done_btn;
+
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference detectionsRef = database.getReference("detections");
@@ -52,7 +63,18 @@ public class AddResultsDoctor extends AppCompatActivity {
         content_text.setText(currentEye.getDescription());
         if(!doctor){
             content_text.setEnabled(false);
+            save_btn.setVisibility(View.GONE);
+            send_btn.setVisibility(View.VISIBLE);
+            done_btn.setVisibility(View.GONE);
         }
+    }
+
+    public void send(View v){
+        Callback.taskManager(this,
+        database.getReference("detections")
+                .child(detection.getKey()).child("state").setValue("pending"));
+        Toast.makeText(this, getString(R.string.sent), Toast.LENGTH_LONG).show();
+        finish();
     }
 
     public void changeEditorTab(View v){
@@ -91,9 +113,7 @@ public class AddResultsDoctor extends AppCompatActivity {
     }
 
     public void changeEye(View v){
-        if(previousTabId == affected_organs_tab.getId()){
-            currentEye.setDescription(content_text.getText().toString());
-        }
+        saveEyeData(previousTabId);
         if(v.getId() == left_eye_button.getId()){
             currentEye = detection.getRight();
             setEyeData(previousTabId);
@@ -115,16 +135,27 @@ public class AddResultsDoctor extends AppCompatActivity {
     }
 
     public void save(View view){
-        if(!this.doctor){
-            finish();
-            return;
-        }
         saveEyeData(previousTabId);
+        Callback.taskManager(this,
         detectionsRef.child(detection.getKey())
-                    .setValue(detection);
+                    .setValue(detection));
         Intent returnIntent = new Intent();
         returnIntent.putExtra(HistoryDoctor.DETECTION, detection);
         setResult(AnalysisRequest.RESULT_OK, returnIntent);
+    }
+
+    public void done (View v){
+        Callback.taskManager(this,
+                        detectionsRef
+                                .child(detection.getKey())
+                                .child("state")
+                                .setValue("done"));
+        Callback.taskManager(this,
+                detectionsRef
+                        .child(detection.getKey())
+                        .child("analyzed")
+                        .setValue(new Date()));
+        finish();
     }
 
     @Override

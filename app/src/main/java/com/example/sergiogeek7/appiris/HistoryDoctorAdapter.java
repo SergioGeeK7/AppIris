@@ -55,17 +55,11 @@ public class HistoryDoctorAdapter extends RecyclerView.Adapter<HistoryDoctorAdap
         holder.label.setText(history.fullNameCamelcase());
         holder.date.setText(history.dateString());
 
-        if(!isFilteringData && position == 0 && history.getIsInProcess()){
+        if(!isFilteringData && position == 0){
             holder.current_state.setText(R.string.pending);
             holder.current_state.setVisibility(View.VISIBLE);
-        }else if(!isFilteringData && setDivider && !history.getIsInProcess()){
-            holder.current_state.setText(R.string.others);
-            holder.current_state.setVisibility(View.VISIBLE);
-            holder.divider.setVisibility(View.VISIBLE);
-            setDivider = false;
         }
     }
-
 
     public void dataChanged (boolean isFilteringData){
         this.setDivider = true;

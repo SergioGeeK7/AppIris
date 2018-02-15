@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="8dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context="com.example.sergiogeek7.appiris.about">
+
+
+        <TextView
+            android:id="@+id/title_appiris"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/appiris"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_below="@id/title_appiris"
+            android:layout_height="wrap_content"
+            android:id="@+id/description_appiris"
+            android:layout_alignParentStart="true"
+            android:text="@string/about_app"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            />
+
+        <TextView
+            android:id="@+id/title_iriologia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description_appiris"
+            android:layout_centerHorizontal="true"
+            android:text="@string/title_iridologia"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_below="@id/title_iriologia"
+            android:layout_height="wrap_content"
+            android:id="@+id/descripton_iridologia"
+            android:layout_alignParentStart="true"
+            android:text="@string/about_iridologia"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"
+            />
+
+
+    </RelativeLayout>
+
+
+</ScrollView>
+

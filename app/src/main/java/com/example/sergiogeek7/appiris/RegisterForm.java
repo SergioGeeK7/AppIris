@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Country;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.UserApp;
@@ -49,26 +51,24 @@ public class RegisterForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_form);
         ButterKnife.bind(this);
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                List<Country> countries = new ArrayList<>();
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    Country country = postSnapshot.getValue(Country.class);
-                    country.setKey(postSnapshot.getKey());
-                    countries.add(country);
-                }
-                ArrayAdapter<Country> adapter = new ArrayAdapter<>(RegisterForm.this,
-                        android.R.layout.simple_spinner_item, countries);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinner_country.setAdapter(adapter);
-            }
+        ref.addValueEventListener(Callback.valueEventListener(
+                (err, data) -> {
+                    if(err != null){
+                        Log.e(TAG, err.getMessage());
+                        return;
+                    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
-            }
-        });
+                    List<Country> countries = new ArrayList<>();
+                    for (DataSnapshot postSnapshot: data.getChildren()) {
+                        Country country = postSnapshot.getValue(Country.class);
+                        country.setKey(postSnapshot.getKey());
+                        countries.add(country);
+                    }
+                    ArrayAdapter<Country> adapter = new ArrayAdapter<>(RegisterForm.this,
+                            android.R.layout.simple_spinner_item, countries);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner_country.setAdapter(adapter);
+        }, RegisterForm.this));
 
         spinner_country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -112,7 +112,7 @@ public class RegisterForm extends AppCompatActivity {
 
         UserApp userApp = new UserApp(size, weigh, gender, birthDate, country, city, fullName);
         DatabaseReference users_ref = database.getReference("users");
-        users_ref.child(user.getUid()).setValue(userApp);
+        Callback.taskManager(this,users_ref.child(user.getUid()).setValue(userApp));
         goToMainScreen(gender);
     }
 

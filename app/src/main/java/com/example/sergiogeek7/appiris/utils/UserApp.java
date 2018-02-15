@@ -12,6 +12,15 @@ public class UserApp {
     private String country;
     private String city;
     private String fullName;
+    private String messagingToken;
+
+    public String getMessagingToken() {
+        return messagingToken;
+    }
+
+    public void setMessagingToken(String messagingToken) {
+        this.messagingToken = messagingToken;
+    }
 
     public UserApp(){
 

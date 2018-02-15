@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.firebase.ui.auth.AuthUI;
@@ -21,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.w3c.dom.Text;
 
@@ -41,31 +44,51 @@ public class MainScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         ButterKnife.bind(this);
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
         Gender gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user != null && CloudMessagingIDService.refreshedToken != null){
+            saveMessagingToken();
+        }
+
         if(gender != null){
             updateUI(gender, null);
             return;
         }
         getUserGender();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(TAG, FirebaseInstanceId.getInstance().getToken());
+    }
+
+    void saveMessagingToken(){
+        Callback.taskManager(this, database
+                .getReference("users")
+                .child(user.getUid())
+                .child("messagingToken")
+                .setValue(CloudMessagingIDService.refreshedToken));
     }
 
     private void getUserGender(){
         DatabaseReference ref_user = database.getReference("users")
                                             .child(user.getUid());
 
-        ref_user.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                UserApp userApp = snapshot.getValue(UserApp.class);
-                updateUI(userApp.getGender().equals("man") ? Gender.MAN : Gender.WOMAN,
-                        userApp.getFullName());
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
-            }
-        });
+        ref_user.addListenerForSingleValueEvent(
+                Callback.valueEventListener(
+                        (err, data) -> {
+                            if(err != null){
+                                Log.e(TAG, err.getMessage());
+                                return;
+                            }
+                            UserApp userApp = data.getValue(UserApp.class);
+                            updateUI(userApp.getGender().equals("man") ? Gender.MAN : Gender.WOMAN,
+                                    userApp.getFullName());
+                }, MainScreen.this));
     }
 
     private void updateUI(Gender gender, String name){
@@ -85,6 +108,11 @@ public class MainScreen extends AppCompatActivity {
 
     public void goHistory(View v){
         startActivity(new Intent(this, History.class));
+    }
+
+
+    public void goAbout(View v){
+        startActivity(new Intent(this, about.class));
     }
 
 

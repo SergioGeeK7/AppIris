@@ -96,6 +96,7 @@
             android:layout_height="55dp"
             android:layout_marginStart="64dp"
             android:layout_marginTop="32dp"
+            android:onClick="goToHelp"
             android:layout_weight="1"
             android:src="@drawable/ic_ayuda"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +118,7 @@
             android:layout_height="55dp"
             android:src="@drawable/register_edit"
             android:layout_marginEnd="64dp"
+            android:onClick="goToRegister"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

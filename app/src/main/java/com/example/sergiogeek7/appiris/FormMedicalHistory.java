@@ -52,7 +52,7 @@ public class FormMedicalHistory extends AppCompatActivity {
         medicalHistory.child(historyKey)
                        .addListenerForSingleValueEvent(
                                Callback.valueEventListener((err, data) ->
-                                       bindData(err, data, review)));
+                                       bindData(err, data, review), FormMedicalHistory.this));
     }
 
     void getLatestHistory(boolean review){
@@ -61,7 +61,7 @@ public class FormMedicalHistory extends AppCompatActivity {
                         .limitToLast(1)
                         .addListenerForSingleValueEvent(
                                 Callback.valueEventListener((err, data) ->
-                                        bindData(err, data, review)));
+                                        bindData(err, data, review), FormMedicalHistory.this));
     }
 
     void bindData(DatabaseError err, DataSnapshot data, boolean reviewMode){
@@ -93,8 +93,11 @@ public class FormMedicalHistory extends AppCompatActivity {
 
     void saveHistory(){
         mh.setUserUId(user.getUid());
-        medicalHistory.child(historyKey).setValue(mh);
-        database.getReference("detections").child(historyKey).child("isInProcess").setValue(true);
+        Callback.taskManager(this,medicalHistory.child(historyKey).setValue(mh));
+        Callback.taskManager(this,database.getReference("detections")
+                .child(historyKey)
+                .child("state")
+                .setValue("pending"));
     }
 
     void setTabs(){
@@ -108,7 +111,7 @@ public class FormMedicalHistory extends AppCompatActivity {
     public void forward(View v){
 
         if(currentStep == steps.size() - 1) {
-            if(this.review){
+            if(!this.review){
                 saveHistory();
             }
             finish();

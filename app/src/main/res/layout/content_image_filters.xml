@@ -12,7 +12,7 @@ tools:showIn="@layout/activity_image_filters">
 
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="280dp"
+    android:layout_height="290dp"
     android:id="@+id/image_preview_layout"
     android:layout_margin="16dp"
     >
@@ -27,12 +27,11 @@ tools:showIn="@layout/activity_image_filters">
 
     <com.example.sergiogeek7.appiris.components.ButtonIris
         android:id="@+id/left_image"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:onClick="onLeftImage"
-        android:layout_width="65dp"
         android:paddingStart="5dp"
         android:textColor="@color/tw__solid_white"
-        android:layout_height="45dp"
-        android:textSize="12sp"
         android:drawableStart="@drawable/ic_iris1"
         android:background="@drawable/gradient_button"
         android:layout_below="@+id/image_preview"
@@ -54,10 +53,9 @@ tools:showIn="@layout/activity_image_filters">
 
     <com.example.sergiogeek7.appiris.components.ButtonIris
         android:id="@+id/right_image"
-        android:layout_width="65dp"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:textColor="@color/tw__solid_white"
-        android:layout_height="45dp"
-        android:textSize="12sp"
         android:paddingEnd="5dp"
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/image_preview"
@@ -104,7 +102,7 @@ tools:showIn="@layout/activity_image_filters">
                android:layout_width="50dp"
                android:layout_weight="1"
                android:layout_height="50dp"
-               android:src="@drawable/ic_editar_2"
+               android:src="@drawable/ic_fx"
                />
        </LinearLayout>
         <com.example.sergiogeek7.appiris.utils.NonSwipeableViewPager

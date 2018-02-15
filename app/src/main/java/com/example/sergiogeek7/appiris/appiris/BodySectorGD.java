@@ -15,7 +15,7 @@ import java.util.List;
 public class BodySectorGD extends BodySector{
 
     public BodySectorGD(Context context, int[] rightKey, int[] leftKey, Gender gender){
-        super(rightKey, leftKey);
+        super(rightKey, leftKey, R.drawable.ic_gd_l);
         int id = -1;
         this.parts.add(new BodyPart(context.getString(R.string.pleura),
                 context.getString(R.string.diagnosis_pulmones), ++id));

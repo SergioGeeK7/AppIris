@@ -14,10 +14,12 @@ public class BodySector {
     private int[] rightKey;
     private int[] leftKey;
     List<BodyPart> parts;
+    public int drawableResource;
 
-    public BodySector(int[] rightKey, int[] leftKey){
+    public BodySector(int[] rightKey, int[] leftKey, int drawableResource){
         this.rightKey = rightKey;
         this.leftKey = leftKey;
+        this.drawableResource = drawableResource;
         this.parts = new ArrayList<>();
     }
 

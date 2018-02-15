@@ -51,12 +51,12 @@ public class Psicosomaticas {
         bodySectors.add(new BodySectorKH(context, KEY_KH_R, KEY_KH_L, gender));
     }
 
-    public List<BodyPart> getBodyPart(Shape shape, int keySide){
+    public BodySector getBodyPart(Shape shape, int keySide){
         int SLICE = 15;
         int index = (int) Math.floor(shape.getAngle() / SLICE);
         for(BodySector bodySector : bodySectors){
             if (bodySector.isInRange(index, keySide)) {
-                return bodySector.getParts();
+                return bodySector;
             }
         }
         return null;

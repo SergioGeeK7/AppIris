@@ -3,8 +3,11 @@ package com.example.sergiogeek7.appiris;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,6 +26,7 @@ public class DescriptionImageView
     private Bitmap bitmap;
     private Paint mPaint;
     private Shape shape;
+    int drawableBodyPart;
 
     public DescriptionImageView(Context paramContext)
     {
@@ -69,6 +73,32 @@ public class DescriptionImageView
                 70.0F + (float)localPoint.y);
         paramCanvas.drawBitmap(BitmapUtils.getResizedBitmap(this.bitmap, getWidth(),
                 getHeight()), 0.0F, 0.0F, null);
+        if(this.drawableBodyPart != 0){
+            Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+            Log.e("idBitmap", this.drawableBodyPart + "");
+            Drawable dr = getResources().getDrawable(drawableBodyPart);
+            Bitmap bodyBitmap = drawableToBitmap(dr);
+            if(bodyBitmap == null){
+                Log.e("idBitmap", this.drawableBodyPart + " is null");
+            }
+            paramCanvas.drawBitmap(
+                   bodyBitmap,0,0,paint);
+        }
+    }
+
+    public Bitmap drawableToBitmap (Drawable drawable) {
+
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
     protected void onMeasure(int paramInt1, int paramInt2)
@@ -102,13 +132,14 @@ public class DescriptionImageView
         localBitmap.recycle();
     }
 
-    public void updateView(Shape paramShape, Bitmap paramBitmap)
+    public void updateView(Shape paramShape, Bitmap paramBitmap, int drawableBodyPart)
     {
         if (this.bitmap != null) {
             this.bitmap.recycle();
         }
         this.shape = paramShape;
         this.bitmap = paramBitmap;
+        this.drawableBodyPart = drawableBodyPart;
         invalidate();
     }
 }

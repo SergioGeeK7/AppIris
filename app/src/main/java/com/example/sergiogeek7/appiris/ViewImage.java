@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.sergiogeek7.appiris.opencv.DetectBlur;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
+import com.firebase.ui.auth.AuthUI;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -41,6 +42,7 @@ import org.opencv.android.OpenCVLoader;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -86,6 +88,7 @@ public class ViewImage extends AppCompatActivity{
     protected static final int REQUEST_IMAGE_CAPTURE = 1;
     public static final int SELECT_GALLERY_IMAGE = 101;
     protected static final int CAPTURE_IRIS_DONE = 2;
+    private static final int RC_SIGN_IN = 123;
     protected static final String PROVIDER_AUTHORITY = "com.app.irisfileprovider";
     protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
     private static final String TAG = ViewImage.class.getName();
@@ -257,5 +260,27 @@ public class ViewImage extends AppCompatActivity{
         }
         //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
+
+    public void goToHelp (View v){
+        startActivity(new Intent(this, about.class));
+    }
+
+    public void goToRegister(View v){
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
+                new AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build());
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                        .setAvailableProviders(providers)
+                        .setLogo(R.drawable.ic_logo_sin_fondo)
+                        .build(),
+                RC_SIGN_IN);
+    }
+
 
 }

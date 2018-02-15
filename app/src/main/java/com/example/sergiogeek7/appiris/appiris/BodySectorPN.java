@@ -15,7 +15,7 @@ import java.util.List;
 public class BodySectorPN extends BodySector{
 
     public BodySectorPN(Context context, int[] rightKey, int[] leftKey, Gender gender){
-        super(rightKey, leftKey);
+        super(rightKey, leftKey,R.drawable.ic_pn_l_);
         int id = -1;
         if (gender == Gender.MAN){
             this.parts.add(new BodyPart(context.getString(R.string.pene),

@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import com.google.firebase.database.Exclude;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sergiogeek7 on 25/01/18.
@@ -18,8 +20,57 @@ public class DetectionModel implements Parcelable {
     private EyeModel right;
     private String label;
     private Date date;
+    private List<String> organsList = new ArrayList<>();
+
+
+    public List<String> getOrgansList() {
+        return organsList;
+    }
+
+    public void setOrgansList(List<String> organsList) {
+        this.organsList = organsList;
+    }
+
+    public int getSharedCount() {
+        return sharedCount;
+    }
+
+    public void setSharedCount(int sharedCount) {
+        this.sharedCount = sharedCount;
+    }
+
+    private int sharedCount;
+
+    public Date getAnalyzed() {
+        return analyzed;
+    }
+
+    public void setAnalyzed(Date analyzed) {
+        this.analyzed = analyzed;
+    }
+
+    private Date analyzed;
     private String userUId;
     private String fullName;
+    private String state;
+
+    public String getState(){
+        return state;
+    }
+
+    public void setState(String state){
+        this.state = state;
+    }
+
+    public String getMessagingToken() {
+        return messagingToken;
+    }
+
+    public void setMessagingToken(String messagingToken) {
+        this.messagingToken = messagingToken;
+    }
+
+    private String messagingToken;
     @Exclude
     private String key;
 
@@ -59,10 +110,10 @@ public class DetectionModel implements Parcelable {
         date = new Date(in.readLong());
         userUId = in.readString();
         fullName = in.readString();
-        isInProcess = in.readInt() != 0;
         key = in.readString();
         supplements = in.readString();
         recommendations = in.readString();
+        messagingToken = in.readString();
     }
 
     @Exclude
@@ -87,21 +138,12 @@ public class DetectionModel implements Parcelable {
         parcel.writeLong(date.getTime());
         parcel.writeString(userUId);
         parcel.writeString(fullName);
-        parcel.writeInt(isInProcess ? 1:0);
         parcel.writeString(key);
         parcel.writeString(supplements);
         parcel.writeString(recommendations);
+        parcel.writeString(messagingToken);
     }
 
-    public boolean getIsInProcess() {
-        return isInProcess;
-    }
-
-    public void setIsInProcess(boolean inProcess) {
-        isInProcess = inProcess;
-    }
-
-    private boolean isInProcess;
 
     public String getUserUId() {
         return userUId;
@@ -128,12 +170,14 @@ public class DetectionModel implements Parcelable {
         this.label = label;
     }
 
-    public DetectionModel(EyeModel left, EyeModel right, Date date, String userUId, String fullName) {
+    public DetectionModel(EyeModel left, EyeModel right, Date date, String userUId, String fullName
+    ,String messagingToken) {
         this.left = left;
         this.right = right;
         this.date = date;
         this.userUId = userUId;
         this.fullName = fullName;
+        this.messagingToken = messagingToken;
     }
 
     public DetectionModel(){

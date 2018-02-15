@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
+import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Country;
 import com.example.sergiogeek7.appiris.utils.HistoryDetail;
 import com.example.sergiogeek7.appiris.utils.RecyclerTouchListener;
@@ -36,13 +37,10 @@ public class History extends AppCompatActivity {
     private RecyclerView recyclerView;
     private HistoryAdapter mAdapter;
     public static final String ISDOCTOR = "ISDOCTOR";
-
     private final String TAG = History.class.getName();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    Query refDetections = database.getReference("detections")
-                                    .orderByChild("userUId")
-                                    .equalTo(user.getUid());
+    Query refDetections;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +48,14 @@ public class History extends AppCompatActivity {
         setContentView(R.layout.activity_history);
         recyclerView = findViewById(R.id.recycler_view);
         if(user == null){
+            Toast.makeText(this, getString(R.string.must_register_first), Toast.LENGTH_LONG)
+                    .show();
             return;
         }
+
+        refDetections = database.getReference("detections")
+                                .orderByChild("userUId")
+                                .equalTo(user.getUid());
         mAdapter = new HistoryAdapter(detections);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -83,21 +87,20 @@ public class History extends AppCompatActivity {
             }
         }));
 
-        refDetections.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    DetectionModel detection = postSnapshot.getValue(DetectionModel.class);
-                    detections.add(detection);
-                }
-                mAdapter.notifyDataSetChanged();
-            }
+        refDetections.addValueEventListener(Callback.valueEventListener((err, data) -> {
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, databaseError.getMessage());
+            if(err != null){
+                Log.e(TAG, err.getMessage());
+                return;
             }
-        });
+            detections.clear();
+            for (DataSnapshot postSnapshot: data.getChildren()) {
+                DetectionModel detection = postSnapshot.getValue(DetectionModel.class);
+                detection.setKey(postSnapshot.getKey());
+                detections.add(detection);
+            }
+            mAdapter.notifyDataSetChanged();
+        }, History.this));
     }
 
     public interface ClickListener {

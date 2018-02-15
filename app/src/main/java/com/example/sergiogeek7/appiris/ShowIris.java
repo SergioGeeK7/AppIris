@@ -12,8 +12,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sergiogeek7.appiris.components.ButtonIris;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.firemodel.EyeModel;
+import com.example.sergiogeek7.appiris.utils.Callback;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,6 +33,10 @@ public class ShowIris extends AppCompatActivity {
     PhotoView photo_view;
     @BindView(R.id.description)
     EditText description;
+    @BindView(R.id.right_image)
+    ButtonIris right_image;
+    @BindView(R.id.left_image)
+    ButtonIris left_image;
     DetectionModel detection;
     FirebaseStorage storage = FirebaseStorage.getInstance();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -52,11 +58,15 @@ public class ShowIris extends AppCompatActivity {
     }
 
     public void setLeftEye(View v){
+        v.setEnabled(false);
+        right_image.setEnabled(true);
         currentEye.setDescription(description.getText().toString());
         updateUI(detection.getLeft());
     }
 
     public void setRightEye(View v){
+        v.setEnabled(false);
+        left_image.setEnabled(true);
         currentEye.setDescription(description.getText().toString());
         updateUI(detection.getRight());
     }
@@ -67,14 +77,14 @@ public class ShowIris extends AppCompatActivity {
             return;
         }
         currentEye.setDescription(description.getText().toString());
-        detectionsRef.child(detection.getKey())
+        Callback.taskManager(this,detectionsRef.child(detection.getKey())
                      .child("right")
                      .child("description")
-                     .setValue(detection.getRight().getDescription());
-        detectionsRef.child(detection.getKey())
+                     .setValue(detection.getRight().getDescription()));
+        Callback.taskManager(this,detectionsRef.child(detection.getKey())
                     .child("left")
                     .child("description")
-                    .setValue(detection.getLeft().getDescription());
+                    .setValue(detection.getLeft().getDescription()));
         Intent returnIntent = new Intent();
         returnIntent.putExtra(HistoryDoctor.DETECTION, detection);
         setResult(RESULT_OK, returnIntent);
@@ -90,12 +100,14 @@ public class ShowIris extends AppCompatActivity {
             return;
         }
 
-        getImage(eye.getFilename(), bytes -> {
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-            eye.bitmap = bitmap;
-            photo_view.setImageBitmap(bitmap);
-            description.setText(eye.getDescription());
-        });
+        getImage(eye.getFilename(), Callback.onSuccessListenerByte(bytes -> {
+
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        eye.bitmap = bitmap;
+                        photo_view.setImageBitmap(bitmap);
+                        description.setText(eye.getDescription());
+
+        }, ShowIris.this));
     }
 
     void getImage(String path, OnSuccessListener<byte[]> callback){

@@ -3,6 +3,7 @@ package com.example.sergiogeek7.appiris;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
@@ -98,7 +99,7 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
 
     void addOrgans (){
         GridButtons gridButtons = new GridButtons(this,
-                psicosomaticas.getBodyPart(shape, eyeSide), this::toggleParts);
+                psicosomaticas.getBodyPart(shape, eyeSide).getParts(), this::toggleParts);
         gridButtons.setSelectedItems(shape.selectedParts);
         RelativeLayout.LayoutParams lParams =
                 new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -158,7 +159,8 @@ public class ShapeDescriptionActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Bitmap bitmap) {
-            imagePreview.updateView(shape, bitmap);
+            int drawableBodyPart = psicosomaticas.getBodyPart(shape, eyeSide).drawableResource;
+            imagePreview.updateView(shape, bitmap, drawableBodyPart);
         }
     }
 

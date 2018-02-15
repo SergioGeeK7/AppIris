@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 
+import com.example.sergiogeek7.appiris.utils.Callback;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
@@ -57,21 +59,20 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 DatabaseReference ref_user = database.getReference("users/" + user.getUid());
 
-                ref_user.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        RegiterOptionalActivity self = RegiterOptionalActivity.this;
-                        Class c = !snapshot.exists() ? RegisterForm.class:
-                                snapshot.hasChild("doctor") ? HistoryDoctor.class : MainScreen.class;
-                        Intent intent = new Intent(self, c);
-                        startActivity(intent);
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.e(TAG, databaseError.getMessage());
-                    }
-                });
-
+                ref_user.addListenerForSingleValueEvent(
+                        Callback.valueEventListener(
+                                (err, data1) -> {
+                                    if(err != null){
+                                        Log.e(TAG, err.getMessage());
+                                        return;
+                                    }
+                                    RegiterOptionalActivity self = RegiterOptionalActivity.this;
+                                    Class c = !data1.exists() ? RegisterForm.class:
+                                            data1.hasChild("doctor") ?
+                                                    HistoryDoctor.class : MainScreen.class;
+                                    Intent intent = new Intent(self, c);
+                                    startActivity(intent);
+                        }, RegiterOptionalActivity.this));
             } else {
                 Log.e(TAG, "nop");
             }

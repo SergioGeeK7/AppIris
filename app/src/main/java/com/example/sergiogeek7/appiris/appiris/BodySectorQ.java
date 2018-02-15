@@ -15,7 +15,7 @@ import java.util.List;
 public class BodySectorQ extends BodySector{
 
     public BodySectorQ (Context context, int[] rightKey, int[] leftKey, Gender gender){
-        super(rightKey, leftKey);
+        super(rightKey, leftKey,R.drawable.ic_q_l);
         int id = -1;
         this.parts.add(new BodyPart(context.getString(R.string.zona_umbilical),
                 context.getString(R.string.diagnosis_top_espalda), ++id));

@@ -68,7 +68,9 @@ public class HistoryDoctor extends AppCompatActivity {
                             @Override
                             public void onClick(View view, int position) {
                                 DetectionModel detection = detections.get(position);
-                                Intent intent = new Intent(HistoryDoctor.this, AnalysisRequest.class);
+                                Intent intent =
+                                        new Intent(HistoryDoctor.this,
+                                                AnalysisRequest.class);
                                 intent.putExtra(DETECTION, detection);
                                 startActivity(intent);
                             }
@@ -91,18 +93,19 @@ public class HistoryDoctor extends AppCompatActivity {
 
     void getDetectionsData(String term){
         if(term.isEmpty()){
-            refDetections.orderByChild("isInProcess")
-                    .equalTo(true)
+            refDetections.orderByChild("state")
+                    .equalTo("pending")
                     .addValueEventListener(
                     Callback.valueEventListener((err, data) ->
-                            updateHistoryAdapter(err, data, !term.isEmpty())));
+                            updateHistoryAdapter(err, data, !term.isEmpty()), HistoryDoctor.this));
         }else{
             refDetections.orderByChild("fullName")
                     .startAt(term)
                     .endAt(term + "\uf8ff")
                     .addValueEventListener(
                             Callback.valueEventListener((err, data) ->
-                                        updateHistoryAdapter(err, data, !term.isEmpty())));
+                                        updateHistoryAdapter(err, data, !term.isEmpty()),
+                                    HistoryDoctor.this));
         }
 
     }
@@ -114,12 +117,10 @@ public class HistoryDoctor extends AppCompatActivity {
         }
         detections.clear();
         for (DataSnapshot postSnapshot: data.getChildren()) {
-            DetectionModel detection =
-                    postSnapshot.getValue(DetectionModel.class);
-            if(detection.getIsInProcess()){
-                detection.setKey(postSnapshot.getKey());
-                detections.add(detection);
-            }
+            DetectionModel detection = postSnapshot.getValue(DetectionModel.class);
+            //if(detection.getState() != null && detection.getState().equals("pending")){
+            detection.setKey(postSnapshot.getKey());
+            detections.add(detection);
         }
         if(!filtering){
             Collections.reverse(detections);
