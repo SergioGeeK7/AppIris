@@ -14,8 +14,13 @@ import java.util.List;
 
 public class BodySectorVR extends BodySector{
 
-    public BodySectorVR (Context context, int[] rightKey, int[] leftKey, Gender gender){
+    public BodySectorVR (Context context, int[] rightKey, int[] leftKey,
+                         double[] scaleRight,
+                         double[] scaleLeft,
+                         Gender gender){
         super(rightKey, leftKey,R.drawable.ic_vr_l);
+        this.scaleRight = scaleRight;
+        this.scaleLeft = scaleLeft;
         int id = -1;
         this.parts.add(new BodyPart(context.getString(R.string.orificios_nasales),
                 context.getString(R.string.diagnosis_nariz), ++id));

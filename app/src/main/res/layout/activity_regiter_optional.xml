@@ -19,14 +19,14 @@
         app:srcCompat="@drawable/logo_sin_fondo" />
 
     <Button
-        android:id="@+id/register_button"
+        android:id="@+id/sign_in"
         android:layout_width="260dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:background="@drawable/gradient"
         android:onClick="register"
         android:text="@string/register"
@@ -34,6 +34,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logo" />
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="260dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/gradient"
+        android:onClick="register"
+        android:text="@string/sign_in"
+        android:textColor="@color/tw__solid_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in" />
 
     <Button
         android:id="@+id/skip_register_button"

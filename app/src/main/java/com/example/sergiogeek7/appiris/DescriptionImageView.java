@@ -6,6 +6,8 @@ import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,20 +15,31 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.View.MeasureSpec;
+
+import com.example.sergiogeek7.appiris.appiris.BodyPart;
+import com.example.sergiogeek7.appiris.appiris.BodySector;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapeContext;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
+
+import org.opencv.android.Utils;
+import org.opencv.core.Mat;
 import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.utils.Converters;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DescriptionImageView
         extends View
-        implements ShapeContext
-{
-    private final int RADIUS = 70;
+        implements ShapeContext {
+
     private Bitmap bitmap;
-    private Paint mPaint;
-    private Shape shape;
-    int drawableBodyPart;
+    double [] scale;
+    private int drawableId;
 
     public DescriptionImageView(Context paramContext)
     {
@@ -48,8 +61,7 @@ public class DescriptionImageView
 
     private void init(Context paramContext)
     {
-        this.mPaint = new Paint();
-        this.mPaint.setARGB(100, 255, 255, 255);
+
     }
 
     public int getColumn()
@@ -62,29 +74,33 @@ public class DescriptionImageView
         return getHeight();
     }
 
-    protected void onDraw(Canvas paramCanvas)
-    {
-        super.onDraw(paramCanvas);
+    protected void onDraw(Canvas canvas){
+        super.onDraw(canvas);
         if (this.bitmap == null) {
             return;
         }
-        Point localPoint = this.shape.getCoordinates(this);
-        paramCanvas.scale(2.0F, 2.0F, 70.0F + (float)localPoint.x,
-                70.0F + (float)localPoint.y);
-        paramCanvas.drawBitmap(BitmapUtils.getResizedBitmap(this.bitmap, getWidth(),
-                getHeight()), 0.0F, 0.0F, null);
-        if(this.drawableBodyPart != 0){
-            Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
-            Log.e("idBitmap", this.drawableBodyPart + "");
-            Drawable dr = getResources().getDrawable(drawableBodyPart);
-            Bitmap bodyBitmap = drawableToBitmap(dr);
-            if(bodyBitmap == null){
-                Log.e("idBitmap", this.drawableBodyPart + " is null");
-            }
-            paramCanvas.drawBitmap(
-                   bodyBitmap,0,0,paint);
-        }
+        Log.e("scale level",  "" + scale[0] + " " + scale[1] + " " + scale[2] + " "
+                + scale[3]);
+        // x- width , y -> height
+        Bitmap newBitmap = Bitmap.createBitmap(this.bitmap,
+                (int)(scale[0] * this.bitmap.getWidth()),
+                (int)(scale[1] * this.bitmap.getHeight()),
+                (int)(scale[2] * this.bitmap.getWidth()),
+                (int)(scale[3] * this.bitmap.getHeight()));
+        canvas.drawBitmap(newBitmap, 0, 0, null);
     }
+
+//    if(this.drawableBodyPart != 0){
+//    Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+//    Log.e("idBitmap", this.drawableBodyPart + "");
+//    Drawable dr = getResources().getDrawable(drawableBodyPart);
+//    Bitmap bodyBitmap = drawableToBitmap(dr);
+//    if(bodyBitmap == null){
+//        Log.e("idBitmap", this.drawableBodyPart + " is null");
+//    }
+//    paramCanvas.drawBitmap(
+//            bodyBitmap,0,0,paint);
+//}
 
     public Bitmap drawableToBitmap (Drawable drawable) {
 
@@ -124,22 +140,22 @@ public class DescriptionImageView
                 return canvas.getHeight();
             }
         };
-        Point localPoint = this.shape.getCoordinates(shapeContext);
-        canvas.scale(2.0F, 2.0F, 10.0F + (float)localPoint.x,
-                40.0F + (float)localPoint.y);
+        //Point localPoint = this.shape.getCoordinates(shapeContext);
+//        canvas.scale(2.0F, 2.0F, 10.0F + (float)localPoint.x,
+//                40.0F + (float)localPoint.y);
         canvas.drawBitmap(this.bitmap, 0.0F, 0.0F, null);
         BitmapUtils.saveBitmap(getContext(), localBitmap, paramUri);
         localBitmap.recycle();
     }
 
-    public void updateView(Shape paramShape, Bitmap paramBitmap, int drawableBodyPart)
+    public void updateView(Bitmap bitmap, int drawableId, double[] scale)
     {
         if (this.bitmap != null) {
             this.bitmap.recycle();
         }
-        this.shape = paramShape;
-        this.bitmap = paramBitmap;
-        this.drawableBodyPart = drawableBodyPart;
+        this.scale = scale;
+        this.drawableId = drawableId;
+        this.bitmap = bitmap;
         invalidate();
     }
 }

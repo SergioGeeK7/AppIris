@@ -14,8 +14,13 @@ import java.util.List;
 
 public class BodySectorML extends BodySector{
 
-    public BodySectorML(Context context, int[] rightKey, int[] leftKey, Gender gender){
+    public BodySectorML(Context context, int[] rightKey, int[] leftKey,
+                        double[] scaleRight,
+                        double[] scaleLeft,
+                        Gender gender){
         super(rightKey, leftKey, R.drawable.ic_ml_l);
+        this.scaleRight = scaleRight;
+        this.scaleLeft = scaleLeft;
         int id = -1;
         this.parts.add(new BodyPart(context.getString(R.string.pies),
                 context.getString(R.string.diagnosis_piernas), ++id));

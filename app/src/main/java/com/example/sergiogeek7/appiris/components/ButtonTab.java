@@ -17,7 +17,6 @@ import com.example.sergiogeek7.appiris.appiris.BodyPart;
 
 public class ButtonTab extends android.support.v7.widget.AppCompatButton {
 
-    private boolean enable;
     public BodyPart part;
     private ButtonTabListener listener;
 
@@ -32,7 +31,7 @@ public class ButtonTab extends android.support.v7.widget.AppCompatButton {
     void setUpUI(){
         this.setPadding(8,0,8,4);
         this.setAllCaps(false);
-        setEnabled(false);
+        setEnabled(part.selected);
         this.setOnClickListener((v) -> {
             setEnabled(!isEnabled());
             listener.onCLick(part);
@@ -40,7 +39,7 @@ public class ButtonTab extends android.support.v7.widget.AppCompatButton {
     }
 
     public boolean isEnabled(){
-        return enable;
+        return this.part.selected;
     }
 
     @Override
@@ -49,12 +48,13 @@ public class ButtonTab extends android.support.v7.widget.AppCompatButton {
             this.setTextColor(ContextCompat.getColor(getContext(), R.color.tw__solid_white));
             this.setBackground(ContextCompat.getDrawable(getContext(),
                     R.drawable.blue_button_organ_selected));
+
         }else{
             this.setTextColor(ContextCompat.getColor(getContext(), R.color.disable_organ_button));
             this.setBackground(ContextCompat.getDrawable(getContext(),
                     R.drawable.button_organ));
         }
-        this.enable = enable;
+        this.part.selected = enable;
     }
 
     public ButtonTab(Context context, @Nullable AttributeSet attrs) {

@@ -1,6 +1,7 @@
 package com.example.sergiogeek7.appiris;
 
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,39 +30,33 @@ public class FormMedicalHistory extends AppCompatActivity {
     final DatabaseReference medicalHistory = database.getReference("medicalHistory");
     String historyKey;
     MedicalHistoryForm mh;
-    boolean review;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_medical_history);
-        review = getIntent().getBooleanExtra(AnalysisRequest.REVIEW_MODE,
-                                                    false);
         historyKey = getIntent().getStringExtra(MedicalHistoryForm.class.getName());
-        if(historyKey == null){
-            Log.e(TAG, "is null wey");
-        }
-        if(review){
-            getHistory(review);
+        if(historyKey != null){
+            getHistory();
         }else{
-            getLatestHistory(review);
+            getLatestHistory();
         }
     }
 
-    void getHistory(boolean review){
+    void getHistory(){
         medicalHistory.child(historyKey)
                        .addListenerForSingleValueEvent(
                                Callback.valueEventListener((err, data) ->
-                                       bindData(err, data, review), FormMedicalHistory.this));
+                                       bindData(err, data, true), FormMedicalHistory.this));
     }
 
-    void getLatestHistory(boolean review){
+    void getLatestHistory(){
         medicalHistory.orderByChild("userUId")
                         .equalTo(user.getUid())
                         .limitToLast(1)
                         .addListenerForSingleValueEvent(
                                 Callback.valueEventListener((err, data) ->
-                                        bindData(err, data, review), FormMedicalHistory.this));
+                                        bindData(err, data, false), FormMedicalHistory.this));
     }
 
     void bindData(DatabaseError err, DataSnapshot data, boolean reviewMode){
@@ -91,14 +86,6 @@ public class FormMedicalHistory extends AppCompatActivity {
         setTabs();
     }
 
-    void saveHistory(){
-        mh.setUserUId(user.getUid());
-        Callback.taskManager(this,medicalHistory.child(historyKey).setValue(mh));
-        Callback.taskManager(this,database.getReference("detections")
-                .child(historyKey)
-                .child("state")
-                .setValue("pending"));
-    }
 
     void setTabs(){
         steps.add((View)findViewById(R.id.step1));
@@ -111,10 +98,7 @@ public class FormMedicalHistory extends AppCompatActivity {
     public void forward(View v){
 
         if(currentStep == steps.size() - 1) {
-            if(!this.review){
-                saveHistory();
-            }
-            finish();
+            end();
             return;
         }
         steps.get(currentStep).setVisibility(View.GONE);
@@ -122,5 +106,12 @@ public class FormMedicalHistory extends AppCompatActivity {
         if(currentStep == steps.size() - 1) {
             ((Button)v).setText(getString(R.string.finish));
         }
+    }
+
+    void end(){
+        Intent result = new Intent();
+        result.putExtra(MedicalHistoryForm.class.getName(), mh);
+        setResult(RESULT_OK, result);
+        finish();
     }
 }

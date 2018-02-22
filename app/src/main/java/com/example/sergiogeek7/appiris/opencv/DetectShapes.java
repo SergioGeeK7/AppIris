@@ -27,11 +27,11 @@ public class DetectShapes {
 
     public ShapesDetected detect() {
 
-        //Mat original = new Mat();
-        // Bitmap bmp32 = this.img.copy(Bitmap.Config.ARGB_8888, true);
-        //Utils.bitmapToMat(bmp32, original);
+        Mat original = new Mat();
+        Utils.bitmapToMat(this.img, original);
         Mat modified = new Mat();
         Utils.bitmapToMat(this.img, modified);
+        this.img.recycle();
         List<MatOfPoint> contours = new ArrayList<>();
         Imgproc.cvtColor(modified, modified, Imgproc.COLOR_RGBA2GRAY);
         Imgproc.GaussianBlur(modified, modified, new org.opencv.core.Size(5, 5), 0);
@@ -44,6 +44,7 @@ public class DetectShapes {
         double MARGIN = 0.8;
         int MAX_AREA = 1500;
         int MIN_AREA = 100;
+        int RADIOUS = 25;
         int LIMIT_SHAPES_DETECTED = 7;
         double xThreshold = cols * MARGIN;
         double yThreshold = rows * MARGIN;
@@ -58,6 +59,7 @@ public class DetectShapes {
                 continue;
             Point center = new Point();
             Imgproc.minEnclosingCircle(new MatOfPoint2f(point.toArray()), center, new float[1]);
+            Imgproc.circle(original, center, RADIOUS, new Scalar(255,0,0));
 
             if (center.x > xThreshold || center.y > yThreshold ||
                     center.y < xThreshold * 0.1 || center.x < yThreshold * 0.1)
@@ -79,9 +81,9 @@ public class DetectShapes {
             if(++i == LIMIT_SHAPES_DETECTED)
                 break;
         }
-        //Bitmap bm = Bitmap.createBitmap(original.cols(), original.rows(), Bitmap.Config.ARGB_8888);
-        //Utils.matToBitmap(original, bm);
-        return new ShapesDetected(coordinates, this.img);
+        Bitmap bm = Bitmap.createBitmap(modified.cols(), modified.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(original, bm);
+        return new ShapesDetected(coordinates, bm);
     }
 
 }

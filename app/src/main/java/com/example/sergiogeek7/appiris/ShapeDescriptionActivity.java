@@ -1,7 +1,13 @@
 package com.example.sergiogeek7.appiris;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
@@ -10,30 +16,39 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.sergiogeek7.appiris.appiris.BodyPart;
+import com.example.sergiogeek7.appiris.appiris.BodySector;
 import com.example.sergiogeek7.appiris.components.GridButtons;
 import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
+import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.sergiogeek7.appiris.ImageFilters.LEFT_EYE;
+import static com.example.sergiogeek7.appiris.ImageFilters.RIGHT_EYE;
+
 public class ShapeDescriptionActivity extends AppCompatActivity{
 
-    Shape shape;
+    ArrayList<BodyPart> bodyParts;
     Psicosomaticas psicosomaticas;
     private static String TAG = ShapeDescriptionActivity.class.getName();
 
     int eyeSide;
     private EyeFile eye;
     private Uri shareFilePath;
+    private Shape shape;
+    private BodySector bodySector;
 
     @BindView(R.id.description_img)
     DescriptionImageView imagePreview;
@@ -49,34 +64,29 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
         ButterKnife.bind(this);
         Gender gender = ((GlobalState)getApplication()).gender;
         psicosomaticas = new Psicosomaticas(this, gender);
-        this.shape = getIntent().getParcelableExtra(DetectActivity.SHAPE_PARCELABLE);
+        this.bodyParts = getIntent().getParcelableArrayListExtra(DetectActivity.BODY_PARTS);
         this.eyeSide = getIntent().getIntExtra(DetectActivity.EYE_SIDE, 0);
         this.eye = getIntent().getParcelableExtra(DetectActivity.EYE_PARCELABLE);
-        setDescriptionText();
+        this.shape = getIntent().getParcelableExtra(DetectActivity.SHAPE_PARCELABLE);
+        this.bodySector = getIntent().getParcelableExtra(DetectActivity.BODY_SECTOR);
+        onChangeBodySelected(null);
         addOrgans();
         new loadBitmap().execute(eye.getAbsoletePath());
     }
 
     public void done(View v){
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(DetectActivity.SHAPE_PARCELABLE, shape);
+        returnIntent.putParcelableArrayListExtra(DetectActivity.BODY_PARTS, this.bodyParts);
         setResult(RESULT_OK, returnIntent);
         finish();
     }
 
-    void toggleParts(BodyPart newPart){
-        BodyPart partFound = findPart(newPart);
-        if(partFound != null){
-            shape.selectedParts.remove(partFound);
-        }else{
-            shape.selectedParts.add(newPart);
-        }
-        setDescriptionText();
-    }
-
-    void setDescriptionText(){
+    void onChangeBodySelected(BodyPart newPart){
         StringBuilder diagnosis = new StringBuilder(getString(R.string.diagnosis));
-        for (BodyPart part: shape.selectedParts){
+        for (BodyPart part: bodyParts){
+            if(!part.selected){
+                continue;
+            }
             int indexParagraph = diagnosis.indexOf(part.description);
             if(indexParagraph == -1){
                 diagnosis.append("\n").append(part.name).append(": ").append(part.description);
@@ -84,23 +94,11 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
                 diagnosis.insert(indexParagraph - 2,", " + part.name);
             }
         }
-        shape.description = diagnosis.toString();
         txtDiagnosis.setText(diagnosis);
     }
 
-    BodyPart findPart(BodyPart newPart){
-        for (BodyPart part: shape.selectedParts){
-            if(part.id == newPart.id){
-                return part;
-            }
-        }
-        return null;
-    }
-
     void addOrgans (){
-        GridButtons gridButtons = new GridButtons(this,
-                psicosomaticas.getBodyPart(shape, eyeSide).getParts(), this::toggleParts);
-        gridButtons.setSelectedItems(shape.selectedParts);
+        GridButtons gridButtons = new GridButtons(this, bodyParts, this::onChangeBodySelected);
         RelativeLayout.LayoutParams lParams =
                 new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -150,8 +148,8 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
         }
 
         protected void onPostExecute(Bitmap bitmap){
-            int drawableBodyPart = psicosomaticas.getBodyPart(shape, eyeSide).drawableResource;
-            imagePreview.updateView(shape, bitmap, drawableBodyPart);
+            double[] scale = eyeSide == LEFT_EYE ? bodySector.scaleLeft: bodySector.scaleRight;
+            imagePreview.updateView(bitmap, bodySector.drawableResource, scale);
         }
     }
 

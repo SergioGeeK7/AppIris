@@ -35,7 +35,6 @@ public class AnalysisRequest extends AppCompatActivity {
 
     public void goToMedicalHistory (View v){
         Intent intent = new Intent(this, FormMedicalHistory.class);
-        intent.putExtra(REVIEW_MODE, true);
         intent.putExtra( MedicalHistoryForm.class.getName(), detection.getKey());
         startActivity(intent);
     }

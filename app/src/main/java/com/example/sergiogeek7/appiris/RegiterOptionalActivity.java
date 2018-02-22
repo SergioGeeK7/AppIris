@@ -58,7 +58,6 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 DatabaseReference ref_user = database.getReference("users/" + user.getUid());
-
                 ref_user.addListenerForSingleValueEvent(
                         Callback.valueEventListener(
                                 (err, data1) -> {
@@ -70,7 +69,10 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                                                     data1.hasChild("doctor") ?
                                                     HistoryDoctor.class : MainScreen.class;
                                     Intent intent = new Intent(this, next);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     startActivity(intent);
+                                    finish();
                         }, RegiterOptionalActivity.this));
             } else {
                 Log.e(TAG, "nop");

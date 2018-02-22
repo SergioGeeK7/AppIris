@@ -2,12 +2,15 @@ package com.example.sergiogeek7.appiris.firemodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.android.databinding.library.baseAdapters.BR;
 /**
  * Created by sergiogeek7 on 2/02/18.
  */
 
-public class MedicalHistoryForm extends BaseObservable {
+public class MedicalHistoryForm extends BaseObservable implements Parcelable{
 
     private String medicalTreatment;
     private String drugs;
@@ -70,6 +73,84 @@ public class MedicalHistoryForm extends BaseObservable {
     private boolean natural;
     private boolean hasJunctures;
     private boolean hasCough;
+    private String userUId;
+
+    protected MedicalHistoryForm(Parcel in) {
+        medicalTreatment = in.readString();
+        drugs = in.readString();
+        medicine = in.readString();
+        surgery = in.readString();
+        childhoodAilments = in.readString();
+        currentAilments = in.readString();
+        parentsAilments = in.readString();
+        beef = in.readByte() != 0;
+        pork = in.readByte() != 0;
+        chicken = in.readByte() != 0;
+        sweet = in.readByte() != 0;
+        salty = in.readByte() != 0;
+        cold = in.readByte() != 0;
+        hot = in.readByte() != 0;
+        breakfastAliments = in.readString();
+        lunchAliments = in.readString();
+        dinnerAliments = in.readString();
+        constipation = in.readByte() != 0;
+        gases = in.readByte() != 0;
+        diarrhea = in.readByte() != 0;
+        acidity = in.readByte() != 0;
+        lackOfAppetite = in.readByte() != 0;
+        cramps = in.readByte() != 0;
+        dizziness = in.readByte() != 0;
+        hotFlashes = in.readByte() != 0;
+        varicoseUlcers = in.readByte() != 0;
+        veinsVaricose = in.readByte() != 0;
+        headaches = in.readByte() != 0;
+        pangHead = in.readByte() != 0;
+        pangBody = in.readByte() != 0;
+        coughDay = in.readByte() != 0;
+        coughNight = in.readByte() != 0;
+        suffocation = in.readByte() != 0;
+        phlegm = in.readByte() != 0;
+        fever = in.readByte() != 0;
+        chestSore = in.readByte() != 0;
+        throatSore = in.readByte() != 0;
+        feet = in.readByte() != 0;
+        legs = in.readByte() != 0;
+        knees = in.readByte() != 0;
+        back = in.readByte() != 0;
+        waist = in.readByte() != 0;
+        hands = in.readByte() != 0;
+        arms = in.readByte() != 0;
+        shoulders = in.readByte() != 0;
+        juncturesRight = in.readByte() != 0;
+        juncturesLeft = in.readByte() != 0;
+        fewUrine = in.readByte() != 0;
+        abundantUrine = in.readByte() != 0;
+        burningUrine = in.readByte() != 0;
+        painUrine = in.readByte() != 0;
+        fewPeriod = in.readByte() != 0;
+        monthlyPeriod = in.readByte() != 0;
+        dailyPeriod = in.readByte() != 0;
+        colic = in.readByte() != 0;
+        useBirthControl = in.readByte() != 0;
+        childrenNumber = in.readString();
+        cesarean = in.readByte() != 0;
+        natural = in.readByte() != 0;
+        hasJunctures = in.readByte() != 0;
+        hasCough = in.readByte() != 0;
+        userUId = in.readString();
+    }
+
+    public static final Creator<MedicalHistoryForm> CREATOR = new Creator<MedicalHistoryForm>() {
+        @Override
+        public MedicalHistoryForm createFromParcel(Parcel in) {
+            return new MedicalHistoryForm(in);
+        }
+
+        @Override
+        public MedicalHistoryForm[] newArray(int size) {
+            return new MedicalHistoryForm[size];
+        }
+    };
 
     public String getUserUId() {
         return userUId;
@@ -79,7 +160,6 @@ public class MedicalHistoryForm extends BaseObservable {
         this.userUId = userUId;
     }
 
-    private String userUId;
 
     @Bindable
     public boolean isHasCough() {
@@ -122,7 +202,6 @@ public class MedicalHistoryForm extends BaseObservable {
     public String getMedicine() {
         return medicine;
     }
-
 
     public void setMedicine(String medicine) {
         this.medicine = medicine;
@@ -732,5 +811,76 @@ public class MedicalHistoryForm extends BaseObservable {
                 ", cesarean=" + cesarean +
                 ", natural=" + natural +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(medicalTreatment);
+        parcel.writeString(drugs);
+        parcel.writeString(medicine);
+        parcel.writeString(surgery);
+        parcel.writeString(childhoodAilments);
+        parcel.writeString(currentAilments);
+        parcel.writeString(parentsAilments);
+        parcel.writeByte((byte) (beef ? 1 : 0));
+        parcel.writeByte((byte) (pork ? 1 : 0));
+        parcel.writeByte((byte) (chicken ? 1 : 0));
+        parcel.writeByte((byte) (sweet ? 1 : 0));
+        parcel.writeByte((byte) (salty ? 1 : 0));
+        parcel.writeByte((byte) (cold ? 1 : 0));
+        parcel.writeByte((byte) (hot ? 1 : 0));
+        parcel.writeString(breakfastAliments);
+        parcel.writeString(lunchAliments);
+        parcel.writeString(dinnerAliments);
+        parcel.writeByte((byte) (constipation ? 1 : 0));
+        parcel.writeByte((byte) (gases ? 1 : 0));
+        parcel.writeByte((byte) (diarrhea ? 1 : 0));
+        parcel.writeByte((byte) (acidity ? 1 : 0));
+        parcel.writeByte((byte) (lackOfAppetite ? 1 : 0));
+        parcel.writeByte((byte) (cramps ? 1 : 0));
+        parcel.writeByte((byte) (dizziness ? 1 : 0));
+        parcel.writeByte((byte) (hotFlashes ? 1 : 0));
+        parcel.writeByte((byte) (varicoseUlcers ? 1 : 0));
+        parcel.writeByte((byte) (veinsVaricose ? 1 : 0));
+        parcel.writeByte((byte) (headaches ? 1 : 0));
+        parcel.writeByte((byte) (pangHead ? 1 : 0));
+        parcel.writeByte((byte) (pangBody ? 1 : 0));
+        parcel.writeByte((byte) (coughDay ? 1 : 0));
+        parcel.writeByte((byte) (coughNight ? 1 : 0));
+        parcel.writeByte((byte) (suffocation ? 1 : 0));
+        parcel.writeByte((byte) (phlegm ? 1 : 0));
+        parcel.writeByte((byte) (fever ? 1 : 0));
+        parcel.writeByte((byte) (chestSore ? 1 : 0));
+        parcel.writeByte((byte) (throatSore ? 1 : 0));
+        parcel.writeByte((byte) (feet ? 1 : 0));
+        parcel.writeByte((byte) (legs ? 1 : 0));
+        parcel.writeByte((byte) (knees ? 1 : 0));
+        parcel.writeByte((byte) (back ? 1 : 0));
+        parcel.writeByte((byte) (waist ? 1 : 0));
+        parcel.writeByte((byte) (hands ? 1 : 0));
+        parcel.writeByte((byte) (arms ? 1 : 0));
+        parcel.writeByte((byte) (shoulders ? 1 : 0));
+        parcel.writeByte((byte) (juncturesRight ? 1 : 0));
+        parcel.writeByte((byte) (juncturesLeft ? 1 : 0));
+        parcel.writeByte((byte) (fewUrine ? 1 : 0));
+        parcel.writeByte((byte) (abundantUrine ? 1 : 0));
+        parcel.writeByte((byte) (burningUrine ? 1 : 0));
+        parcel.writeByte((byte) (painUrine ? 1 : 0));
+        parcel.writeByte((byte) (fewPeriod ? 1 : 0));
+        parcel.writeByte((byte) (monthlyPeriod ? 1 : 0));
+        parcel.writeByte((byte) (dailyPeriod ? 1 : 0));
+        parcel.writeByte((byte) (colic ? 1 : 0));
+        parcel.writeByte((byte) (useBirthControl ? 1 : 0));
+        parcel.writeString(childrenNumber);
+        parcel.writeByte((byte) (cesarean ? 1 : 0));
+        parcel.writeByte((byte) (natural ? 1 : 0));
+        parcel.writeByte((byte) (hasJunctures ? 1 : 0));
+        parcel.writeByte((byte) (hasCough ? 1 : 0));
+        parcel.writeString(userUId);
     }
 }

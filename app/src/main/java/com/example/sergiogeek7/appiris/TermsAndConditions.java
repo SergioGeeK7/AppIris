@@ -17,7 +17,6 @@ import butterknife.ButterKnife;
 
 public class TermsAndConditions extends AppCompatActivity {
 
-    //@BindView(R.id.decline_terms) RadioButton decline_terms_button;
     @BindView(R.id.accept_terms) RadioButton accept_terms_button;
     @BindView(R.id.radio_group) RadioGroup radio_group;
 
@@ -26,8 +25,11 @@ public class TermsAndConditions extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
-            Intent intent = new Intent(this, RegiterOptionalActivity.class);
+            Intent intent = new Intent(this, MainScreen.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
             return;
         }
         setContentView(R.layout.activity_terms_and_conditions);

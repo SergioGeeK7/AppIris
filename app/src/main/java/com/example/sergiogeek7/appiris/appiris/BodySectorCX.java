@@ -14,8 +14,15 @@ import java.util.List;
 
 public class BodySectorCX extends BodySector{
 
-    public BodySectorCX(Context context, int[] rightKey, int[] leftKey, Gender gender){
+    public BodySectorCX(Context context,
+                        int[] rightKey,
+                        int[] leftKey,
+                        double[] scaleRight,
+                        double[] scaleLeft,
+                        Gender gender) {
         super(rightKey, leftKey, R.drawable.ic_cx_l);
+        this.scaleRight = scaleRight;
+        this.scaleLeft = scaleLeft;
         int id = -1;
         this.parts.add(new BodyPart(context.getString(R.string.cuero_cabelludo),
                 context.getString(R.string.diagnosis_cabeza), ++id));

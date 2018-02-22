@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -90,6 +92,24 @@ public class BitmapUtils {
         return null;
     }
 
+
+    public static Bitmap addWaterMark(Bitmap src, String watermark) {
+        int w = src.getWidth();
+        int h = src.getHeight();
+        int size = 12;
+        int alpha = 130;
+        Bitmap result = Bitmap.createBitmap(w, h, src.getConfig());
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(src, 0, 0, null);
+        Paint paint = new Paint();
+        paint.setColor(Color.WHITE);
+        paint.setAlpha(alpha);
+        paint.setTextSize(size);
+        paint.setAntiAlias(true);
+        //paint.setUnderlineText(underline);
+        canvas.drawText(watermark, w - 40, h - 10, paint);
+        return result;
+    }
 
 
     public static int calculateInSampleSizeV2(BitmapFactory.Options options, int reqWidth, int reqHeight) {

@@ -24,7 +24,7 @@
             />
         <TextView
             android:layout_width="200dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/history_tooltip"
@@ -34,9 +34,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="108dp"
         android:scrollbars="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/history_header" />

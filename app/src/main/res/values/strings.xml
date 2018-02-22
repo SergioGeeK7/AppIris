@@ -30,6 +30,7 @@
     <string name="taking_photo_left">Taking left iris</string>
     <string name="load_photo_left">Load Left Iris</string>
     <string name="loading">Loading ...</string>
+    <string name="uploading">Uploading ...</string>
     <string name="blur_photo">Please try to focus the iris, The photo is blurry </string>
     <string name="alert">Alert</string>
     <string name="search_user">Search ...</string>
@@ -65,9 +66,12 @@
     <string name="capture_iris">Capture iris</string>
     <string name="send_iris">Send iris</string>
     <string name="logout">Logout</string>
+    <string name="invite_fried">Invite a friend</string>
     <string name="a_brief">A brief description</string>
     <string name="default_name">User no register</string>
-    <string name="history_tooltip">Here you can see the history of all your analysis</string>
+    <string name="invite_message">Hey !. download this awesome app. it\'s and let you know many things about your health</string>
+    <string name="history_tooltip">Here you can see the history of all your analysis.
+        \nHold on a item to change its name</string>
     <string name="register_view_image">Register</string>
     <string name="question_1">Are you currently having any medical treatment?</string>
     <string name="question_2">Do you take medicine ? </string>
@@ -492,4 +496,5 @@ observación y su debida atención.
     <string name="go_to_main_screen">Main screen</string>
     <string name="turn_on_flash">Please turn on the flash camera to take a better photo and use the back camera for better resolution</string>
     <string name="analyzing">Analyzing ...</string>
+    <string name="sign_in">Sign in</string>
 </resources>

@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapeContext;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
@@ -110,13 +111,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
         super.onDraw(canvas);
         if(this.shapes == null)
             return;
-
-        //canvas.drawText("Welcome", positionX, positionY, mPaint);
         canvas.drawBitmap(this.bitmapResized, 0, 0, null);
-        for (Shape shape : this.shapes) {
-            Point point = shape.getCoordinates(this);
-            canvas.drawCircle((float) point.x, (float)  point.y, RADIUS, mPaint);
-        }
     }
 
     @Override
@@ -126,11 +121,7 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
             case MotionEvent.ACTION_DOWN: {
                 int x = (int)event.getX();
                 int y = (int)event.getY();
-
-                for (Shape shape: this.shapes) {
-                    if(shape.onClick(this, new Point(x, y), RADIUS))
-                        bindings.onShapeClick(shape);
-                }
+                bindings.onShapeClick(new Shape(x, y, this));
                //invalidate(); re pain
             }
         }
@@ -139,11 +130,6 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        //super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //int hSpecMode = MeasureSpec.getMode(heightMeasureSpec);
-        //int wSpecMode = MeasureSpec.getMode(widthMeasureSpec);
-        // hSpecMode == MeasureSpec.EXACTLY set the minimum with scroll
-        // hSpecMode == MeasureSpec.AT_MOST Wrap Content
         int hSpecSize = MeasureSpec.getSize(heightMeasureSpec);
         int wSpecSize = MeasureSpec.getSize(widthMeasureSpec);
         int myHeight  = hSpecSize;

@@ -54,11 +54,6 @@ public class HistoryDoctorAdapter extends RecyclerView.Adapter<HistoryDoctorAdap
         DetectionModel history = detections.get(position);
         holder.label.setText(history.fullNameCamelcase());
         holder.date.setText(history.dateString());
-
-        if(!isFilteringData && position == 0){
-            holder.current_state.setText(R.string.pending);
-            holder.current_state.setVisibility(View.VISIBLE);
-        }
     }
 
     public void dataChanged (boolean isFilteringData){

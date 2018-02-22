@@ -100,6 +100,13 @@ public class MainScreen extends AppCompatActivity {
                 });
     }
 
+    public void inviteFriend(View v){
+        Intent intent2 = new Intent(); intent2.setAction(Intent.ACTION_SEND);
+        intent2.setType("text/plain");
+        intent2.putExtra(Intent.EXTRA_TEXT, getString(R.string.invite_message) );
+        startActivity(Intent.createChooser(intent2, getString(R.string.app_name)));
+    }
+
     public void goHistory(View v){
         startActivity(new Intent(this, History.class));
     }

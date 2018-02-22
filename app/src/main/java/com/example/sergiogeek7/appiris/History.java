@@ -29,6 +29,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class History extends AppCompatActivity {
@@ -68,6 +70,9 @@ public class History extends AppCompatActivity {
                         new History.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+                view.findViewById(R.id.date).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.label).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.edit_label).setVisibility(View.GONE);
                 DetectionModel detection = detections.get(position);
                 Intent intent = new Intent(History.this, AddResultsDoctor.class);
                 intent.putExtra(HistoryDoctor.DETECTION, detection);
@@ -87,7 +92,7 @@ public class History extends AppCompatActivity {
             }
         }));
 
-        refDetections.addValueEventListener(Callback.valueEventListener((err, data) -> {
+        refDetections.addValueEventListener(Callback.valueEventListener((DatabaseError err, DataSnapshot data) -> {
 
             if(err != null){
                 Log.e(TAG, err.getMessage());
@@ -99,6 +104,11 @@ public class History extends AppCompatActivity {
                 detection.setKey(postSnapshot.getKey());
                 detections.add(detection);
             }
+            Collections.sort(detections, (t1, t2) -> {
+                int c1 = t1.getState() != null && t1.getState().equals("done") ? 1:2;
+                int c2 = t2.getState() != null && t2.getState().equals("done") ? 1:2;
+                return  c1 - c2;
+            });
             mAdapter.notifyDataSetChanged();
         }, History.this));
     }

@@ -14,8 +14,13 @@ import java.util.List;
 
 public class BodySectorKH extends BodySector{
 
-    public BodySectorKH(Context context, int[] rightKey, int[] leftKey, Gender gender){
+    public BodySectorKH(Context context, int[] rightKey, int[] leftKey,
+                        double[] scaleRight,
+                        double[] scaleLeft,
+                        Gender gender){
         super(rightKey, leftKey, R.drawable.ic_kh_l);
+        this.scaleRight = scaleRight;
+        this.scaleLeft = scaleLeft;
         int id = -1;
         this.parts.add(new BodyPart(context.getString(R.string.pelvis),
                 context.getString(R.string.diagnosis_pelvis), ++id));

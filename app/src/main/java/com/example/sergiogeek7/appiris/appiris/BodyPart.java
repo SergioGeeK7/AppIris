@@ -14,6 +14,7 @@ public class BodyPart implements Parcelable{
     public String name;
     public String description;
     public int id;
+    public boolean selected = false;
 
     public BodyPart (String name, String description, int id){
         this.name = name;
@@ -25,6 +26,7 @@ public class BodyPart implements Parcelable{
         name = in.readString();
         description = in.readString();
         id = in.readInt();
+        selected = in.readInt() == 1;
     }
 
     public static final Creator<BodyPart> CREATOR = new Creator<BodyPart>() {
@@ -54,5 +56,6 @@ public class BodyPart implements Parcelable{
         parcel.writeString(name);
         parcel.writeString(description);
         parcel.writeInt(id);
+        parcel.writeInt(selected ? 1: 0);
     }
 }

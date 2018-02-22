@@ -12,16 +12,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import com.example.sergiogeek7.appiris.appiris.BodyPart;
+import com.example.sergiogeek7.appiris.appiris.BodySector;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.firemodel.EyeModel;
-import com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm;
 import com.example.sergiogeek7.appiris.opencv.DetectShapes;
+import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
 import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Callback;
+import com.example.sergiogeek7.appiris.utils.Gender;
+import com.example.sergiogeek7.appiris.utils.GlobalState;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -87,6 +89,8 @@ public class DetectActivity extends AppCompatActivity
     Button left_image;
     @BindView(R.id.right_image)
     Button right_image;
+    @BindView(R.id.save_btn)
+    Button save_btn;
 
     private String detectionKey;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -95,34 +99,32 @@ public class DetectActivity extends AppCompatActivity
     DatabaseReference detectionRef = database.getReference("detections");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private final static String TAG = DetectActivity.class.getName();
-    public final static String SHAPE_PARCELABLE = "SHAPE_PARCELABLE";
+    public final static String BODY_PARTS = "BODY_PARTS";
     public final static String EYE_SIDE = "EYE_SIDE";
     public final static String EYE_PARCELABLE = "EYE_PARCELABLE";
+    public final static String SHAPE_PARCELABLE = "SHAPE_PARCELABLE";
+    public final static String DRAWABLE_RESOURCE = "DRAWABLE_RESOURCE";
     public final static int SHAPE_DESCRIPTION_ACTIVITY = 1;
-    private Shape latestShape;
+    public final static String BODY_SECTOR = "BODY_SECTOR";
+    private BodySector latestBodySector;
     private int eyeSide = 0;
     private List<Eye> eyes;
     private List<ShapesDetected> shapesDetected = new ArrayList<>();
     private Uri shareFilePath;
     private int sharedCount = 0;
+    private Psicosomaticas psicosomaticas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.eyes = getIntent().getParcelableArrayListExtra(ViewImage.EYE_PARCELABLE);
+        if(this.detectionKey == null){
+            this.detectionKey = getIntent().getStringExtra(DetectionModel.class.getName());
+        }
+        Gender gender = ((GlobalState)getApplication()).gender;
+        psicosomaticas = new Psicosomaticas(this, gender);
         setContentView(R.layout.activity_detect);
         ButterKnife.bind(this);
-    }
-
-    public void analyzeWithExpert(View v){
-        if(user == null){
-            Toast.makeText(this, getString(R.string.must_register_first), Toast.LENGTH_LONG)
-            .show();
-            return;
-        }
-        Intent intent = new Intent(this, FormMedicalHistory.class);
-        intent.putExtra(MedicalHistoryForm.class.getName(), detectionKey);
-        startActivity(intent);
     }
 
     public void uploadImages(Bitmap left, Bitmap right){
@@ -149,8 +151,9 @@ public class DetectActivity extends AppCompatActivity
                                                     userapp.getFullName().toLowerCase()
                                                     , userapp.getMessagingToken());
 
-                                            DatabaseReference detection
-                                                    = detectionRef.push();
+                                            DatabaseReference detection = detectionKey == null ?
+                                                    detectionRef.push() : detectionRef.child(detectionKey);
+
                                             Callback.taskManager(this,
                                                     detection.setValue(detectionModel));
                                             detectionKey = detection.getKey();
@@ -205,8 +208,11 @@ public class DetectActivity extends AppCompatActivity
             this.shareFilePath = FileProvider
                                     .getUriForFile(this, ViewImage.PROVIDER_AUTHORITY, temp);
         }
-        this.eye_view.saveView(this.shareFilePath);
+        Bitmap bitmap = shapesDetected.get(eyeSide).original.copy(Bitmap.Config.ARGB_8888, true);
+        bitmap = BitmapUtils.addWaterMark(bitmap, getString(R.string.app_name));
+        BitmapUtils.saveBitmap(this,bitmap , this.shareFilePath);
         BitmapUtils.shareImage(this, this.shareFilePath);
+
         if(user != null && detectionKey != null){
             Callback.taskManager(this,
                     detectionRef
@@ -236,40 +242,55 @@ public class DetectActivity extends AppCompatActivity
 
     @Override
     public void onShapeClick(Shape shape) {
-        this.latestShape = shape;
+        this.latestBodySector = psicosomaticas.getBodySector(shape, eyeSide);
         Intent intent = new Intent(this, ShapeDescriptionActivity.class);
-        intent.putExtra(SHAPE_PARCELABLE, shape);
+        intent.putParcelableArrayListExtra(BODY_PARTS, this.latestBodySector.getParts());
+        intent.putExtra(BODY_SECTOR, this.latestBodySector);
+        intent.putExtra(DRAWABLE_RESOURCE, this.latestBodySector.drawableResource);
         intent.putExtra(EYE_SIDE, eyeSide);
+        intent.putExtra(SHAPE_PARCELABLE, shape);
         intent.putExtra(EYE_PARCELABLE, eyes.get(this.eyeSide).getOriginal());
         startActivityForResult(intent, SHAPE_DESCRIPTION_ACTIVITY);
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == SHAPE_DESCRIPTION_ACTIVITY) {
             if(resultCode == RESULT_OK){
-                Shape shape = data.getParcelableExtra(SHAPE_PARCELABLE);
-                latestShape.selectedParts = shape.selectedParts;
-                if(!latestShape.description.equals(shape.description) && user != null){
-                    latestShape.description = shape.description;
+                ArrayList<BodyPart> bodyParts = data.getParcelableArrayListExtra(BODY_PARTS);
+                latestBodySector.setParts(bodyParts);
+                if(user != null && detectionKey != null){
                     saveEyesDescription();
                 }
             }
-            // (resultCode == RESULT_CANCELED)//Write your code if there's no result
+            // (resultCode == RESULT_CANCELED)// Write your code if there's no result
         }
     }
 
+
+    public void save(View v){
+        uploadImages(shapesDetected.get(ImageFilters.LEFT_EYE).original,
+                shapesDetected.get(ImageFilters.RIGHT_EYE).original);
+        v.setEnabled(false);
+    }
+
     void saveEyesDescription(){
-        ShapesDetected shapes = this.shapesDetected.get(eyeSide);
         String eyeNode = eyeSide == ImageFilters.LEFT_EYE ? "left" : "right";
         StringBuilder description = new StringBuilder();
         List<String> organs = new ArrayList<>();
 
-        for (Shape shape: shapes.shapes){
-            description.append(shape.description);
-            for(BodyPart part: shape.selectedParts){
+        for (BodySector bodySector: this.psicosomaticas.getAll()){
+            for(BodyPart part: bodySector.getParts()){
+                if(!part.selected){
+                    continue;
+                }
+                int indexParagraph = description.indexOf(part.description);
+                if(indexParagraph == -1){
+                    description.append("\n").append(part.name).append(": ").append(part.description);
+                }else{
+                    description.insert(indexParagraph - 2,", " + part.name);
+                }
                 organs.add(part.name);
             }
         }
@@ -308,8 +329,7 @@ public class DetectActivity extends AppCompatActivity
         }
 
         protected void onPostExecute(String result) {
-            uploadImages(shapesDetected.get(ImageFilters.LEFT_EYE).original,
-                    shapesDetected.get(ImageFilters.RIGHT_EYE).original);
+            save_btn.setEnabled(true);
             changeEyeView(right_image.isEnabled() ? ImageFilters.LEFT_EYE : ImageFilters.RIGHT_EYE);
         }
     }

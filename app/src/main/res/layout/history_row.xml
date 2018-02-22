@@ -58,9 +58,13 @@
         android:textStyle="bold"
         tools:text="this"
         android:imeOptions="actionSend"
+        android:inputType="text"
         android:maxLines="1"
         android:visibility="gone"
         />
+
+    <!--android:imeOptions="actionDone"-->
+
 
     <TextView
         android:id="@+id/date"

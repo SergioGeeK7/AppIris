@@ -34,33 +34,10 @@ public class GridButtons extends GridLayout {
         }
     }
 
-    public List<String> getSeletedItems(){
-        List<String> selected = new ArrayList<>();
-        for (ButtonTab btn : buttons){
-            if(btn.isEnabled()){
-                selected.add(btn.getText().toString());
-            }
-        }
-        return selected;
-    }
-
-    public void setSelectedItems(List<BodyPart> parts){
-        for (BodyPart part : parts){
-            for (ButtonTab btn : buttons){
-                if(btn.part.id == part.id){
-                    btn.setEnabled(true);
-                }
-            }
-        }
-    }
-
     ButtonTab addButton(BodyPart part, ButtonTab.ButtonTabListener listener){
         ButtonTab txt = new ButtonTab(getContext(), part, listener);
-
         int pxHeight = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 20, getResources().getDisplayMetrics());
-
-
         FlowLayout.LayoutParams lParams = new FlowLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 pxHeight);

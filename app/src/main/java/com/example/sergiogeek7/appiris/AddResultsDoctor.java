@@ -12,9 +12,14 @@ import android.widget.Toast;
 import com.example.sergiogeek7.appiris.components.TabIris;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.firemodel.EyeModel;
+import com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm;
 import com.example.sergiogeek7.appiris.utils.Callback;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Date;
 
@@ -23,7 +28,6 @@ import butterknife.ButterKnife;
 
 public class AddResultsDoctor extends AppCompatActivity {
 
-    DetectionModel detection;
     @BindView(R.id.content_text)
     TextView content_text;
     @BindView(R.id.affected_organs_tab)
@@ -43,13 +47,16 @@ public class AddResultsDoctor extends AppCompatActivity {
     @BindView(R.id.done_btn)
     Button done_btn;
 
-
+    final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference detectionsRef = database.getReference("detections");
+    final DatabaseReference medicalHistory = database.getReference("medicalHistory");
     private String TAG = AddResultsDoctor.class.getName();
     private EyeModel currentEye;
     private int previousTabId = R.id.affected_organs_tab;
     private boolean doctor;
+    DetectionModel detection;
+    private final int HISTORY_FORM = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +77,8 @@ public class AddResultsDoctor extends AppCompatActivity {
     }
 
     public void send(View v){
-        Callback.taskManager(this,
-        database.getReference("detections")
-                .child(detection.getKey()).child("state").setValue("pending"));
-        Toast.makeText(this, getString(R.string.sent), Toast.LENGTH_LONG).show();
-        finish();
+        Intent intent = new Intent(this, FormMedicalHistory.class);
+        startActivityForResult(intent, HISTORY_FORM);
     }
 
     public void changeEditorTab(View v){
@@ -93,9 +97,7 @@ public class AddResultsDoctor extends AppCompatActivity {
     void setEyeData(int tabId){
         if(tabId == affected_organs_tab.getId()){
             content_text.setText(currentEye.getDescription());
-        }else if(!this.doctor){
-            content_text.setText(R.string.no_doctor);
-        } else if(tabId == nutritional_supplements_tab.getId()){
+        }else if(tabId == nutritional_supplements_tab.getId()){
             content_text.setText(detection.getSupplements());
         }else if (tabId == recommendations_tab.getId()){
             content_text.setText(detection.getRecommendations());
@@ -145,11 +147,8 @@ public class AddResultsDoctor extends AppCompatActivity {
     }
 
     public void done (View v){
-        Callback.taskManager(this,
-                        detectionsRef
-                                .child(detection.getKey())
-                                .child("state")
-                                .setValue("done"));
+        detection.setState("done");
+        save(null);
         Callback.taskManager(this,
                 detectionsRef
                         .child(detection.getKey())
@@ -162,6 +161,19 @@ public class AddResultsDoctor extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AnalysisRequest.DETECTION_REQUEST && resultCode == RESULT_OK) {
             detection = data.getParcelableExtra(HistoryDoctor.DETECTION);
+        }else if(requestCode == HISTORY_FORM && resultCode == RESULT_OK){
+            MedicalHistoryForm mh = data.getParcelableExtra(MedicalHistoryForm.class.getName());
+            saveHistory(mh, detection.getKey());
         }
+    }
+
+    void saveHistory(MedicalHistoryForm mh, String detectionKey){
+        mh.setUserUId(user.getUid());
+        Callback.taskManager(this,medicalHistory.child(detectionKey).setValue(mh));
+        Callback.taskManager(this,database.getReference("detections")
+                .child(detectionKey)
+                .child("state")
+                .setValue("pending"));
+        Toast.makeText(this, getString(R.string.sent), Toast.LENGTH_LONG).show();
     }
 }

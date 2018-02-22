@@ -51,6 +51,10 @@ public class RegisterForm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_form);
         ButterKnife.bind(this);
+        if(user.getDisplayName() != null && !user.getDisplayName().equals("")){
+            full_name.setText(user.getDisplayName());
+            full_name.setEnabled(false);
+        }
         ref.addValueEventListener(Callback.valueEventListener(
                 (err, data) -> {
                     if(err != null){
@@ -118,7 +122,10 @@ public class RegisterForm extends AppCompatActivity {
     private void goToMainScreen(String gender){
         Intent intent = new Intent(this, MainScreen.class);
         intent.putExtra(Gender.class.getName(), gender.equals("m") ? Gender.MAN: Gender.WOMAN);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        finish();
     }
 
 }
