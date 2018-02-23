@@ -1,7 +1,12 @@
 package com.example.sergiogeek7.appiris;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
@@ -48,6 +53,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.sergiogeek7.appiris.ImageFilters.LEFT_EYE;
+
 public class DetectActivity extends AppCompatActivity
         implements InteractiveEyeVIew.EyeViewBindings {
 
@@ -69,7 +76,7 @@ public class DetectActivity extends AppCompatActivity
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
                     if(shapesDetected.size() > 1){
-                        changeEyeView(right_image.isEnabled() ? ImageFilters.LEFT_EYE : ImageFilters.RIGHT_EYE);
+                        changeEyeView(right_image.isEnabled() ? LEFT_EYE : ImageFilters.RIGHT_EYE);
                         return;
                     }
                     new DownloadFilesTask().execute();
@@ -113,6 +120,7 @@ public class DetectActivity extends AppCompatActivity
     private Uri shareFilePath;
     private int sharedCount = 0;
     private Psicosomaticas psicosomaticas;
+    private Gender gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +129,7 @@ public class DetectActivity extends AppCompatActivity
         if(this.detectionKey == null){
             this.detectionKey = getIntent().getStringExtra(DetectionModel.class.getName());
         }
-        Gender gender = ((GlobalState)getApplication()).gender;
+        gender = ((GlobalState)getApplication()).gender;
         psicosomaticas = new Psicosomaticas(this, gender);
         setContentView(R.layout.activity_detect);
         ButterKnife.bind(this);
@@ -208,11 +216,25 @@ public class DetectActivity extends AppCompatActivity
             this.shareFilePath = FileProvider
                                     .getUriForFile(this, ViewImage.PROVIDER_AUTHORITY, temp);
         }
-        Bitmap bitmap = shapesDetected.get(eyeSide).original.copy(Bitmap.Config.ARGB_8888, true);
-        bitmap = BitmapUtils.addWaterMark(bitmap, getString(R.string.app_name));
-        BitmapUtils.saveBitmap(this,bitmap , this.shareFilePath);
-        BitmapUtils.shareImage(this, this.shareFilePath);
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.share));
+        builder.setPositiveButton(getString(R.string.only_image),
+                (dialog, id) -> {
+                    Bitmap bitmap = BitmapUtils.addWaterMark(shapesDetected.get(eyeSide).original,getString(R.string.app_name));
+                    BitmapUtils.saveBitmap(DetectActivity.this,bitmap , shareFilePath);
+                    BitmapUtils.shareImage(DetectActivity.this, shareFilePath);
+                    dialog.cancel();
+                });
+        builder.setNeutralButton(getString(R.string.with_scheme),
+                (dialog, id) -> {
+                    Bitmap bitmap = BitmapUtils.addWaterMark(shapesDetected.get(eyeSide).original, getString(R.string.app_name));
+                    Canvas canvas = new Canvas(bitmap);
+                    canvas.drawBitmap(shapesDetected.get(eyeSide).scheme, 0,0, null);
+                    BitmapUtils.saveBitmap(DetectActivity.this, bitmap , shareFilePath);
+                    BitmapUtils.shareImage(DetectActivity.this, shareFilePath);
+                    dialog.cancel();
+                });
+        builder.create().show();
         if(user != null && detectionKey != null){
             Callback.taskManager(this,
                     detectionRef
@@ -225,13 +247,19 @@ public class DetectActivity extends AppCompatActivity
     public void changeEyeView(int eyeSide){
         this.eyeSide = eyeSide;
         ShapesDetected shapes = this.shapesDetected.get(eyeSide);
-        eye_view.updateView(shapes.shapes, shapes.original);
+        eye_view.updateView(shapes.shapes, shapes.original, shapes.scheme);
+    }
+
+    int getCurrentDrawable(int eyeSide){
+        return eyeSide == LEFT_EYE ?
+                gender == Gender.MAN ? R.drawable.ic_esquema__ohl: R.drawable.ic_esquema__oml:
+                gender == Gender.WOMAN ? R.drawable.ic_esquema__omr : R.drawable.ic_esquema__ohr;
     }
 
     public void onLeftImage(View view){
         view.setEnabled(false);
         right_image.setEnabled(true);
-        changeEyeView(ImageFilters.LEFT_EYE);
+        changeEyeView(LEFT_EYE);
     }
 
     public void onRightImage(View view){
@@ -270,13 +298,13 @@ public class DetectActivity extends AppCompatActivity
 
 
     public void save(View v){
-        uploadImages(shapesDetected.get(ImageFilters.LEFT_EYE).original,
+        uploadImages(shapesDetected.get(LEFT_EYE).original,
                 shapesDetected.get(ImageFilters.RIGHT_EYE).original);
         v.setEnabled(false);
     }
 
     void saveEyesDescription(){
-        String eyeNode = eyeSide == ImageFilters.LEFT_EYE ? "left" : "right";
+        String eyeNode = eyeSide == LEFT_EYE ? "left" : "right";
         StringBuilder description = new StringBuilder();
         List<String> organs = new ArrayList<>();
 
@@ -307,6 +335,8 @@ public class DetectActivity extends AppCompatActivity
 
     private class DownloadFilesTask extends AsyncTask<Void, Void, String> {
 
+        ProgressDialog p = new ProgressDialog(DetectActivity.this);
+
         protected String doInBackground(Void... params) {
             try {
                 for (Eye eye: eyes) {
@@ -316,6 +346,12 @@ public class DetectActivity extends AppCompatActivity
                                 //.resize(400, 400)
                                 .get();
                         ShapesDetected shapes = new DetectShapes(bitmap).detect();
+                        Bitmap schemeOriginal = BitmapUtils.drawableToBitmap(
+                                getResources().getDrawable(getCurrentDrawable(shapesDetected.size())));
+                        shapes.scheme = BitmapUtils.getResizedBitmap(schemeOriginal,
+                                             eye_view.getWidth(), eye_view.getHeight());
+                        shapes.original = BitmapUtils.getResizedBitmap(shapes.original,
+                                eye_view.getWidth(), eye_view.getHeight());
                         shapesDetected.add(shapes);
                 }
             } catch (Exception ex) {
@@ -324,13 +360,17 @@ public class DetectActivity extends AppCompatActivity
             return "";
         }
 
-        protected void onProgressUpdate() {
-            // TODO: make a progress bar
+        @Override
+        protected void onPreExecute() {
+            p.setMessage(getString(R.string.analyzing));
+            p.show();
+            p.setTitle(getString(R.string.analyzing));
         }
 
         protected void onPostExecute(String result) {
             save_btn.setEnabled(true);
-            changeEyeView(right_image.isEnabled() ? ImageFilters.LEFT_EYE : ImageFilters.RIGHT_EYE);
+            changeEyeView(right_image.isEnabled() ? LEFT_EYE : ImageFilters.RIGHT_EYE);
+            p.dismiss();
         }
     }
 

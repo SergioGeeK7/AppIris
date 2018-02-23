@@ -1,13 +1,17 @@
 package com.example.sergiogeek7.appiris;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
@@ -28,6 +32,7 @@ import com.example.sergiogeek7.appiris.appiris.BodySector;
 import com.example.sergiogeek7.appiris.components.GridButtons;
 import com.example.sergiogeek7.appiris.opencv.Psicosomaticas;
 import com.example.sergiogeek7.appiris.opencv.Shape;
+import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
@@ -49,9 +54,10 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
     private Uri shareFilePath;
     private Shape shape;
     private BodySector bodySector;
+    private Bitmap sector;
 
-    @BindView(R.id.description_img)
-    DescriptionImageView imagePreview;
+    @BindView(R.id.image_preview)
+    ImageView imagePreview;
     @BindView(R.id.scrollView)
     HorizontalScrollView scrollView;
     @BindView(R.id.diagnosis)
@@ -125,9 +131,47 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
                     FileProvider.getUriForFile(this, "com.app.irisfileprovider",
                             BitmapUtils.createTempImageFile(this));
         }
-        this.imagePreview.saveView(this.shareFilePath);
-        BitmapUtils.shareImage(this, this.shareFilePath,
-                txtDiagnosis.getText().toString());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(getString(R.string.share));
+        builder.setPositiveButton(getString(R.string.only_image),
+                (dialog, id) -> {
+                    Bitmap bitmap = BitmapUtils.addWaterMark(sector,getString(R.string.app_name));
+                    BitmapUtils.saveBitmap(this, bitmap , shareFilePath);
+                    BitmapUtils.shareImage(this, shareFilePath);
+                    dialog.cancel();
+                });
+        builder.setNeutralButton(getString(R.string.with_scheme),
+                (dialog, id) -> {
+                    Bitmap bitmap = BitmapUtils.addWaterMark(sector, getString(R.string.app_name));
+                    Canvas canvas = new Canvas(bitmap);
+                    Bitmap drawable  = BitmapUtils.getResizedBitmap(BitmapUtils.drawableToBitmap(
+                            getResources().getDrawable(bodySector.drawableResource)), bitmap.getWidth(), bitmap.getHeight());
+                    canvas.drawBitmap(drawable, 0,0,null);
+                    BitmapUtils.saveBitmap(this, bitmap , shareFilePath);
+                    BitmapUtils.shareImage(this, shareFilePath, txtDiagnosis.getText().toString());
+                    dialog.cancel();
+                });
+        builder.create().show();
+    }
+
+    Bitmap overlayBitmap(Bitmap b1, Bitmap drawable){
+        Bitmap bmOverlay = Bitmap.createBitmap(b1.getWidth(), b1.getHeight(), b1.getConfig());
+        Bitmap b2 = BitmapUtils.getResizedBitmap(drawable, b1.getWidth(), b1.getHeight());
+        Canvas canvas = new Canvas(bmOverlay);
+        canvas.drawBitmap(b1, new Matrix(), null);
+        canvas.drawBitmap(b2, new Matrix(), null);
+        return bmOverlay;
+    }
+
+    public Bitmap crop(Bitmap bitmap, double[] scale){
+        // x- width , y -> height
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap,
+                (int)(scale[0] * bitmap.getWidth()),
+                (int)(scale[1] * bitmap.getHeight()),
+                (int)(scale[2] * bitmap.getWidth()),
+                (int)(scale[3] * bitmap.getHeight()));
+        return newBitmap;
     }
 
     class loadBitmap extends AsyncTask<String, Void, Bitmap>{
@@ -149,8 +193,10 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
 
         protected void onPostExecute(Bitmap bitmap){
             double[] scale = eyeSide == LEFT_EYE ? bodySector.scaleLeft: bodySector.scaleRight;
-            imagePreview.updateView(bitmap, bodySector.drawableResource, scale);
+            Bitmap drawable  = BitmapUtils.drawableToBitmap(
+                    getResources().getDrawable(bodySector.drawableResource));
+            sector = crop(bitmap, scale);
+            imagePreview.setImageBitmap(overlayBitmap(sector, drawable));
         }
     }
-
 }

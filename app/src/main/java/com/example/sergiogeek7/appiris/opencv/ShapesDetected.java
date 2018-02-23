@@ -11,6 +11,7 @@ public class ShapesDetected {
 
     public List<Shape> shapes;
     public Bitmap original;
+    public Bitmap scheme;
 
     public ShapesDetected (List<Shape> shapes, Bitmap original){
         this.shapes = shapes;

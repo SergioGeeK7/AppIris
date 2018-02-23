@@ -30,30 +30,9 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
     private Paint mPaint;
     private EyeViewBindings bindings;
     private Bitmap bitmap;
-    private Bitmap bitmapResized;
     private List<Shape> shapes;
     private final int RADIUS = 25;
-
-    public void saveView(Uri uri){
-        Bitmap bitmap = this.bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        Canvas canvas = new Canvas(bitmap);
-        ShapeContext shapeContext = new ShapeContext() {
-            @Override
-            public int getColumn() {
-                return canvas.getWidth();
-            }
-            @Override
-            public int getRow() {
-                return canvas.getHeight();
-            }
-        };
-        for (Shape shape : this.shapes) {
-            Point point = shape.getCoordinates(shapeContext);
-            canvas.drawCircle((float) point.x, (float)  point.y, RADIUS, mPaint);
-        }
-        BitmapUtils.saveBitmap(getContext(), bitmap, uri);
-        bitmap.recycle();
-    }
+    private Bitmap organs;
 
     @Override
     public int getColumn() {
@@ -69,13 +48,10 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
         void onShapeClick(Shape shape);
     }
 
-    public void updateView (List<Shape> shapes, Bitmap bitmap){
-        if(this.bitmapResized != null){
-            this.bitmapResized.recycle();
-        }
+    public void updateView (List<Shape> shapes, Bitmap bitmap, Bitmap organs){
         this.shapes = shapes;
+        this.organs = organs;
         this.bitmap = bitmap;
-        this.bitmapResized = BitmapUtils.getResizedBitmap(bitmap, this.getWidth(), this.getHeight());
         invalidate();
     }
 
@@ -111,7 +87,8 @@ public class InteractiveEyeVIew extends View implements ShapeContext {
         super.onDraw(canvas);
         if(this.shapes == null)
             return;
-        canvas.drawBitmap(this.bitmapResized, 0, 0, null);
+        canvas.drawBitmap(this.bitmap, 0, 0, null);
+        canvas.drawBitmap(this.organs, 0,0,null);
     }
 
     @Override

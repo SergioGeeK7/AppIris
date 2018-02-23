@@ -79,15 +79,7 @@ public class DescriptionImageView
         if (this.bitmap == null) {
             return;
         }
-        Log.e("scale level",  "" + scale[0] + " " + scale[1] + " " + scale[2] + " "
-                + scale[3]);
-        // x- width , y -> height
-        Bitmap newBitmap = Bitmap.createBitmap(this.bitmap,
-                (int)(scale[0] * this.bitmap.getWidth()),
-                (int)(scale[1] * this.bitmap.getHeight()),
-                (int)(scale[2] * this.bitmap.getWidth()),
-                (int)(scale[3] * this.bitmap.getHeight()));
-        canvas.drawBitmap(newBitmap, 0, 0, null);
+
     }
 
 //    if(this.drawableBodyPart != 0){
@@ -102,20 +94,7 @@ public class DescriptionImageView
 //            bodyBitmap,0,0,paint);
 //}
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
 
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
 
     protected void onMeasure(int paramInt1, int paramInt2)
     {

@@ -19,6 +19,8 @@
     <string name="action_save">Save</string>
     <string name="action_analyze">ANALYZE</string>
     <string name="share">Share</string>
+    <string name="with_scheme">With scheme</string>
+    <string name="only_image">Only image</string>
     <string name="action_open">Open</string>
     <string name="title_activity_image_filters" translatable="false">ImageFilters</string>
     <string name="permission_denied">Permission denied</string>
