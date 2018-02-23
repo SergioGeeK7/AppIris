@@ -1,12 +1,15 @@
 package com.example.sergiogeek7.appiris;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -14,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
@@ -32,6 +36,7 @@ import com.example.sergiogeek7.appiris.firemodel.EyeModel;
 import com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Callback;
+import com.example.sergiogeek7.appiris.utils.Message;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -78,7 +83,13 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         @BindView(R.id.image_preview)
         ImageView imagePreview;
 
-        @BindView(R.id.viewpager)
+    @BindView(R.id.filter_tab)
+    ImageView filterTab;
+
+    @BindView(R.id.fx_tab)
+    ImageView settingsTab;
+
+    @BindView(R.id.viewpager)
 
         ViewPager viewPager;
 
@@ -139,14 +150,28 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath(), false);
             setupViewPager(viewPager);
             //tabLayout.setupWithViewPager(viewPager);
+            SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+            if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true)){
+                Message.show(getString(R.string.tour_image_filter), null, this);
+            }
+            //Drawable d = ContextCompat.getDrawable(this, R.drawable.ic_editar_2);
         }
 
         public void goToSettingsTab(View v){
             viewPager.setCurrentItem(1);
+            Drawable filterD = filterTab.getDrawable();
+            DrawableCompat.setTint(filterD, ContextCompat.getColor(this, R.color.tab_disabled));
+            Drawable settingsD = settingsTab.getDrawable();
+            DrawableCompat.setTint(settingsD, ContextCompat.getColor(this, R.color.blue_sea));
         }
 
         public void goToFiltersTab(View v){
             viewPager.setCurrentItem(0);
+            Drawable filterD = filterTab.getDrawable();
+            DrawableCompat.setTint(filterD, ContextCompat.getColor(this, R.color.blue_sea));
+            Drawable settingsD = settingsTab.getDrawable();
+            DrawableCompat.setTint(settingsD, ContextCompat.getColor(this, R.color.tab_disabled));
         }
 
         private void setupViewPager(ViewPager viewPager) {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.sergiogeek7.appiris.utils.Callback;
@@ -35,6 +36,8 @@ public class MainScreen extends AppCompatActivity {
 
     @BindView(R.id.avatar) ImageView avatar;
     @BindView(R.id.name) TextView displayName;
+    @BindView(R.id.capture_row)
+    LinearLayout captureRow;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final String TAG = MainScreen.class.getName();
 
@@ -51,7 +54,9 @@ public class MainScreen extends AppCompatActivity {
             if(CloudMessagingIDService.refreshedToken != null){
                 saveMessagingToken(user.getUid());
             }
+            //captureRow.setBackgroundResource(0);
         }else{
+            captureRow.setBackgroundResource(R.drawable.border_sea);
             updateUI(gender, getString(R.string.default_name));
         }
     }
@@ -97,6 +102,7 @@ public class MainScreen extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     Intent intent = new Intent(this, RegiterOptionalActivity.class);
                     startActivity(intent);
+                    this.finish();
                 });
     }
 
@@ -117,6 +123,11 @@ public class MainScreen extends AppCompatActivity {
 
     public void goCaptureActivity(View v){
         Intent intent = new Intent(this, ViewImage.class);
+        startActivity(intent);
+    }
+
+    public void goToSettings(View v){
+        Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
 }

@@ -16,7 +16,7 @@ public class Message {
 
     public static void show(String message, DialogInterface.OnClickListener callback, Context c){
         new AlertDialog.Builder(c)
-                .setTitle(R.string.alert)
+                .setTitle(R.string.app_name)
                 .setMessage(message)
                 .setCancelable(true)
                 .setPositiveButton(android.R.string.ok, callback)

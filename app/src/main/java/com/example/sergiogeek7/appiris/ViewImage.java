@@ -29,6 +29,8 @@ import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
 import com.firebase.ui.auth.AuthUI;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -104,6 +106,12 @@ public class ViewImage extends AppCompatActivity{
     ConstraintLayout capture_layout;
     Gender gender;
 
+    @BindView(R.id.register_img)
+    ImageView registerImg;
+    @BindView(R.id.register_label)
+    TextView registerLabel;
+
+
     public void launchCamera(View view) {
         String rightOrLeftLabel = eyes.size() == FIRST_EYE_TO_TAKE ? getString(R.string.taking_photo_left) :
                                                                     getString(R.string.taking_photo_right);
@@ -178,6 +186,11 @@ public class ViewImage extends AppCompatActivity{
         setContentView(R.layout.activity_view_image);
         this.gender = ((GlobalState)getApplication()).gender;
         ButterKnife.bind(this);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            registerImg.setVisibility(View.INVISIBLE);
+            registerLabel.setVisibility(View.INVISIBLE);
+        }
     }
 
     protected void launchFilterActivity (){

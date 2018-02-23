@@ -67,11 +67,12 @@
     <string name="history">History</string>
     <string name="capture_iris">Capture iris</string>
     <string name="send_iris">Send iris</string>
+    <string name="settings">Settings</string>
     <string name="logout">Logout</string>
     <string name="invite_fried">Invite a friend</string>
     <string name="a_brief">A brief description</string>
-    <string name="default_name">User no register</string>
-    <string name="invite_message">Hey !. download this awesome app. it\'s and let you know many things about your health</string>
+    <string name="default_name">No register user</string>
+    <string name="invite_message">Hey !. download this awesome app. ____link______ let you know many things about your health</string>
     <string name="history_tooltip">Here you can see the history of all your analysis.
         \nHold on a item to change its name</string>
     <string name="register_view_image">Register</string>
@@ -80,6 +81,13 @@
     <string name="question_3">Did you have any surgery</string>
     <string name="question_4">What ailments did you have on childhood ?</string>
     <string name="yes">Yes</string>
+    <string name="tour_image_filter">To change of eye preview select the blue buttons, to apply effects select the rectangles below and to finalize press analyze</string>
+    <string name="tour_detect_activity">
+        select the shapes detected on the image and see the symptoms, to save this detection press the save button
+    </string>
+    <string name="tour_organs_description">select the symptoms best suit for you, all the changes are going to be saved on your history (if you\'re registered)</string>
+    <string name="show_tour_key" translatable="false">show_tour</string>
+    <string name="show_tour">Show tour</string>
     <string name="no">No</string>
     <string name="question_5">What ailments do you currently have?</string>
     <string name="question_6">What ailments or diseases have your parents?</string>

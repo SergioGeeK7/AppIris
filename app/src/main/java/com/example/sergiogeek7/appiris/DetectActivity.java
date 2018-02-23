@@ -4,11 +4,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
+import com.example.sergiogeek7.appiris.utils.Message;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -133,6 +136,11 @@ public class DetectActivity extends AppCompatActivity
         psicosomaticas = new Psicosomaticas(this, gender);
         setContentView(R.layout.activity_detect);
         ButterKnife.bind(this);
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true)){
+            Message.show(getString(R.string.tour_detect_activity), null, this);
+        }
     }
 
     public void uploadImages(Bitmap left, Bitmap right){

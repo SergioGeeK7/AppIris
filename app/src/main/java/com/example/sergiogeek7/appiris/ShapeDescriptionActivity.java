@@ -3,6 +3,7 @@ package com.example.sergiogeek7.appiris;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -14,6 +15,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +38,8 @@ import com.example.sergiogeek7.appiris.opencv.ShapesDetected;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
+import com.example.sergiogeek7.appiris.utils.Message;
+
 import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +82,11 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
         onChangeBodySelected(null);
         addOrgans();
         new loadBitmap().execute(eye.getAbsoletePath());
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true)){
+            Message.show(getString(R.string.tour_organs_description), null, this);
+        }
     }
 
     public void done(View v){

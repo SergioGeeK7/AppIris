@@ -23,6 +23,7 @@
     <item
         android:orderInCategory="102"
         android:title="@string/go_to_main_screen"
+        app:showAsAction="never"
         android:id="@+id/go_to_main_screen"
         />
 
