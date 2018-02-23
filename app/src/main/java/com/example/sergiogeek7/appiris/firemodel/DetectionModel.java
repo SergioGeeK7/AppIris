@@ -22,6 +22,16 @@ public class DetectionModel implements Parcelable {
     private Date date;
     private List<String> organsList = new ArrayList<>();
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    private String description = "";
+
 
     public List<String> getOrgansList() {
         return organsList;
@@ -114,6 +124,8 @@ public class DetectionModel implements Parcelable {
         supplements = in.readString();
         recommendations = in.readString();
         messagingToken = in.readString();
+        description = in.readString();
+        state = in.readString();
     }
 
     @Exclude
@@ -142,6 +154,8 @@ public class DetectionModel implements Parcelable {
         parcel.writeString(supplements);
         parcel.writeString(recommendations);
         parcel.writeString(messagingToken);
+        parcel.writeString(description);
+        parcel.writeString(state);
     }
 
 

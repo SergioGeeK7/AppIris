@@ -60,6 +60,7 @@
         android:imeOptions="actionSend"
         android:inputType="text"
         android:maxLines="1"
+        android:maxLength="18"
         android:visibility="gone"
         />
 

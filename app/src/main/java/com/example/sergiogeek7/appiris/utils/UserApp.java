@@ -14,6 +14,16 @@ public class UserApp {
     private String fullName;
     private String messagingToken;
 
+    public boolean isDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(boolean doctor) {
+        this.doctor = doctor;
+    }
+
+    private boolean doctor;
+
     public String getMessagingToken() {
         return messagingToken;
     }

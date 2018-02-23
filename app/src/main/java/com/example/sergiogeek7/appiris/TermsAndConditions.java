@@ -40,6 +40,7 @@ public class TermsAndConditions extends AppCompatActivity {
         int id = radio_group.getCheckedRadioButtonId();
         if(id == accept_terms_button.getId()){
             Intent intent = new Intent(this, RegiterOptionalActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }else{
             finish();

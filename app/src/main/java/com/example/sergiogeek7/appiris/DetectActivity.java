@@ -146,9 +146,9 @@ public class DetectActivity extends AppCompatActivity
     public void uploadImages(Bitmap left, Bitmap right){
 
         saveToFirebase(left,
-                Callback.onSuccessListener(getString(R.string.analyzing), leftSnap ->
+                Callback.onSuccessListener(getString(R.string.saving), leftSnap ->
                         saveToFirebase(right,
-                            Callback.onSuccessListener(getString(R.string.analyzing), rightSnap ->
+                            Callback.onSuccessListener(getString(R.string.saving), rightSnap ->
                                             getUserApp(
                                     Callback.valueEventListener((err, data) -> {
 
@@ -312,7 +312,7 @@ public class DetectActivity extends AppCompatActivity
     }
 
     void saveEyesDescription(){
-        String eyeNode = eyeSide == LEFT_EYE ? "left" : "right";
+        //String eyeNode = eyeSide == LEFT_EYE ? "left" : "right";
         StringBuilder description = new StringBuilder();
         List<String> organs = new ArrayList<>();
 
@@ -332,7 +332,7 @@ public class DetectActivity extends AppCompatActivity
         }
         Callback.taskManager(this,
                 detectionRef.child(detectionKey)
-                        .child(eyeNode)
+                       // .child(eyeNode)
                         .child("description")
                         .setValue(description.toString()));
         Callback.taskManager(this,

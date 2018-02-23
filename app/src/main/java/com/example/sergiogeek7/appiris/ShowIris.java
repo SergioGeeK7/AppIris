@@ -41,7 +41,6 @@ public class ShowIris extends AppCompatActivity {
     FirebaseStorage storage = FirebaseStorage.getInstance();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference detectionsRef = database.getReference("detections");
-    EyeModel currentEye;
     private boolean doctor;
 
     @Override
@@ -52,22 +51,23 @@ public class ShowIris extends AppCompatActivity {
         detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
         this.doctor = getIntent().getBooleanExtra(History.ISDOCTOR, true);
         if(!this.doctor){
-            description.setEnabled(false);
+            description.setKeyListener(null);
+            description.setFocusable(false);
+            description.setCursorVisible(false);
         }
+        description.setText(detection.getDescription());
         updateUI(detection.getLeft());
     }
 
     public void setLeftEye(View v){
         v.setEnabled(false);
         right_image.setEnabled(true);
-        currentEye.setDescription(description.getText().toString());
         updateUI(detection.getLeft());
     }
 
     public void setRightEye(View v){
         v.setEnabled(false);
         left_image.setEnabled(true);
-        currentEye.setDescription(description.getText().toString());
         updateUI(detection.getRight());
     }
 
@@ -76,37 +76,26 @@ public class ShowIris extends AppCompatActivity {
             finish();
             return;
         }
-        currentEye.setDescription(description.getText().toString());
-        Callback.taskManager(this,detectionsRef.child(detection.getKey())
-                     .child("right")
+        detection.setDescription(description.getText().toString());
+        Callback.taskManager(this, detectionsRef.child(detection.getKey())
                      .child("description")
-                     .setValue(detection.getRight().getDescription()));
-        Callback.taskManager(this,detectionsRef.child(detection.getKey())
-                    .child("left")
-                    .child("description")
-                    .setValue(detection.getLeft().getDescription()));
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra(HistoryDoctor.DETECTION, detection);
-        setResult(RESULT_OK, returnIntent);
+                     .setValue(detection.getDescription()));
+        Intent result = new Intent();
+        result.putExtra(HistoryDoctor.DETECTION, detection);
+        setResult(RESULT_OK, result);
         finish();
     }
 
     void updateUI(EyeModel eye){
 
-        currentEye = eye;
         if(eye.bitmap != null){
             photo_view.setImageBitmap(eye.bitmap);
-            description.setText(eye.getDescription());
             return;
         }
-
         getImage(eye.getFilename(), Callback.onSuccessListenerByte(bytes -> {
-
                         Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         eye.bitmap = bitmap;
                         photo_view.setImageBitmap(bitmap);
-                        description.setText(eye.getDescription());
-
         }, ShowIris.this));
     }
 
@@ -114,9 +103,7 @@ public class ShowIris extends AppCompatActivity {
         StorageReference storageRef = storage.getReference("detections").child(path);
         final long ONE_MEGABYTE = 1024 * 1024;
         storageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(callback)
-                  .addOnFailureListener(exception -> {
-
-        });
+                  .addOnFailureListener(exception -> Log.e(ShowIris.class.getName(), exception.getMessage()));
     }
 
 }

@@ -52,11 +52,11 @@ public class AddResultsDoctor extends AppCompatActivity {
     private DatabaseReference detectionsRef = database.getReference("detections");
     final DatabaseReference medicalHistory = database.getReference("medicalHistory");
     private String TAG = AddResultsDoctor.class.getName();
-    private EyeModel currentEye;
     private int previousTabId = R.id.affected_organs_tab;
     private boolean doctor;
     DetectionModel detection;
     private final int HISTORY_FORM = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +65,12 @@ public class AddResultsDoctor extends AppCompatActivity {
         ButterKnife.bind(this);
         this.detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
         this.doctor = getIntent().getBooleanExtra(History.ISDOCTOR, true);
-        currentEye = detection.getLeft();
         affected_organs_tab.setEnabled(true);
-        content_text.setText(currentEye.getDescription());
+        content_text.setText(detection.getDescription());
         if(!doctor){
-            content_text.setEnabled(false);
+            content_text.setKeyListener(null);
+            content_text.setFocusable( false );
+            content_text.setCursorVisible(false);
             save_btn.setVisibility(View.GONE);
             send_btn.setVisibility(View.VISIBLE);
             done_btn.setVisibility(View.GONE);
@@ -96,7 +97,7 @@ public class AddResultsDoctor extends AppCompatActivity {
 
     void setEyeData(int tabId){
         if(tabId == affected_organs_tab.getId()){
-            content_text.setText(currentEye.getDescription());
+            content_text.setText(detection.getDescription());
         }else if(tabId == nutritional_supplements_tab.getId()){
             content_text.setText(detection.getSupplements());
         }else if (tabId == recommendations_tab.getId()){
@@ -106,7 +107,7 @@ public class AddResultsDoctor extends AppCompatActivity {
 
     void saveEyeData(int tabId){
         if(tabId == affected_organs_tab.getId()){
-            currentEye.setDescription(content_text.getText().toString());
+            detection.setDescription(content_text.getText().toString());
         }else if(tabId == nutritional_supplements_tab.getId()){
             detection.setSupplements(content_text.getText().toString());
         }else if (tabId == recommendations_tab.getId()){
@@ -117,12 +118,10 @@ public class AddResultsDoctor extends AppCompatActivity {
     public void changeEye(View v){
         saveEyeData(previousTabId);
         if(v.getId() == left_eye_button.getId()){
-            currentEye = detection.getRight();
             setEyeData(previousTabId);
             right_eye_button.setVisibility(View.VISIBLE);
             left_eye_button.setVisibility(View.GONE);
         }else {
-            currentEye = detection.getLeft();
             setEyeData(previousTabId);
             left_eye_button.setVisibility(View.VISIBLE);
             right_eye_button.setVisibility(View.GONE);
@@ -133,7 +132,7 @@ public class AddResultsDoctor extends AppCompatActivity {
         Intent intent = new Intent(this, ShowIris.class);
         intent.putExtra(HistoryDoctor.DETECTION, detection);
         intent.putExtra(History.ISDOCTOR, this.doctor);
-        startActivity(intent);
+        startActivityForResult(intent, AnalysisRequest.DETECTION_REQUEST);
     }
 
     public void save(View view){
@@ -161,6 +160,7 @@ public class AddResultsDoctor extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == AnalysisRequest.DETECTION_REQUEST && resultCode == RESULT_OK) {
             detection = data.getParcelableExtra(HistoryDoctor.DETECTION);
+            setEyeData(previousTabId);
         }else if(requestCode == HISTORY_FORM && resultCode == RESULT_OK){
             MedicalHistoryForm mh = data.getParcelableExtra(MedicalHistoryForm.class.getName());
             saveHistory(mh, detection.getKey());

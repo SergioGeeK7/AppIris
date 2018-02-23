@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
 import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.RecyclerTouchListener;
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -126,5 +129,25 @@ public class HistoryDoctor extends AppCompatActivity {
             Collections.reverse(detections);
         }
         mAdapter.dataChanged(filtering);
+    }
+
+    public boolean onCreateOptionsMenu(Menu paramMenu){
+        getMenuInflater().inflate(R.menu.menu_doctor, paramMenu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem paramMenuItem){
+        if (paramMenuItem.getItemId() == R.id.logout)
+        {
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(task -> {
+                        Intent intent = new Intent(this, RegiterOptionalActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        this.finish();
+                    });
+            return true;
+        }
+        return super.onOptionsItemSelected(paramMenuItem);
     }
 }

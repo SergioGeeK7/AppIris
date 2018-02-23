@@ -80,6 +80,12 @@ public class MainScreen extends AppCompatActivity {
                                 return;
                             }
                             UserApp userApp = data.getValue(UserApp.class);
+                            if(userApp.isDoctor()){
+                                Intent intent = new Intent(this, HistoryDoctor.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                return;
+                            }
                             Gender gender = userApp.getGender().equals("m") ? Gender.MAN : Gender.WOMAN;
                             updateUI(gender, userApp.getFullName());
                 }, this));
@@ -101,6 +107,7 @@ public class MainScreen extends AppCompatActivity {
                 .signOut(this)
                 .addOnCompleteListener(task -> {
                     Intent intent = new Intent(this, RegiterOptionalActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     this.finish();
                 });

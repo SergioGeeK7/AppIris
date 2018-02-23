@@ -118,6 +118,7 @@
     <string name="state">State</string>
     <string name="title_activity_show_iris">ShowIris</string>
     <string name="save">Save</string>
+    <string name="saving">Saving</string>
     <string name="send">Send</string>
     <string name="sent">Files has been sent to our doctors</string>
     <string name="affected_organs">Affected organs</string>
