@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.example.sergiogeek7.appiris.DetectActivity.onceTourDescription;
 import static com.example.sergiogeek7.appiris.ImageFilters.LEFT_EYE;
 import static com.example.sergiogeek7.appiris.ImageFilters.RIGHT_EYE;
 
@@ -67,6 +68,7 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
     @BindView(R.id.diagnosis)
     TextView txtDiagnosis;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -84,8 +86,9 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
         new loadBitmap().execute(eye.getAbsoletePath());
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true)){
+        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && DetectActivity.onceTourDescription){
             Message.show(getString(R.string.tour_organs_description), null, this);
+            DetectActivity.onceTourDescription = false;
         }
     }
 

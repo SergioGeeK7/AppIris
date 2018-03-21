@@ -32,7 +32,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView label, date, current_state;
+        public TextView label, date, current_state, done_label;
         public EditText edit_label;
 
         public MyViewHolder(View view) {
@@ -41,6 +41,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             date =  view.findViewById(R.id.date);
             current_state =  view.findViewById(R.id.current_state);
             edit_label = view.findViewById(R.id.edit_label);
+            done_label = view.findViewById(R.id.done_label);
         }
     }
 
@@ -64,6 +65,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                                 .format(history.getDate());
         holder.label.setText(history.getLabel() != null ? history.getLabel() : date);
         holder.date.setText(date);
+        if(history.getState() != null && history.getState().equals("done") ){
+            holder.done_label.setVisibility(View.VISIBLE);
+        }
         holder.edit_label.setOnKeyListener((v, keyCode, event) -> {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {

@@ -64,7 +64,7 @@
         android:layout_height="105dp"
         android:layout_marginStart="24dp"
         android:background="@drawable/analysis_request_buttton"
-        android:drawableTop="@drawable/ic_visualizar"
+        android:drawableTop="@drawable/visualizar"
         android:text="@string/show_iris"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/row" />

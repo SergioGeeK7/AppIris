@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.nfc.Tag;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -52,6 +53,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ViewImage extends AppCompatActivity{
+
+    
 
     @Override
     public void onResume() {
@@ -106,15 +109,21 @@ public class ViewImage extends AppCompatActivity{
     ConstraintLayout capture_layout;
     Gender gender;
 
+
+    @BindView(R.id.action_panel)
+    ConstraintLayout action_panel;
     @BindView(R.id.register_img)
     ImageView registerImg;
     @BindView(R.id.register_label)
     TextView registerLabel;
-
+    @BindView(R.id.help)
+    ImageView helpImg;
+    @BindView(R.id.label_help)
+    TextView helpLabel;
 
     public void launchCamera(View view) {
-        String rightOrLeftLabel = eyes.size() == FIRST_EYE_TO_TAKE ? getString(R.string.taking_photo_left) :
-                                                                    getString(R.string.taking_photo_right);
+        String rightOrLeftLabel = eyes.size() == FIRST_EYE_TO_TAKE ?
+                getString(R.string.taking_photo_left) : getString(R.string.taking_photo_right);
 
         Toast.makeText(this, rightOrLeftLabel + ", " + getString(R.string.turn_on_flash) ,
                 Toast.LENGTH_LONG).show();
@@ -190,6 +199,14 @@ public class ViewImage extends AppCompatActivity{
         if(user != null){
             registerImg.setVisibility(View.INVISIBLE);
             registerLabel.setVisibility(View.INVISIBLE);
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(action_panel);
+
+            constraintSet.connect(helpImg.getId(), ConstraintSet.END, action_panel.getId(),
+                    ConstraintSet.END, 0);
+            constraintSet.setMargin(helpImg.getId(), ConstraintSet.START, 0);
+
+            constraintSet.applyTo(action_panel);
         }
     }
 
@@ -282,17 +299,32 @@ public class ViewImage extends AppCompatActivity{
         //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.global_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.go_to_main_screen){
+            startActivity(new Intent(this, MainScreen.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     public void goToHelp (View v){
         startActivity(new Intent(this, about.class));
     }
 
     public void goToRegister(View v){
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
                 new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
                 new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build());
+                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()

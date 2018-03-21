@@ -36,10 +36,6 @@ public class AddResultsDoctor extends AppCompatActivity {
     TabIris recommendations_tab;
     @BindView(R.id.nutritional_supplements_tab)
     TabIris nutritional_supplements_tab;
-    @BindView(R.id.right_eye)
-    Button right_eye_button;
-    @BindView(R.id.left_eye)
-    Button left_eye_button;
     @BindView(R.id.save_btn)
     Button save_btn;
     @BindView(R.id.send_btn)
@@ -115,19 +111,6 @@ public class AddResultsDoctor extends AppCompatActivity {
         }
     }
 
-    public void changeEye(View v){
-        saveEyeData(previousTabId);
-        if(v.getId() == left_eye_button.getId()){
-            setEyeData(previousTabId);
-            right_eye_button.setVisibility(View.VISIBLE);
-            left_eye_button.setVisibility(View.GONE);
-        }else {
-            setEyeData(previousTabId);
-            left_eye_button.setVisibility(View.VISIBLE);
-            right_eye_button.setVisibility(View.GONE);
-        }
-    }
-
     public void goToShowIris (View v){
         Intent intent = new Intent(this, ShowIris.class);
         intent.putExtra(HistoryDoctor.DETECTION, detection);
@@ -139,7 +122,7 @@ public class AddResultsDoctor extends AppCompatActivity {
         saveEyeData(previousTabId);
         Callback.taskManager(this,
         detectionsRef.child(detection.getKey())
-                    .setValue(detection));
+                     .setValue(detection));
         Intent returnIntent = new Intent();
         returnIntent.putExtra(HistoryDoctor.DETECTION, detection);
         setResult(AnalysisRequest.RESULT_OK, returnIntent);

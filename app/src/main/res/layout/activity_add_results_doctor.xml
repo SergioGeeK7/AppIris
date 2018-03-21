@@ -44,47 +44,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_alignParentEnd="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/doctor_round_button"
-            android:paddingTop="32dp"
-            android:paddingStart="15dp"
-            >
-            <Button
-                android:id="@+id/right_eye"
-                android:layout_width="60dp"
-                android:layout_height="25dp"
-                android:background="@drawable/dragient_button_doctor"
-                android:drawableEnd="@drawable/ic_iris1"
-                android:paddingEnd="5dp"
-                android:onClick="changeEye"
-                android:text="@string/rightImage"
-                android:textColor="@color/tw__solid_white"
-                android:textSize="12sp"
-                android:visibility="gone"
-                />
-            <Button
-                android:id="@+id/left_eye"
-                android:onClick="changeEye"
-                android:layout_width="60dp"
-                android:paddingStart="5dp"
-                android:layout_height="25dp"
-                android:textColor="@color/tw__solid_white"
-                android:textSize="12sp"
-                android:drawableStart="@drawable/ic_iris1"
-                android:background="@drawable/dragient_button_doctor"
-                android:text="@string/leftImage"
-                />
-        </LinearLayout>
-
         <Button
             android:layout_width="65dp"
             android:layout_height="wrap_content"

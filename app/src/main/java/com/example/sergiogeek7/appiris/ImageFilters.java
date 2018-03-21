@@ -76,6 +76,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public static final int LEFT_EYE = 0;
         public static final int RIGHT_EYE = 1;
         public static final int ANALYZE_WITH_EXPERT = 9;
+        private static boolean onceTour = true;
 
         private ArrayList<Eye> eyes;
         public Eye currentEye;
@@ -152,8 +153,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             //tabLayout.setupWithViewPager(viewPager);
             SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
-            if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true)){
-                Message.show(getString(R.string.tour_image_filter), null, this);
+            if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && onceTour){
+                Message.show(getString(R.string.tour_image_filter),
+                        null, this);
+                onceTour = false;
             }
             //Drawable d = ContextCompat.getDrawable(this, R.drawable.ic_editar_2);
         }
@@ -368,7 +371,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                                 final String path = BitmapUtils.insertImage(getContentResolver(), finalImage, System.currentTimeMillis() + "_profile.jpg", null);
                                 if (!TextUtils.isEmpty(path)) {
                                     Snackbar snackbar = Snackbar
-                                            .make(coordinatorLayout, "Image saved to gallery!", Snackbar.LENGTH_LONG)
+                                            .make(coordinatorLayout,
+                                                    R.string.image_gallery_saved, Snackbar.LENGTH_LONG)
                                             .setAction("OPEN", new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
@@ -523,7 +527,8 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                 .child(detectionKey)
                 .child("state")
                 .setValue("pending"));
-        Toast.makeText(this, getString(R.string.sent), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.sent),
+                Toast.LENGTH_LONG).show();
     }
 
 

@@ -30,6 +30,7 @@
 
         <activity
             android:name=".TermsAndConditions"
+            android:label="@string/terms_and_conditions_activity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,53 +40,83 @@
         </activity>
         <activity
             android:name=".ViewImage"
+            android:label="@string/capture_iris_activity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ImageFilters"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/apply_filters_activity"
+            />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
+            android:label="@string/crop_activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ShapeDescriptionActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/shape_description_activity"
+            />
         <activity
             android:name=".DetectActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/detected_activity"
+            />
         <activity
             android:name=".RegisterForm"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/register_activity"
+            />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/select_gender_activity"
+            />
         <activity
             android:name=".RegiterOptionalActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/login_activity"
+            />
         <activity
             android:name=".MainScreen"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:label="@string/dashboard_activity"
             />
         <activity
             android:name=".History"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/history"
+            />
         <activity
             android:name=".FormMedicalHistory"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/medical_history_activity"
+            />
         <activity
             android:name=".HistoryDoctor"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/history"
+            />
         <activity
             android:name=".AnalysisRequest"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/analysis_activity"
+            />
         <activity
             android:name=".ShowIris"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:label="@string/iris_somatizacion"
+            />
         <activity
             android:name=".AddResultsDoctor"
-            android:screenOrientation="portrait" />
-        <activity android:name=".about" />
+            android:screenOrientation="portrait"
+            android:label="@string/analysis_activity"
+            />
+        <activity
+            android:name=".about"
+            android:label="@string/about"
+            />
 
         <service android:name=".FirebaseIDService">
             <intent-filter>

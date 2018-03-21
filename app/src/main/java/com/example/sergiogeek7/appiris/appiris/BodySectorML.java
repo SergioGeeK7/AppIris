@@ -26,33 +26,11 @@ public class BodySectorML extends BodySector{
                 context.getString(R.string.diagnosis_piernas), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.piernas),
                 context.getString(R.string.diagnosis_piernas), ++id));
-        if(Gender.WOMAN == gender){
-            this.parts.add(new BodyPart(context.getString(R.string.trompas_de_falopio),
-                    context.getString(R.string.diagnosis_pelvis), ++id));
-        }
         this.parts.add(new BodyPart(context.getString(R.string.rinones),
                 context.getString(R.string.diagnosis_pelvis) , ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.glándulas_suprarrenales),
-                context.getString(R.string.diagnosis_pelvis), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado),
-                context.getString(R.string.diagnosis_pelvis), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.sigmoidea),
-                context.getString(R.string.diagnosis_pelvis), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.ciego),
+        this.parts.add(new BodyPart(context.getString(R.string.intestinos),
                 context.getString(R.string.diagnosis_pelvis), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.estomago),
                 context.getString(R.string.diagnosis_estomago), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.bajo_abdomen),
-                context.getString(R.string.diagnosis_abdomen), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.fingle),
-                context.getString(R.string.diagnosis_pelvis), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.intestinos),
-                context.getString(R.string.diagnosis_pelvis), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.colon_sigmoideo),
-                context.getString(R.string.diagnosis_colon), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.apendice),
-                context.getString(R.string.diagnosis_pelvis), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.ileon),
-                context.getString(R.string.diagnosis_pelvis), ++id));
     }
 }

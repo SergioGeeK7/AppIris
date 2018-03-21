@@ -5,19 +5,20 @@
     <string name="error">An Internal error has occurred</string>
     <string name="activity_title_main">Filters</string>
     <string name="action_settings">Settings</string>
-    <string name="filters">FILTERS</string>
-    <string name="edit">EDIT</string>
+    <string name="filters">Filters</string>
+    <string name="edit">Edit</string>
     <string name="leftImage">L</string>
+    <string name="image_gallery_saved">Image saved to gallery!</string>
     <string name="rightImage">R</string>
-    <string name="lbl_brightness">BRIGHTNESS</string>
-    <string name="lbl_contrast">CONTRAST</string>
-    <string name="lbl_saturation">SATURATION</string>
-    <string name="tab_filters">FILTERS</string>
-    <string name="tab_edit">EDIT</string>
+    <string name="lbl_brightness">Brightness</string>
+    <string name="lbl_contrast">Contrast</string>
+    <string name="lbl_saturation">Saturation</string>
+    <string name="tab_filters">Filters</string>
+    <string name="tab_edit">Edit</string>
     <string name="roboto_medium" translatable="false">sans-serif-medium</string>
     <string name="filter_normal">Normal</string>
     <string name="action_save">Save</string>
-    <string name="action_analyze">ANALYZE</string>
+    <string name="action_analyze">Analyze</string>
     <string name="share">Share</string>
     <string name="with_scheme">With scheme</string>
     <string name="only_image">Only image</string>
@@ -33,14 +34,15 @@
     <string name="load_photo_left">Load Left Iris</string>
     <string name="loading">Loading ...</string>
     <string name="uploading">Uploading ...</string>
-    <string name="blur_photo">Please try to focus the iris, The photo is blurry </string>
+    <string name="blur_photo">Please try to make a better focus of the iris, The photo is blurry </string>
     <string name="alert">Alert</string>
     <string name="search_user">Search ...</string>
-    <string name="birth_date">Birth date:</string>
-    <string name="full_name">Full name</string>
-    <string name="gender">Gender:</string>
-    <string name="weigh">Weigh Kl:</string>
-    <string name="size">Size Cm:</string>
+    <string name="birth_date">Birth date *:</string>
+    <string name="analyzed">Analyzed</string>
+    <string name="full_name">Full name *</string>
+    <string name="gender">Gender * :</string>
+    <string name="weigh">Weigh Kl *:</string>
+    <string name="size">Size Cm *:</string>
     <string name="create_account">Create account</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="male">Male</string>
@@ -58,6 +60,19 @@
     <string name="terms_and_conditions">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dolorem ex nisi recusandae unde. Alias atque delectus eos eveniet excepturi, expedita fuga fugit harum, illo iure maiores perspiciatis quasi voluptate.
 
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque exercitationem incidunt, nostrum nulla odit ullam. Accusantium, architecto, autem consequatur culpa dolorum facilis iusto nesciunt quam quasi totam unde voluptatum?.</string>
+    <string name="terms_and_conditions_activity">Terms and conditions</string>
+    <string name="capture_iris_activity">Capture iris</string>
+    <string name="apply_filters_activity">Apply filters</string>
+    <string name="crop_activity">Crop image</string>
+    <string name="shape_description_activity">Somatizacion</string>
+    <string name="detected_activity">Detected</string>
+    <string name="register_activity">Register</string>
+    <string name="select_gender_activity">Select gender</string>
+    <string name="login_activity">Login</string>
+    <string name="dashboard_activity">Dashboard</string>
+    <string name="medical_history_activity">Medical history</string>
+    <string name="analysis_activity">Analysis</string>
+    <string name="iris_somatizacion">Iris Somatizacion</string>
     <string name="accept_terms">Accept</string>
     <string name="decline_terms">Decline</string>
     <string name="continue_terms">Continue</string>
@@ -120,7 +135,8 @@
     <string name="save">Save</string>
     <string name="saving">Saving</string>
     <string name="send">Send</string>
-    <string name="sent">Files has been sent to our doctors</string>
+    <string name="sent">The files has been sent successfully to our iridologos</string>
+
     <string name="affected_organs">Affected organs</string>
     <string name="add_affected_organs">Add affected organs</string>
     <string name="nutritional_supplements">Nutritional supplements</string>
@@ -271,8 +287,19 @@
     <string name="costillas_inferiores">costillas inferiores</string>
     <string name="esternon">esternón</string>
     <string name="plexo_solar">Plexo solar</string>
-    <string name="diagnosis">Diagnosis: </string>
+    <string name="diagnosis">Somatizacion: </string>
     <string name="about">About</string>
+    <string name="missing_gender">Please fill gender</string>
+    <string name="missing_size">Please fill size</string>
+    <string name="missing_weight">Please fill weight</string>
+    <string name="missing_birth_date">Please fill birth Date</string>
+    <string name="missing_name">Please fill name</string>
+    <string name="missing_aliment">Please select the type of aliment</string>
+    <string name="missing_state">Please select aliment state</string>
+    <string name="missing_breakfast_description">Please describe breakfast aliments</string>
+    <string name="missing_lunch_description">Please describe lunch aliments</string>
+    <string name="missing_dinner_description">Please describe dinner aliments</string>
+    <string name="missing_period">Please select type of period</string>
     <string name="no_doctor">You have to analyze it with a doctor to see this field</string>
     <string name="diagnosis_cabeza">-Esfuerzo por pensar constantemente en alcanzar un objetivo o meta llegando al
 punto de la obsesión, es decir, todo alrededor gira entorno a ese pensamiento.\n
@@ -505,7 +532,14 @@ observación y su debida atención.
 
     <string name="must_register_first">Must register first to use this function</string>
     <string name="go_to_main_screen">Main screen</string>
-    <string name="turn_on_flash">Please turn on the flash camera to take a better photo and use the back camera for better resolution</string>
+    <string name="turn_on_flash">In order to take the photo of your iris use the posterior camera; try to focus the iris
+    and adjust the camera flash according to the environment to guarantee a good photo</string>
+    <string name="end_left_iris">Capture Left iris successful</string>
+    <string name="end_right_iris">Capture Right iris successful</string>
+
+
+
+    <string name="analysis_saved">Analysis saved</string>
     <string name="analyzing">Analyzing ...</string>
     <string name="sign_in">Sign in</string>
 </resources>

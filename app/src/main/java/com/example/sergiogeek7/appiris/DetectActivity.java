@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.example.sergiogeek7.appiris.appiris.BodyPart;
 import com.example.sergiogeek7.appiris.appiris.BodySector;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
@@ -124,6 +126,9 @@ public class DetectActivity extends AppCompatActivity
     private int sharedCount = 0;
     private Psicosomaticas psicosomaticas;
     private Gender gender;
+    private static boolean onceTour = true;
+    public static boolean onceTourDescription = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +143,10 @@ public class DetectActivity extends AppCompatActivity
         ButterKnife.bind(this);
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true)){
-            Message.show(getString(R.string.tour_detect_activity), null, this);
+        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && onceTour){
+            Message.show(getString(R.string.tour_detect_activity),
+                    null, this);
+            onceTour = false;
         }
     }
 
@@ -173,6 +180,9 @@ public class DetectActivity extends AppCompatActivity
                                             Callback.taskManager(this,
                                                     detection.setValue(detectionModel));
                                             detectionKey = detection.getKey();
+                                            Toast.makeText(this, R.string.analysis_saved,
+                                                    Toast.LENGTH_LONG).show();
+                                            saveEyesDescription();
                                     }, this) )
                         , this)),this));
     }
@@ -351,7 +361,6 @@ public class DetectActivity extends AppCompatActivity
 
                         Bitmap bitmap = Picasso.with(DetectActivity.this)
                                 .load(eye.getOriginal().getUri())
-                                //.resize(400, 400)
                                 .get();
                         ShapesDetected shapes = new DetectShapes(bitmap).detect();
                         Bitmap schemeOriginal = BitmapUtils.drawableToBitmap(

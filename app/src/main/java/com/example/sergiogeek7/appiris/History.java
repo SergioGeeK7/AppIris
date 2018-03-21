@@ -8,6 +8,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -31,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class History extends AppCompatActivity {
@@ -92,26 +95,49 @@ public class History extends AppCompatActivity {
             }
         }));
 
-        refDetections.addValueEventListener(Callback.valueEventListener((DatabaseError err, DataSnapshot data) -> {
+        refDetections.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot data) {
+                detections.clear();
+                for (DataSnapshot postSnapshot: data.getChildren()) {
+                    DetectionModel detection = postSnapshot.getValue(DetectionModel.class);
+                    detection.setKey(postSnapshot.getKey());
+                    detections.add(detection);
+                }
+                Collections.sort(detections, (t1, t2) -> {
+                    int c1 = t1.getState() != null && t1.getState().equals("done") ?
+                            (int) t1.getDate().getTime() :(int) t1.getDate().getTime() / 2;
+                    int c2 = t2.getState() != null && t2.getState().equals("done") ?
+                            (int) t2.getDate().getTime() :(int) t2.getDate().getTime() / 2;
+                    return  c2 - c1;
+                });
+                mAdapter.notifyDataSetChanged();
+                refDetections.removeEventListener(this);
+            }
 
-            if(err != null){
-                Log.e(TAG, err.getMessage());
-                return;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, databaseError.getMessage());
             }
-            detections.clear();
-            for (DataSnapshot postSnapshot: data.getChildren()) {
-                DetectionModel detection = postSnapshot.getValue(DetectionModel.class);
-                detection.setKey(postSnapshot.getKey());
-                detections.add(detection);
-            }
-            Collections.sort(detections, (t1, t2) -> {
-                int c1 = t1.getState() != null && t1.getState().equals("done") ? 1:2;
-                int c2 = t2.getState() != null && t2.getState().equals("done") ? 1:2;
-                return  c1 - c2;
-            });
-            mAdapter.notifyDataSetChanged();
-        }, History.this));
+        });
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.global_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.go_to_main_screen){
+            startActivity(new Intent(this, MainScreen.class));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public interface ClickListener {
         void onClick(View view, int position);

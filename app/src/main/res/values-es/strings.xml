@@ -26,7 +26,26 @@
     <string name="load_photo_right">Cargar iris derecho</string>
     <string name="load_photo_left">Cargar iris izquierdo</string>
     <string name="loading">Cargando ...</string>
-    <string name="blur_photo">Por favor trate de enfocar el iris, La captura es borrosa</string>
     <string name="alert">Alerta</string>
     <string name="filter_normal">Normal</string>
+    <string name="history_tooltip">Aquí puedes ver el historial de tu análisis.
+        \nToque de manera sostenido en la carpeta para
+cambiar el nombre.</string>
+    <string name="turn_on_flash">Para tomar la fotografía de su iris use la cámara posterior; haga el enfoque adecuado y ajuste el flash de acuerdo al entorno para garantizar una buena fotografía.</string>
+    <string name="end_left_iris">Captura de iris izquierdo exitosa</string>
+    <string name="end_right_iris">Captura de iris derecho exitosa</string>
+    <string name="blur_photo">Por favor hacer un mejor enfoque del iris</string>
+    <string name="sent">Archivos ha sido enviado a nuestros médicos</string>
+    <string name="tour_image_filter">para cambiar la vista previa del ojo, seleccione los botones azules, para aplicar efectos, seleccione los rectángulos que se encuentran debajo y para finalizar presione analizar.</string>
+    <string name="image_gallery_saved">Imagen guardada en galería</string>
+    <string name="analysis_saved">Análisis guardado</string>
+    <string name="tour_detect_activity">
+Seleccione las formas detectadas en la imagen y vea los síntomas, para guardar esta
+detección, presione el botón Guardar.
+        \nPara realizar el análisis debe seleccionar las
+áreas resaltadas en la circunferencia o en la
+cuales detecte un tono más oscuro que el de
+los ojos.
+    </string>
+
 </resources>

@@ -26,44 +26,22 @@ public class BodySectorVR extends BodySector{
                 context.getString(R.string.diagnosis_nariz), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.ojos),
                 context.getString(R.string.diagnosis_ojos), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal),
-                context.getString(R.string.diagnosis_colon), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.estomago),
-                context.getString(R.string.diagnosis_estomago), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.maxilar_superior),
-                context.getString(R.string.diagnosis_boca), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.nariz),
+                context.getString(R.string.diagnosis_nariz), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.lengua),
                 context.getString(R.string.diagnosis_cara), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.amigdalas),
                 context.getString(R.string.diagnosis_cara), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.nariz),
-                context.getString(R.string.diagnosis_nariz), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado),
-                context.getString(R.string.intestino_delgado), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.laringe),
                 context.getString(R.string.diagnosis_cuello), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.glandulas_linguales),
-                context.getString(R.string.diagnosis_cuello), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.cuerdas_bocales),
-                context.getString(R.string.diagnosis_boca), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.maxilar_inferior),
-                context.getString(R.string.diagnosis_boca), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.garganta),
                 context.getString(R.string.diagnosis_cuello), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.traquea),
-                context.getString(R.string.diagnosis_cuello), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.glandula_tiroide_paratiroides),
-                context.getString(R.string.diagnosis_cuello), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.paratiroides),
-                context.getString(R.string.diagnosis_cuello), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.esfínteres_cardias_piloro),
+        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal),
+                context.getString(R.string.diagnosis_colon), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.estomago),
                 context.getString(R.string.diagnosis_estomago), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.piloro),
-                context.getString(R.string.diagnosis_estomago), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.esófago),
-                context.getString(R.string.diagnosis_estomago), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.omoplato),
-                context.getString(R.string.diagnosis_brazos), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado),
+                context.getString(R.string.intestino_delgado), ++id));
     }
 
 }

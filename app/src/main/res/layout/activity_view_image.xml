@@ -94,13 +94,14 @@
             android:layout_height="55dp"
             android:layout_marginStart="64dp"
             android:layout_marginTop="32dp"
-            android:onClick="goToHelp"
             android:layout_weight="1"
-            android:src="@drawable/help_button"
+            android:onClick="goToHelp"
+            android:src="@drawable/ic_informacion"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/label_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/help"

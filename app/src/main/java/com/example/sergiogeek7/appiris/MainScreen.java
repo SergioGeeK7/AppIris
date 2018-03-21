@@ -29,6 +29,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.w3c.dom.Text;
 
+import java.sql.SQLOutput;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -80,6 +82,10 @@ public class MainScreen extends AppCompatActivity {
                                 return;
                             }
                             UserApp userApp = data.getValue(UserApp.class);
+                            if(userApp == null){
+                                logout(null);
+                                return;
+                            }
                             if(userApp.isDoctor()){
                                 Intent intent = new Intent(this, HistoryDoctor.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

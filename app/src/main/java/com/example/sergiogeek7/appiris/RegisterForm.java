@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Country;
@@ -110,14 +111,43 @@ public class RegisterForm extends AppCompatActivity {
         String country =  ((Country) spinner_country.getSelectedItem()).getKey();
         String gender =  spinner_gender.getSelectedItemPosition() == 0 ? "m" : "f";
         String size = text_size.getText().toString();
-        String weigh = text_weigh.getText().toString();
+        String weight = text_weigh.getText().toString();
         String birthDate = birth_date.getText().toString();
         String fullName = full_name.getText().toString();
-        UserApp userApp = new UserApp(size, weigh, gender, birthDate, country, city, fullName);
+        if(!validate(size, weight, birthDate, fullName)){
+            return;
+        }
+        UserApp userApp =
+                new UserApp(size, weight, gender, birthDate, country, city, fullName);
         DatabaseReference users_ref = database.getReference("users");
         Callback.taskManager(this, users_ref.child(user.getUid()).setValue(userApp));
         goToMainScreen(gender);
     }
+
+    boolean validate(String size, String weight, String birthDate,
+                     String fullName){
+        String message = "";
+        if(size.isEmpty()){
+            message += "\n" + getString(R.string.missing_size);
+        }
+        if(weight.isEmpty()){
+            message += "\n" + getString(R.string.missing_weight);
+        }
+        if(birthDate.isEmpty()){
+            message += "\n" + getString(R.string.missing_birth_date);
+        }
+        if(fullName.isEmpty()){
+            message += "\n" + getString(R.string.missing_name);
+        }
+        if(!message.isEmpty()){
+            Toast.makeText(this, message, Toast.LENGTH_LONG)
+                    .show();
+            return false;
+        }
+
+        return true;
+    }
+
 
     private void goToMainScreen(String gender){
         Intent intent = new Intent(this, MainScreen.class);

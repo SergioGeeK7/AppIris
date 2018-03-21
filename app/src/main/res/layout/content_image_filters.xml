@@ -91,7 +91,7 @@ tools:showIn="@layout/activity_image_filters">
                android:layout_height="50dp"
                android:layout_marginStart="16dp"
                android:id="@+id/filter_tab"
-               android:src="@drawable/ic_editar_2"
+               android:src="@drawable/ic_fx"
                />
            <ImageView
                android:id="@+id/fx_tab"
@@ -100,7 +100,8 @@ tools:showIn="@layout/activity_image_filters">
                android:layout_width="50dp"
                android:layout_weight="1"
                android:layout_height="50dp"
-               android:src="@drawable/ic_fx"
+               android:src="@drawable/ic_editar_2"
+
                />
        </LinearLayout>
         <com.example.sergiogeek7.appiris.utils.NonSwipeableViewPager

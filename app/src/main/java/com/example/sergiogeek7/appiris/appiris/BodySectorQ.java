@@ -22,15 +22,15 @@ public class BodySectorQ extends BodySector{
         this.scaleRight = scaleRight;
         this.scaleLeft = scaleLeft;
         int id = -1;
-        this.parts.add(new BodyPart(context.getString(R.string.zona_umbilical),
-                context.getString(R.string.diagnosis_top_espalda), ++id));
+
         this.parts.add(new BodyPart(context.getString(R.string.columna_vertebral),
                 context.getString(R.string.diagnosis_top_espalda), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.omoplato),
-                context.getString(R.string.diagnosis_middle_espalda), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.intestino_delgado),
                 context.getString(R.string.diagnosis_intestinos), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.estomago),
                 context.getString(R.string.diagnosis_estomago), ++id));
+
+
+
     }
 }
