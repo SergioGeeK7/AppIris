@@ -11,6 +11,7 @@ import android.widget.Button;
 import com.example.sergiogeek7.appiris.utils.Callback;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
 import java.util.List;
@@ -30,6 +32,8 @@ public class RegiterOptionalActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     private final String TAG = MainActivity.class.getName();
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private final String DOCTOR_TOPIC = "DOCTOR_TOPIC";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +69,14 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                                         Log.e(TAG, err.getMessage());
                                         return;
                                     }
-                                    Class next = !data1.exists() ? RegisterForm.class:
+                                    if(data1.exists() && data1.hasChild("doctor")){
+                                        FirebaseApp.initializeApp(this);
+                                        FirebaseMessaging.getInstance().subscribeToTopic(DOCTOR_TOPIC);
+                                    }
+                                    Class next =    !data1.exists() ? RegisterForm.class:
                                                     data1.hasChild("doctor") ?
                                                     HistoryDoctor.class : MainScreen.class;
+
                                     Intent intent = new Intent(this, next);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

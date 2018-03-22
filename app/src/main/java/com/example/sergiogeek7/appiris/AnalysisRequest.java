@@ -1,9 +1,12 @@
 package com.example.sergiogeek7.appiris;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
@@ -29,8 +32,21 @@ public class AnalysisRequest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis_request);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
         updateUI();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void goToMedicalHistory (View v){

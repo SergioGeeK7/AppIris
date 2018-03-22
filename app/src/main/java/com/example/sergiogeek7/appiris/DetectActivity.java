@@ -11,7 +11,9 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -141,6 +143,10 @@ public class DetectActivity extends AppCompatActivity
         psicosomaticas = new Psicosomaticas(this, gender);
         setContentView(R.layout.activity_detect);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && onceTour){
@@ -217,6 +223,11 @@ public class DetectActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            onBackPressed();
+        }
+
 
         if(id == R.id.share){
             share();

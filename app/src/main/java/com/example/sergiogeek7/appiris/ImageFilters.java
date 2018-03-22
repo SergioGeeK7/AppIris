@@ -16,9 +16,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -144,10 +146,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             setContentView(R.layout.activity_image_filters);
             ButterKnife.bind(this);
             left_image.setEnabled(false);
-            //Toolbar toolbar = findViewById(R.id.toolbar);
-            //setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(getString(R.string.activity_title_main));
+            ActionBar actionBar = getSupportActionBar();
+            if(actionBar != null){
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
             new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath(), false);
             setupViewPager(viewPager);
             //tabLayout.setupWithViewPager(viewPager);
@@ -323,6 +325,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
         public boolean onOptionsItemSelected(MenuItem item) {
             int id = item.getItemId();
 
+            if(id == android.R.id.home){
+                onBackPressed();
+            }
+
             if (id == R.id.load_from_gallery) {
                 return true;
             }
@@ -336,6 +342,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             }
             return super.onOptionsItemSelected(item);
         }
+
 
         private void share(){
             Bitmap bitmap = BitmapUtils.addWaterMark(filteredImage, getString(R.string.app_name));

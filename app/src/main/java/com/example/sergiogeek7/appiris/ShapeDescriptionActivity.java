@@ -16,7 +16,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,6 +76,10 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shape_description);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         Gender gender = ((GlobalState)getApplication()).gender;
         psicosomaticas = new Psicosomaticas(this, gender);
         this.bodyParts = getIntent().getParcelableArrayListExtra(DetectActivity.BODY_PARTS);
@@ -129,10 +135,19 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
     }
 
     public boolean onOptionsItemSelected(MenuItem paramMenuItem){
+
+
+        if(paramMenuItem.getItemId() == android.R.id.home){
+            onBackPressed();
+        }
+
         if (paramMenuItem.getItemId() == R.id.share)
         {
             share();
             return true;
+        }
+        if(paramMenuItem.getItemId() == R.id.go_to_main_screen){
+            startActivity(new Intent(this, MainScreen.class));
         }
         return super.onOptionsItemSelected(paramMenuItem);
     }

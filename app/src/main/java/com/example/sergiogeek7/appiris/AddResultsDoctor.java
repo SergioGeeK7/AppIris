@@ -1,9 +1,13 @@
 package com.example.sergiogeek7.appiris;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -59,6 +63,10 @@ public class AddResultsDoctor extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_results_doctor);
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         this.detection = getIntent().getParcelableExtra(HistoryDoctor.DETECTION);
         this.doctor = getIntent().getBooleanExtra(History.ISDOCTOR, true);
         affected_organs_tab.setEnabled(true);
@@ -71,6 +79,28 @@ public class AddResultsDoctor extends AppCompatActivity {
             send_btn.setVisibility(View.VISIBLE);
             done_btn.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.global_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if(id == android.R.id.home){
+            onBackPressed();
+        }
+
+        if(id == R.id.go_to_main_screen){
+            Class c =  doctor? HistoryDoctor.class:MainScreen.class;
+            startActivity(new Intent(this,c));
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void send(View v){

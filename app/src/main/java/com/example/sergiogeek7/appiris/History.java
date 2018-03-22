@@ -1,6 +1,8 @@
 package com.example.sergiogeek7.appiris;
 
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -52,12 +54,15 @@ public class History extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         recyclerView = findViewById(R.id.recycler_view);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         if(user == null){
             Toast.makeText(this, getString(R.string.must_register_first), Toast.LENGTH_LONG)
                     .show();
             return;
         }
-
         refDetections = database.getReference("detections")
                                 .orderByChild("userUId")
                                 .equalTo(user.getUid());
@@ -123,21 +128,13 @@ public class History extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.global_menu, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if(id == R.id.go_to_main_screen){
-            startActivity(new Intent(this, MainScreen.class));
-            finish();
+        if(id == android.R.id.home){
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public interface ClickListener {
         void onClick(View view, int position);

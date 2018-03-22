@@ -54,6 +54,7 @@ public class MainScreen extends AppCompatActivity {
         if(user != null){
             getUserApp(user.getUid());
             if(CloudMessagingIDService.refreshedToken != null){
+                Log.e(TAG, "updating token");
                 saveMessagingToken(user.getUid());
             }
             //captureRow.setBackgroundResource(0);

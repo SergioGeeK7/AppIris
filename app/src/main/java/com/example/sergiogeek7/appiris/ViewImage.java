@@ -9,9 +9,11 @@ import android.nfc.Tag;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -195,6 +197,10 @@ public class ViewImage extends AppCompatActivity{
         setContentView(R.layout.activity_view_image);
         this.gender = ((GlobalState)getApplication()).gender;
         ButterKnife.bind(this);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){
             registerImg.setVisibility(View.INVISIBLE);
@@ -208,6 +214,15 @@ public class ViewImage extends AppCompatActivity{
 
             constraintSet.applyTo(action_panel);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void launchFilterActivity (){
@@ -298,23 +313,6 @@ public class ViewImage extends AppCompatActivity{
         }
         //intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.global_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.go_to_main_screen){
-            startActivity(new Intent(this, MainScreen.class));
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 
     public void goToHelp (View v){
         startActivity(new Intent(this, about.class));
