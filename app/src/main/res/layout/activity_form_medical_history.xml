@@ -117,13 +117,6 @@
                     android:hint="@string/leave_empty"
                     android:text="@={form.childhoodAilments}" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@color/divider" />
             </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
@@ -1006,22 +999,45 @@
 
 
         </LinearLayout>
-            <Button
+
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/gradient"
-                android:onClick="forward"
-                android:paddingEnd="70dp"
-                android:paddingStart="70dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/next"
-                android:textColor="@color/tw__solid_white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/step1" />
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                >
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:id="@+id/back_step"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/gradient"
+                    android:onClick="back"
+                    android:paddingEnd="50dp"
+                    android:paddingStart="50dp"
+                    android:text="@string/back"
+                    android:textColor="@color/tw__solid_white"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/gradient"
+                    android:onClick="forward"
+                    android:paddingEnd="50dp"
+                    android:paddingStart="50dp"
+                    android:text="@string/next"
+                    android:textColor="@color/tw__solid_white" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </ScrollView>

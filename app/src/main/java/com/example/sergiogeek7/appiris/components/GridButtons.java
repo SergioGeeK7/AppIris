@@ -24,7 +24,7 @@ public class GridButtons extends GridLayout {
     public GridButtons(Context context, List<BodyPart> items, ButtonTab.ButtonTabListener listener) {
         super(context);
         this.setPadding(32,32,32,32);
-        this.setColumnCount(6);
+        this.setColumnCount(3);
         buildButtons(items, listener);
     }
 

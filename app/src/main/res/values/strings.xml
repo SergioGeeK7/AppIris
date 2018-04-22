@@ -57,9 +57,192 @@
     <!-- Twitter consumer key and secret -->
     <string name="twitter_consumer_key" translatable="false">PO3Lvdik3PMNoeUmLR7l9JKtD</string>
     <string name="twitter_consumer_secret" translatable="false">n7FeljOE12SkvP49OiDQ4CYmVLQaQJkgB2WbMXH8R7pEe0S6hw</string>
-    <string name="terms_and_conditions">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dolorem ex nisi recusandae unde. Alias atque delectus eos eveniet excepturi, expedita fuga fugit harum, illo iure maiores perspiciatis quasi voluptate.
+    <string name="terms_and_conditions">
+         \n
+        <b>POLÍTICA DE PRIVACIDAD</b>
+        \n
+         \nBienvenidos a AppIris. AppIris te proporciona una forma rápida y ágil de usar la
+iridología en tu día a día. Solo tienes que hacer una foto, indicar que inicie el
+análisis y hacer las respectivas selecciones de los órganos y las posibles causas
+psicosomáticas.
+        \n
+&#8226; Al utilizar la aplicación entiendes y aceptas que te proporcionamos una
+herramienta para capturar la fotos de tus iris y hacerles un análisis con base
+a la iridología. Esto significa que la aplicación es solo una herramienta y no
+busca ni pretende dar diagnósticos médicos. \n
+&#8226; Nuestra Política se aplica a todos los visitantes, usuarios y otras personas
+que accedan al Servicio.
+\n
+         \n
+<b>1. Información recopilada</b>
+\n
+         \nLa aplicación recopila los siguientes tipos de información
+        \n
+         \n
+<b>Información que proporciona el usuario</b>
+        \n
+         \n
+&#8226; Correo electrónico del usuario y contraseña al registrarse en una cuenta de
+AppIris. \n
+&#8226; Información personal de usuario (nombre completo, apellidos, fecha de
+nacimiento, género, talla, peso, país de residencia, ciudad de residencia o
+acceso mediante redes sociales). Esta información le permite a la
+aplicación mejorar en el análisis de los iris. \n
+&#8226; Antecedente personal. Antecedentes \n
+&#8226; Comunicaciones que mantengas con AppIris. Por ejemplo, se le pueden
+enviar correos electrónicos relacionados con el Servicio (como verificación
+de la cuenta, cambios/actualizaciones de funciones del Servicio, avisos
+técnicos y de seguridad). Tenga en cuenta que no puede renunciar a recibir
+correos electrónicos relacionados con el Servicio.
+        \n \n
+ <b>Análisis de iris </b>
+        \n\n
+&#8226; Si decide realizar el análisis de los iris capturados, una vez el sistema
+identifique los signos estructurales, usted debe indicar (seleccionando) en
+cuales órganos tiene o ha tenido alguna anomalía. Lo anterior con el fin de
+lograr proporcionarle un análisis asertivo. \n
+&#8226; Si realiza el análisis de los iris también podrá elegir saber la posible causa
+psicológica de la anomalía en el órgano.
+        \n \n
+        <b>Información de análisis</b>
+        \n
+ \n
+&#8226; Se utilizan herramientas de análisis de terceros que ayudan a medir el
+tráfico y las tendencias de uso del Servicio. Estas herramientas recopilan la
+información que ha enviado su dispositivo o nuestro Servicio, incluidas las
+páginas web que visite, los complementos y otra información que ayude a
+mejorar el Servicio.
+        \n \n
+<b>Cookies y tecnologías similares</b>
+        \n
+         \n
+&#8226; Al visitar el Servicio, podemos utilizar cookies y tecnologías similares, como
+píxeles, señales web y almacenamiento local para recopilar información
+sobre cómo utiliza AppIris y ofrecerte prestaciones. \n
+&#8226; Se puede solicitar a los anunciantes u otros socios que envíen anuncios o
+servicios a sus dispositivos, los cuales pueden utilizar cookies o tecnologías
+similares nuestras o de terceros. \n \n
+        <b>2. Usos de la información recopilada</b>
+ \n
+    \nAdemás de algunos de los usos específicos de la información que describen en
+esta Política de privacidad, la información recibida puede ser utilizada para: \n
 
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur doloremque exercitationem incidunt, nostrum nulla odit ullam. Accusantium, architecto, autem consequatur culpa dolorum facilis iusto nesciunt quam quasi totam unde voluptatum?.</string>
+&#8226; Ayudarle a acceder eficazmente a la información después de registrarte. \n
+&#8226; Recordar la información, de modo que no tenga que volver a introducirla
+durante su uso o la próxima vez que utilice la aplicación. \n
+&#8226; Proporcionarle a usted y a otros usuarios información y contenido
+personalizado, que puede incluir anuncios en internet y otros formatos de
+marketing. \n
+&#8226; Ofrecer, mejorar, poner a prueba y controlar la eficacia de la aplicación. \n
+&#8226; Desarrollar y poner a prueba nuevas funciones. \n
+&#8226; Controlar las métricas, como el número total de visitantes, el tráfico y los
+patrones demográficos. \n
+&#8226; Diagnosticar o solucionar problemas tecnológicos.
+        \n \n
+
+        <b>3. Uso compartido de su información</b>
+\n
+ \nNo se procederá al alquiler o venta de la información que no proporcione a
+terceros que no sean AppIris (o el grupo de empresas del que forma parte AppIris)
+sin su consentimiento, excepto en los términos estipulados en esta Política.
+        \n \n
+<b>Partes con las que podemos compartir tu información</b>
+        \n
+         \n
+&#8226; Se puede compartir el Contenido de usuario y su información (incluida, sin
+limitación, información procedente de cookies, archivos de registro,
+identificadora de dispositivo, datos de ubicación y datos de uso) con
+empresas que formen parte legalmente del mismo grupo de empresas al
+que pertenece AppIris, o que vayan a formar parte de dicho grupo
+(&quot;Filiales&quot;). Las Filiales pueden utilizar esta información para ayudar a
+proporcionar, entender y mejorar el Servicio (incluso proporcionando datos
+de análisis) y los servicios propios de las Filiales (incluso proporcionándote
+experiencias mejores y más relevantes). \n
+&#8226; También se puede compartir su información y la información de
+herramientas, como cookies, archivos de registro e identificadores de
+
+dispositivo y datos de ubicación con terceras empresas que ayudan a
+proporcionarle el Servicio (&quot;Proveedores de servicios&quot;). Los Proveedores de
+servicios tendrán acceso a su información solo en la medida que sea
+necesaria razonablemente para ofrecer el Servicio conforme a unos
+términos de confidencialidad razonables. \n
+&#8226; También se puede compartir determinada información, como los datos de
+cookies, con socios publicitarios de terceros. Esta información permitiría a
+las redes publicitarias de terceros, entre otras cosas, ofrecer publicidad
+dirigida que consideren que puede resultarle de interés. \n
+&#8226; Se puede suprimir los datos que puedan identificarle y compartir los datos
+anónimos con otras partes. También se puede combinar su información con
+otra información, de modo que deje de estar asociada a usted y compartir
+esa información agregada.
+        \n \n
+<b>Partes con las que puede compartir su Contenido de usuario</b>
+        \n\n
+        &#8226; Cualquier información o contenido que divulgue voluntariamente para
+publicarlo en sus redes sociales, como el Contenido de usuario, adquieren
+un carácter público y se controla mediante la configuración de privacidad
+que establezca en su red social.
+        \n \n
+
+<b>Consecuencias en el caso de un cambio de control</b>
+        \n\nSi se vende o transfiere parte o la totalidad de AppIris o el activo a otra empresa
+(por ejemplo, en el transcurso de una transacción como una fusión, adquisición,
+bancarrota, disolución o liquidación), la información, como el nombre y la dirección
+de correo electrónico, el Contenido de usuario y cualquier otra información
+recopilada a través de la aplicación puede formar parte de la venta o transferencia.
+En ese caso, el Contenido de usuario seguirá perteneciéndole. El comprador o
+destinatario de la transferencia tendrá que respetar los compromisos acordados en
+esta Política de privacidad.
+        \n \n
+<b>Respuesta a los requerimientos legales y forma de evitar daños</b>
+        \n\nSe puede acceder a su información, conservarla y compartirla en respuesta a un
+requerimiento legal (como una orden de registro, orden judicial o citación) si se
+cree de buena fe que la ley así lo exige.
+        \n \n
+
+<b>4. Almacenamiento de su información</b>
+         \n\n
+&#8226; La información de su propiedad que se recopila a través de la aplicación
+puede almacenarse y procesarse en Colombia y en otro país en el que
+AppIris, sus Filiales o Proveedores de servicios dispongan de instalaciones. \n
+&#8226; Al registrase en el Servicio y hacer uso de este, consientes la transferencia
+de información a Colombia o a cualquier otro país en el que AppIris, sus
+Filiales o Proveedores de servicios cuenten con instalaciones, así como el
+
+uso y divulgación de información sobre usted, tal y como se describe en
+esta Política de privacidad. \n
+&#8226; Se toman medidas de protección empresariales razonables para ayudar a
+mantener la seguridad de la información recopilada a través de la aplicación
+y siguiendo los pasos necesarios y razonables (como solicitar una
+contraseña única) a fin de verificar su identidad antes de permitirte acceder
+a su cuenta. Sin embargo, AppIris no puede garantizar la seguridad de la
+información que transmitas AppIirs, ni tampoco que no se pueda acceder a
+la información en el Servicio, divulgarse, modificarse o destruirse.
+        \n \n
+<b>5. Privacidad de los menores</b>
+        \n\nAppIris no recopila ni solicita conscientemente ninguna información de usuarios
+que no hayan cumplido aún los 14 años de edad, ni permite a sabiendas que
+dichas personas se registren en el Servicio. El Servicio y su contenido no están
+destinados a menores de 14 años.
+        \n \n
+<b>6. Otros sitios web y servicios</b>
+        \n\nAppIris no se responsabiliza de las prácticas empleadas por los sitios web o
+servicios procedentes del Servicio o vinculados a este, incluida la información o el
+contenido de que consten. Recuerde que si utiliza en esta aplicación un enlace
+que lo lleva a otro sitio web o servicio, esta Política de privacidad no se aplica a
+esos sitios web o servicios de terceros. Si explora o interactúa en algún sitio web o
+servicio de terceros, incluidos aquellos que cuentan con un enlace en nuestro sitio
+web, estarás sujeto a las normas y políticas de esos terceros. Asimismo, acepta
+que no se asume ninguna responsabilidad ni se ejerce ningún control sobre los
+terceros a los que usted autorice el acceso a su Contenido de usuario. Si está
+utilizando un sitio web o servicio de terceros y les permite acceder a su Contenido
+de usuario, lo hace de su cuenta y riesgo.
+        \n \n
+        <b>7. Cambios en la política de privacidad</b>
+        \n\nAppIris puede modificar o actualizar esta Política de privacidad periódicamente,
+por lo que se le aconseja que la revise de vez en cuando. El uso continuado que
+haga de AppIris tras cualquier modificación de esta Política de privacidad,
+implicará tu aceptación de dicha modificación.
+    </string>
     <string name="terms_and_conditions_activity">Terms and conditions</string>
     <string name="capture_iris_activity">Capture iris</string>
     <string name="apply_filters_activity">Apply filters</string>
@@ -99,6 +282,8 @@
     <string name="tour_image_filter">To change of eye preview select the blue buttons, to apply effects select the rectangles below and to finalize press analyze</string>
     <string name="tour_detect_activity">
         select the shapes detected on the image and see the symptoms, to save this detection press the save button
+        \n
+        To make the analysis you should select the highlight areas with the circumference or whether you see a strong tone beside the normal
     </string>
     <string name="tour_organs_description">select the symptoms best suit for you, all the changes are going to be saved on your history (if you\'re registered)</string>
     <string name="show_tour_key" translatable="false">show_tour</string>

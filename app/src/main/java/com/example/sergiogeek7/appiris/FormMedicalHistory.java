@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.sergiogeek7.appiris.databinding.ActivityFormMedicalHistoryBinding;
 import com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm;
 import com.example.sergiogeek7.appiris.utils.Callback;
@@ -45,7 +44,6 @@ public class FormMedicalHistory extends AppCompatActivity {
         if(actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
         historyKey = getIntent().getStringExtra(MedicalHistoryForm.class.getName());
         this.gender = ((GlobalState)getApplication()).gender;
         if(historyKey != null){
@@ -131,6 +129,14 @@ public class FormMedicalHistory extends AppCompatActivity {
         if(currentStep == steps.size() - 1) {
             ((Button)v).setText(getString(R.string.finish));
         }
+    }
+
+    public void back(View v){
+        if(currentStep == 0) {
+            return;
+        }
+        steps.get(currentStep).setVisibility(View.GONE);
+        steps.get(--currentStep).setVisibility(View.VISIBLE);
     }
 
     boolean validate(View view){

@@ -96,6 +96,8 @@ public class ShapeDescriptionActivity extends AppCompatActivity{
             Message.show(getString(R.string.tour_organs_description), null, this);
             DetectActivity.onceTourDescription = false;
         }
+
+
     }
 
     public void done(View v){

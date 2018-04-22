@@ -3,14 +3,10 @@ package com.example.sergiogeek7.appiris;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.nfc.Tag;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
@@ -18,15 +14,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sergiogeek7.appiris.opencv.DetectBlur;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
@@ -40,23 +32,19 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.yalantis.ucrop.UCrop;
-
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ViewImage extends AppCompatActivity{
+import static com.example.sergiogeek7.appiris.ImageFilters.LEFT_EYE;
 
-    
+public class ViewImage extends AppCompatActivity{
 
     @Override
     public void onResume() {
@@ -207,7 +195,6 @@ public class ViewImage extends AppCompatActivity{
             registerLabel.setVisibility(View.INVISIBLE);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(action_panel);
-
             constraintSet.connect(helpImg.getId(), ConstraintSet.END, action_panel.getId(),
                     ConstraintSet.END, 0);
             constraintSet.setMargin(helpImg.getId(), ConstraintSet.START, 0);
@@ -268,6 +255,9 @@ public class ViewImage extends AppCompatActivity{
     private void isEyeBlur(Eye eye){
         new BitmapAsyncTask(this, bitmap -> {
             if(!DetectBlur.isBlur(bitmap)){
+                if(this.eyes.size() == 1){
+                    Toast.makeText(this, R.string.end_left_iris, Toast.LENGTH_LONG).show();
+                }
                 cropImage(eye.getFilter().getUri(), eye.getOriginal().getUri());
             }else{
                 showMessage(R.string.blur_photo, (dialog, which)

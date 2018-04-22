@@ -82,7 +82,7 @@ public class Shape implements Parcelable{
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i){
         parcel.writeDouble(this.column);
         parcel.writeDouble(this.row);
         parcel.writeDouble(this.colPercentage);
