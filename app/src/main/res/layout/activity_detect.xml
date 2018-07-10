@@ -39,6 +39,16 @@
         android:layout_marginTop="8dp"
         />
 
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/left_image"
+        android:onClick="onSwitchScheme"
+        android:id="@+id/scheme_switch"
+        android:layout_centerHorizontal="true"
+        android:text="@string/with_scheme" />
+
     <com.example.sergiogeek7.appiris.components.ButtonIris
         android:id="@+id/right_image"
         android:layout_width="70dp"

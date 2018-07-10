@@ -446,7 +446,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
 
     public void analyzeWithExpert(View v){
         if(user == null){
-            Toast.makeText(this, getString(R.string.must_register_first), Toast.LENGTH_LONG)
+            Toast.makeText(this, getString(R.string.require_register), Toast.LENGTH_LONG)
                     .show();
             return;
         }
@@ -519,7 +519,9 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                 MedicalHistoryForm mh = data.getParcelableExtra(MedicalHistoryForm.class.getName());
                 uploadImages(eyes.get(ImageFilters.LEFT_EYE).getOriginal().getUri(),
                         eyes.get(ImageFilters.RIGHT_EYE).getOriginal().getUri(),
-                        (key) -> saveHistory(mh, key));
+                        (key) -> {
+                            saveHistory(mh, key);
+                        });
             }
             //if (resultCode ==RESULT_CANCELED) {
         }

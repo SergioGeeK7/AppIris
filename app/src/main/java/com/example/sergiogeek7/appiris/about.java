@@ -30,6 +30,10 @@ public class about extends AppCompatActivity {
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    public void about(View v){
+        contentText.setText(R.string.app_iris);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

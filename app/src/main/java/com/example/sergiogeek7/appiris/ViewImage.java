@@ -23,6 +23,7 @@ import com.example.sergiogeek7.appiris.opencv.DetectBlur;
 import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
+import com.example.sergiogeek7.appiris.utils.RegisterFlow;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,7 +86,6 @@ public class ViewImage extends AppCompatActivity{
     public static final int SELECT_GALLERY_IMAGE = 101;
     protected static final int CAPTURE_IRIS_DONE = 2;
     private static final int FIRST_EYE_TO_TAKE = 0;
-    private static final int RC_SIGN_IN = 123;
     protected static final String PROVIDER_AUTHORITY = "com.app.irisfileprovider";
     protected static final String EYE_PARCELABLE = "com.example.sergiogeek7.appiris.Eye";
     private static final String TAG = ViewImage.class.getName();
@@ -223,7 +223,11 @@ public class ViewImage extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
+
+        if(requestCode == RegisterFlow.RC_SIGN_IN && resultCode == RESULT_OK){
+            RegisterFlow.success(this);
+        }
+        else if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
             if(eyes.size() == CAPTURE_IRIS_DONE){
                 launchFilterActivity();
                 return;
@@ -309,18 +313,7 @@ public class ViewImage extends AppCompatActivity{
     }
 
     public void goToRegister(View v){
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
-        startActivityForResult(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        .setIsSmartLockEnabled(!BuildConfig.DEBUG)
-                        .setAvailableProviders(providers)
-                        .setLogo(R.drawable.ic_logo_sin_fondo)
-                        .build(),
-                RC_SIGN_IN);
+        RegisterFlow.showRegisterActivity(this);
     }
 
 

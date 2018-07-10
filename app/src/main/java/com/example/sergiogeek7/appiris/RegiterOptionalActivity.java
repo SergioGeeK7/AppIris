@@ -9,6 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.example.sergiogeek7.appiris.utils.Callback;
+import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.FirebaseApp;
@@ -35,6 +36,9 @@ public class RegiterOptionalActivity extends AppCompatActivity {
     private final String DOCTOR_TOPIC = "DOCTOR_TOPIC";
 
 
+    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+    // | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +60,7 @@ public class RegiterOptionalActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
+            //IdpResponse response = IdpResponse.fromResultIntent(data);
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -69,17 +72,19 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                                         Log.e(TAG, err.getMessage());
                                         return;
                                     }
-                                    if(data1.exists() && data1.hasChild("doctor")){
+                                    UserApp userapp = data1.getValue(UserApp.class);
+                                    if(userapp != null && userapp.isDoctor()){
                                         FirebaseApp.initializeApp(this);
                                         FirebaseMessaging.getInstance().subscribeToTopic(DOCTOR_TOPIC);
                                     }
-                                    Class next =    !data1.exists() ? RegisterForm.class:
-                                                    data1.hasChild("doctor") ?
+                                    Class next =    userapp == null ? RegisterForm.class:
+                                                    userapp.isDoctor() ?
                                                     HistoryDoctor.class : MainScreen.class;
 
                                     Intent intent = new Intent(this, next);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    intent.putExtra(RegisterForm.GO_TO_MAIN_SCREEN, true);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                            Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     finish();
                         }, RegiterOptionalActivity.this));
@@ -99,7 +104,7 @@ public class RegiterOptionalActivity extends AppCompatActivity {
                         .createSignInIntentBuilder()
                         .setIsSmartLockEnabled(!BuildConfig.DEBUG)
                         .setAvailableProviders(providers)
-                        .setLogo(R.drawable.ic_logo_sin_fondo)
+                        .setLogo(R.drawable.logo_sin_fondo)
                         .build(),
                 RC_SIGN_IN);
     }

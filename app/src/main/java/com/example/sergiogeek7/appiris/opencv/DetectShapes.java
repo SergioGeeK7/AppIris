@@ -44,7 +44,7 @@ public class DetectShapes {
         double MARGIN = 0.8;
         int MAX_AREA = 1500;
         int MIN_AREA = 100;
-        int RADIOUS = 25;
+        int RADIOUS = 15;
         int LIMIT_SHAPES_DETECTED = 7;
         double xThreshold = cols * MARGIN;
         double yThreshold = rows * MARGIN;
@@ -59,7 +59,7 @@ public class DetectShapes {
                 continue;
             Point center = new Point();
             Imgproc.minEnclosingCircle(new MatOfPoint2f(point.toArray()), center, new float[1]);
-            Imgproc.circle(original, center, RADIOUS, new Scalar(255,0,0));
+            Imgproc.circle(original, center, RADIOUS, new Scalar(255,255,255));
 
             if (center.x > xThreshold || center.y > yThreshold ||
                     center.y < xThreshold * 0.1 || center.x < yThreshold * 0.1)

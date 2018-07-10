@@ -29,7 +29,8 @@ public class GridButtons extends GridLayout {
     }
 
     void buildButtons(List<BodyPart> pars, ButtonTab.ButtonTabListener listener){
-        for(BodyPart part: pars){
+        for(int i = pars.size() - 1; i > -1; i--){
+            BodyPart part = pars.get(i);
             buttons.add(this.addButton(part, listener));
         }
     }

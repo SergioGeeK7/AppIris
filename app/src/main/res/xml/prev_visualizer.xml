@@ -3,8 +3,8 @@
 <CheckBoxPreference
     android:defaultValue="true"
     android:key="@string/show_tour_key"
-    android:summaryOff="@string/no"
-    android:summaryOn="@string/yes"
+    android:summaryOff="@string/tour_disable"
+    android:summaryOn="@string/tour_enable"
     android:title="@string/show_tour"
     ></CheckBoxPreference>
 </PreferenceScreen>

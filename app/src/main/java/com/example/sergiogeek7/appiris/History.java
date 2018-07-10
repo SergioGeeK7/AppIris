@@ -1,7 +1,6 @@
 package com.example.sergiogeek7.appiris;
 
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,32 +9,22 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.sergiogeek7.appiris.firemodel.DetectionModel;
-import com.example.sergiogeek7.appiris.utils.Callback;
-import com.example.sergiogeek7.appiris.utils.Country;
-import com.example.sergiogeek7.appiris.utils.HistoryDetail;
 import com.example.sergiogeek7.appiris.utils.RecyclerTouchListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 public class History extends AppCompatActivity {
@@ -59,7 +48,7 @@ public class History extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         if(user == null){
-            Toast.makeText(this, getString(R.string.must_register_first), Toast.LENGTH_LONG)
+            Toast.makeText(this, getString(R.string.require_register), Toast.LENGTH_LONG)
                     .show();
             return;
         }
@@ -110,11 +99,11 @@ public class History extends AppCompatActivity {
                     detections.add(detection);
                 }
                 Collections.sort(detections, (t1, t2) -> {
-                    int c1 = t1.getState() != null && t1.getState().equals("done") ?
-                            (int) t1.getDate().getTime() :(int) t1.getDate().getTime() / 2;
-                    int c2 = t2.getState() != null && t2.getState().equals("done") ?
-                            (int) t2.getDate().getTime() :(int) t2.getDate().getTime() / 2;
-                    return  c2 - c1;
+//                    int c1 = t1.getState() != null && t1.getState().equals("done") ?
+//                            (int) t1.getDate().getTime() :(int) t1.getDate().getTime() / 2;
+//                    int c2 = t2.getState() != null && t2.getState().equals("done") ?
+//                            (int) t2.getDate().getTime() :(int) t2.getDate().getTime() / 2;
+                    return  t2.getDate().compareTo(t1.getDate());
                 });
                 mAdapter.notifyDataSetChanged();
                 refDetections.removeEventListener(this);

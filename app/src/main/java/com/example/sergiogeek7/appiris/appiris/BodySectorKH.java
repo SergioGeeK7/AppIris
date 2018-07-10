@@ -22,28 +22,24 @@ public class BodySectorKH extends BodySector{
         this.scaleRight = scaleRight;
         this.scaleLeft = scaleLeft;
         int id = -1;
-
-        if(Gender.WOMAN == gender){
-            this.parts.add(new BodyPart(context.getString(R.string.ovarios),
-                    context.getString(R.string.diagnosis_testiculos), ++id));
-        }
-        this.parts.add(new BodyPart(context.getString(R.string.manos),
-                context.getString(R.string.diagnosis_brazos), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.brazos),
-                context.getString(R.string.diagnosis_brazos), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.bazo),
+                context.getString(R.string.diagnosis_abdomen) , ++id));
         this.parts.add(new BodyPart(context.getString(R.string.pancreas),
                 context.getString(R.string.diagnosis_pancreas) , ++id));
         this.parts.add(new BodyPart(context.getString(R.string.higado),
                 context.getString(R.string.diagnosis_higado), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.vesicula),
                 context.getString(R.string.diagnosis_vesicula_biliar), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.colon),
-                context.getString(R.string.diagnosis_colon), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.bazo),
-                context.getString(R.string.diagnosis_abdomen) , ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.intestinos),
-                context.getString(R.string.diagnosis_intestinos), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.estomago),
                 context.getString(R.string.diagnosis_estomago), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.intestinos),
+                context.getString(R.string.diagnosis_intestinos), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.colon),
+                context.getString(R.string.diagnosis_colon), ++id));
+        if(Gender.WOMAN == gender){
+            this.parts.add(new BodyPart(context.getString(R.string.ovarios),"", ++id));
+        }
+        this.parts.add(new BodyPart(context.getString(R.string.brazos),"", ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.manos),"", ++id));
     }
 }

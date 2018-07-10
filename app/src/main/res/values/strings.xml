@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AppIris</string>
-    <string name="select_gender">Please select gender</string>
+    <string name="select_gender">Please select your sex</string>
     <string name="saved_message">Image saved!</string>
     <string name="error">An Internal error has occurred</string>
     <string name="activity_title_main">Filters</string>
@@ -38,10 +38,12 @@
     <string name="alert">Alert</string>
     <string name="search_user">Search ...</string>
     <string name="birth_date">Birth date *:</string>
+    <string name="email">Email *:</string>
+    <string name="missing_email">Please introduce a valid email</string>
     <string name="analyzed">Analyzed</string>
     <string name="full_name">Full name *</string>
-    <string name="gender">Gender * :</string>
-    <string name="weigh">Weigh Kl *:</string>
+    <string name="gender">Sex * :</string>
+    <string name="weigh">Weigh Kg *:</string>
     <string name="size">Size Cm *:</string>
     <string name="create_account">Create account</string>
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
@@ -59,7 +61,7 @@
     <string name="twitter_consumer_secret" translatable="false">n7FeljOE12SkvP49OiDQ4CYmVLQaQJkgB2WbMXH8R7pEe0S6hw</string>
     <string name="terms_and_conditions">
          \n
-        <b>POLÍTICA DE PRIVACIDAD</b>
+        <b>Política de privacidad</b>
         \n
          \nBienvenidos a AppIris. AppIris te proporciona una forma rápida y ágil de usar la
 iridología en tu día a día. Solo tienes que hacer una foto, indicar que inicie el
@@ -250,12 +252,12 @@ implicará tu aceptación de dicha modificación.
     <string name="shape_description_activity">Somatizacion</string>
     <string name="detected_activity">Detected</string>
     <string name="register_activity">Register</string>
-    <string name="select_gender_activity">Select gender</string>
+    <string name="select_gender_activity">Select sex</string>
     <string name="login_activity">Login</string>
     <string name="dashboard_activity">Dashboard</string>
     <string name="medical_history_activity">Medical history</string>
     <string name="analysis_activity">Analysis</string>
-    <string name="iris_somatizacion">Iris Somatizacion</string>
+    <string name="iris_somatizacion">Iris somatization</string>
     <string name="accept_terms">Accept</string>
     <string name="decline_terms">Decline</string>
     <string name="continue_terms">Continue</string>
@@ -289,6 +291,9 @@ implicará tu aceptación de dicha modificación.
     <string name="show_tour_key" translatable="false">show_tour</string>
     <string name="show_tour">Show tour</string>
     <string name="no">No</string>
+    <string name="tour_disable">Notifications disabled</string>
+    <string name="tour_enable">Notifications enabled</string>
+
     <string name="question_5">What ailments do you currently have?</string>
     <string name="question_6">What ailments or diseases have your parents?</string>
     <string name="question_7">Select the types of aliments you prefer</string>
@@ -379,102 +384,102 @@ implicará tu aceptación de dicha modificación.
     <string name="urine">Urine</string>
     <string name="leave_empty">Leave empty in case you don\'t </string>
 
-    <string name="pleura">(G) pleura</string>
-    <string name="nervio_vago">nervio vago</string>
-    <string name="timo">timo</string>
-    <string name="glandulas_mamarias">glándulas mamarias</string>
-    <string name="costillas_superiores">costillas superiores</string>
-    <string name="colon">colon</string>
+    <string name="pleura">Pleura</string>
+    <string name="nervio_vago">Nervio vago</string>
+    <string name="timo">Timo</string>
+    <string name="glandulas_mamarias">Glándulas mamarias</string>
+    <string name="costillas_superiores">Costillas superiores</string>
+    <string name="colon">Colon</string>
     <string name="estomago">Estomago</string>
-    <string name="pulmones">(F) pulmones</string>
-    <string name="bronquios">bronquios</string>
-    <string name="corazon">corazón</string>
-    <string name="estomago.">estomago.</string>
-    <string name="E_axilas">(E) axilas</string>
+    <string name="pulmones">Pulmones</string>
+    <string name="bronquios">Bronquios</string>
+    <string name="corazon">Corazón</string>
+    <string name="estomago.">Estomago.</string>
+    <string name="E_axilas">Axilas</string>
     <string name="traquea">traquea</string>
-    <string name="aorta">aorta</string>
-    <string name="aurículas_corazon">aurículas del corazón</string>
-    <string name="D_cuello">(D) cuello</string>
-    <string name="glandula_axiliar">glandula axiliar</string>
-    <string name="clavicula">clavicula</string>
-    <string name="cuero_cabelludo">(C) cuero cabelludo</string>
-    <string name="craneo">craneo</string>
-    <string name="cerebro">cerebro</string>
-    <string name="cerebelo">cerebelo</string>
-    <string name="oidos">oídos (timpano, nervio acústico)</string>
+    <string name="aorta">Aorta</string>
+    <string name="aurículas_corazon">Aurículas del corazón</string>
+    <string name="D_cuello">Cuello</string>
+    <string name="glandula_axiliar">Glandula axiliar</string>
+    <string name="clavicula">Clavicula</string>
+    <string name="cuero_cabelludo">Cuero cabelludo</string>
+    <string name="craneo">Craneo</string>
+    <string name="cerebro">Cerebro</string>
+    <string name="cerebelo">Cerebelo</string>
+    <string name="oidos">Oídos (timpano, nervio acústico)</string>
     <string name="glandula_parotida">. Glandula parótida</string>
-    <string name="colon_transversal">colon transversal</string>
-    <string name="colon_tranversal">colon tranversal</string>
-    <string name="septum_pellucidum">septum pellucidum</string>
-    <string name="cuerpo_calloso">cuerpo calloso</string>
-    <string name="glandula_pineal">glándula pineal</string>
-    <string name="cráneo">cráneo</string>
-    <string name="frente">(X) frente</string>
-    <string name="orificios_nasales">(V) orificios nasales</string>
-    <string name="ojos">ojos</string>
-    <string name="maxilar_superior">(U) maxilar superior</string>
-    <string name="lengua">lengua</string>
-    <string name="amigdalas">amígdalas</string>
-    <string name="nariz">nariz</string>
-    <string name="intestino_delgado">intestino delgado</string>
-    <string name="torioides">(T) toroiodes</string>
-    <string name="laringe">laringe</string>
-    <string name="glandulas_linguales">glándulas linguales</string>
-    <string name="cuerdas_bocales">cuerdas bocales</string>
-    <string name="maxilar_inferior">maxilar inferior</string>
-    <string name="garganta">(S) garganta</string>
-    <string name="glandula_tiroide_paratiroides">glandula tiroide</string>
-    <string name="paratiroides">paratiroides</string>
-    <string name="esfínteres_cardias_piloro">esfínteres del cardias</string>
+    <string name="colon_transversal">Colon transversal</string>
+    <string name="colon_tranversal">Colon tranversal</string>
+    <string name="septum_pellucidum">Septum pellucidum</string>
+    <string name="cuerpo_calloso">Cuerpo calloso</string>
+    <string name="glandula_pineal">Glándula pineal</string>
+    <string name="cráneo">Cráneo</string>
+    <string name="frente">Frente</string>
+    <string name="orificios_nasales">Orificios nasales</string>
+    <string name="ojos">Ojos</string>
+    <string name="maxilar_superior">Maxilar superior</string>
+    <string name="lengua">Lengua</string>
+    <string name="amigdalas">Amígdalas</string>
+    <string name="nariz">Nariz</string>
+    <string name="intestino_delgado">Intestino delgado</string>
+    <string name="torioides">Toroiodes</string>
+    <string name="laringe">Laringe</string>
+    <string name="glandulas_linguales">Glándulas linguales</string>
+    <string name="cuerdas_bocales">Cuerdas bocales</string>
+    <string name="maxilar_inferior">Maxilar inferior</string>
+    <string name="garganta">Garganta</string>
+    <string name="glandula_tiroide_paratiroides">Glandula tiroide</string>
+    <string name="paratiroides">Paratiroides</string>
+    <string name="esfínteres_cardias_piloro">Esfínteres del cardias</string>
     <string name="piloro">Piloro</string>
-    <string name="esófago">(R) esófago</string>
-    <string name="omoplato">omoplato</string>
-    <string name="zona_umbilical">(Q) zona umbilical</string>
-    <string name="columna_vertebral">columna vertebral</string>
-    <string name="pene">(P) pene</string>
-    <string name="uretra">uretra</string>
-    <string name="vejiga">vejiga</string>
-    <string name="ureter">uréter</string>
-    <string name="coxis">coxis</string>
-    <string name="vagina">(O) vagina</string>
-    <string name="utero">utero</string>
-    <string name="trompa_falopio">trompa de Falopio</string>
-    <string name="rinones">riñones</string>
-    <string name="capas_suprarrenales">capas suprarrenales</string>
-    <string name="intestino">intestino</string>
-    <string name="ano">ano</string>
-    <string name="recto">recto</string>
-    <string name="pies">(M) pies</string>
-    <string name="piernas">piernas</string>
-    <string name="trompas_de_falopio">trompas de Falopio</string>
-    <string name="glándulas_suprarrenales">glándulas suprarrenales</string>
-    <string name="sigmoidea">sigmoidea</string>
-    <string name="ciego">ciego</string>
-    <string name="bajo_abdomen">(L) Bajo abdomen</string>
-    <string name="fingle">ingle</string>
-    <string name="trompa">trompa</string>
-    <string name="intestinos">intestinos</string>
+    <string name="esófago">Esófago</string>
+    <string name="omoplato">Omoplato</string>
+    <string name="zona_umbilical">Zona umbilical</string>
+    <string name="columna_vertebral">Columna vertebral</string>
+    <string name="pene">Pene</string>
+    <string name="uretra">Uretra</string>
+    <string name="vejiga">Vejiga</string>
+    <string name="ureter">Uréter</string>
+    <string name="coxis">Coxis</string>
+    <string name="vagina">Vagina</string>
+    <string name="utero">Utero</string>
+    <string name="trompa_falopio">Trompa de Falopio</string>
+    <string name="rinones">Riñones</string>
+    <string name="capas_suprarrenales">Capas suprarrenales</string>
+    <string name="intestino">Intestino</string>
+    <string name="ano">Ano</string>
+    <string name="recto">Recto</string>
+    <string name="pies">Pies</string>
+    <string name="piernas">Piernas</string>
+    <string name="trompas_de_falopio">Trompas de Falopio</string>
+    <string name="glándulas_suprarrenales">Glándulas suprarrenales</string>
+    <string name="sigmoidea">Sigmoidea</string>
+    <string name="ciego">Ciego</string>
+    <string name="bajo_abdomen">Bajo abdomen</string>
+    <string name="fingle">Ingle</string>
+    <string name="trompa">Trompa</string>
+    <string name="intestinos">Intestinos</string>
     <string name="colon_sigmoideo">Colon sigmoideo</string>
     <string name="apendice">Apendice</string>
-    <string name="ileon">íleon</string>
-    <string name="pelvis">(K) pelvis</string>
-    <string name="ovarios">ovarios</string>
-    <string name="ovarios_testículos">(J) Ovarios</string>
-    <string name="pancreas">páncreas</string>
+    <string name="ileon">Ileon</string>
+    <string name="pelvis">Pelvis</string>
+    <string name="ovarios">Ovarios</string>
+    <string name="ovarios_testículos">Ovarios</string>
+    <string name="pancreas">Páncreas</string>
     <string name="higado">Higado</string>
     <string name="vesicula">Vesícula</string>
     <string name="conducto_cistico">Conducto cistico</string>
-    <string name="manos">(I) manos</string>
+    <string name="manos">Manos</string>
     <string name="brazos">Brazos</string>
     <string name="bazo">Bazos</string>
-    <string name="caderas_ilion">(H) caderas (ilion)</string>
-    <string name="caja_toraxica">caja toraxica</string>
-    <string name="costillas_inferiores">costillas inferiores</string>
-    <string name="esternon">esternón</string>
+    <string name="caderas_ilion">Caderas (ilion)</string>
+    <string name="caja_toraxica">Caja toraxica</string>
+    <string name="costillas_inferiores">Costillas inferiores</string>
+    <string name="esternon">Esternón</string>
     <string name="plexo_solar">Plexo solar</string>
     <string name="diagnosis">Somatizacion: </string>
     <string name="about">About</string>
-    <string name="missing_gender">Please fill gender</string>
+    <string name="missing_gender">Please fill sex field</string>
     <string name="missing_size">Please fill size</string>
     <string name="missing_weight">Please fill weight</string>
     <string name="missing_birth_date">Please fill birth Date</string>
@@ -484,6 +489,13 @@ implicará tu aceptación de dicha modificación.
     <string name="missing_breakfast_description">Please describe breakfast aliments</string>
     <string name="missing_lunch_description">Please describe lunch aliments</string>
     <string name="missing_dinner_description">Please describe dinner aliments</string>
+
+    <string name="missing_currently_ailments">Please fill currently ailments</string>
+    <string name="missing_parents_ailments">Please fill what ailments or diseases your parents have</string>
+
+
+
+
     <string name="missing_period">Please select type of period</string>
     <string name="no_doctor">You have to analyze it with a doctor to see this field</string>
     <string name="diagnosis_cabeza">-Esfuerzo por pensar constantemente en alcanzar un objetivo o meta llegando al
@@ -550,6 +562,8 @@ emocional)
 soporte el diario vivir de la persona. Si no se tiene, habrá sensación de vacío y
 soledad)
     </string>
+
+    <string name="require_register">You must register to use this function</string>
 
     <string name="diagnosis_top_espalda">
         - Irritación inconformidad por hacer lo que no se desea, es decir por cumplir el
@@ -679,6 +693,63 @@ que sirven de las que no.
         Impotencia frente a las situaciones que se presentan en el diario vivir.
     </string>
 
+
+
+    <string name="app_iris">
+        <b>Informaciónn general</b>
+        \n
+ \n
+La finalidad de esta aplicación es permitir la captura y análisis del iris, resaltando
+los signos estructurales encontrados y que el usuario indique entre las opciones
+que le ofrece la aplicación los órganos en los que tiene o ha tenido alguna
+anomalía y hacer una correlación con las posibles causas psicológicas.
+Se aclara que esta aplicación en su modalidad gratuita no brinda un diagnostico
+medico al usuario.
+ \n \n
+
+                <b>Características principales</b>
+ \n
+         \n
+1- Capturar la foto de los iris y almacenarlos (solo para usuarios registrados)
+por fecha, y lado (izquierdo y derecho) \n
+2- Modificación del brillo y contraste de la foto durante la visualización y
+superposición en un esquema iridologico. \n
+3- Análisis del iris detectando los signos estructurales y permitiéndole al
+usuario indicar los órganos con alguna anomalía y las posibles causas
+psicológicas. \n
+4- Guardar iris y/o resultados \n
+5- Compartir en las redes sociales las fotos de los iris y los resultados
+ \n \n
+         <b>Principales Actividades</b>
+ \n
+         \n
+<b>Registro de usuario</b> \n
+Una vez el usuario descarga y da usabilidad a la aplicación, esta le ofrecerá
+posibilidad de registrarse y de esta manera poder obtener un histórico de los
+análisis realizados a sus iris. \n
+Como alternativa el usuario puede usar la aplicación sin registrase. \n\n
+        <b>Capturar iris</b> \n
+El usuario puede capturar la foto de ambos iris; lo primero que debe de hacer es
+indicar su sexo, luego indicar cual lado va capturar (lado izquierdo / lado derecho)
+e iniciar la captura. \n
+Se debe tener en cuenta que el sistema no permite avanzar hasta no obtener una
+imagen de alta calidad. \n\n
+
+<b>Análisis de las fotos</b>\n
+Esta es la principal función de la aplicación, pero requiere de unas imágenes de
+alta calidad.\n
+En esta función se puede: \n
+
+&#8226; Observar los signos estructurales resaltados por la aplicación en las fotos
+de los iris e indicar cuales de los órganos del sector en el que están dichos
+signos el usuario tiene o ha tenido alguna anomalía.
+&#8226; Al seleccionar el órgano afectado podrá saber por medio de una notificación
+la posible causa psicológica. \n\n
+<b>Usuario gratuito</b> \n
+Todos los usuarios (registrados o no registrados) pueden usar todas las funciones
+de la aplicación, exceptuando la opción “Enviar a iridologo”. El uso de esta opción
+requiere de un pago previo.
+    </string>
     <string name="about_app">
         Aplicación que brindara Accesibilidad, confiabilidad, seguridad, veracidad
 y calidad al momento de interpretar la estructura del iris, esta aplicación brindara un
@@ -714,14 +785,12 @@ intermedio del Iris, fue y será de carácter fundamental en la vida para los an
 de una buena salud en aquellos que la practiquen, sencillamente por medio de la
 observación y su debida atención.
     </string>
-
-    <string name="must_register_first">Must register first to use this function</string>
     <string name="go_to_main_screen">Main screen</string>
     <string name="turn_on_flash">In order to take the photo of your iris use the posterior camera; try to focus the iris
     and adjust the camera flash according to the environment to guarantee a good photo</string>
     <string name="end_left_iris">Capture Left iris successful</string>
     <string name="end_right_iris">Capture Right iris successful</string>
-
+<string name="age_restriction">You must be at least 14 years old in order to use this application</string>
 
 
     <string name="analysis_saved">Analysis saved</string>

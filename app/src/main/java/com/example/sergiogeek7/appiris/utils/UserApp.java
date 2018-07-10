@@ -13,6 +13,7 @@ public class UserApp {
     private String city;
     private String fullName;
     private String messagingToken;
+    private String email;
 
     public boolean isDoctor() {
         return doctor;
@@ -36,9 +37,17 @@ public class UserApp {
 
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public UserApp(String size, String weigh, String gender,
                    String birth_date, String country, String city,
-                   String fullName) {
+                   String fullName, String email) {
         this.size = size;
         this.weigh = weigh;
         this.gender = gender;
@@ -46,6 +55,7 @@ public class UserApp {
         this.country = country;
         this.city = city;
         this.fullName = fullName;
+        this.email = email;
     }
 
     public String getFullName() {

@@ -40,24 +40,25 @@ public class MainScreen extends AppCompatActivity {
     @BindView(R.id.name) TextView displayName;
     @BindView(R.id.capture_row)
     LinearLayout captureRow;
+    private Gender gender;
     private final FirebaseDatabase database = FirebaseDatabase.getInstance();
     private final String TAG = MainScreen.class.getName();
+
+    // Fix name and email form storage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         ButterKnife.bind(this);
-        Gender gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
+        gender = (Gender) getIntent().getSerializableExtra(Gender.class.getName());
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if(user != null){
             getUserApp(user.getUid());
             if(CloudMessagingIDService.refreshedToken != null){
-                Log.e(TAG, "updating token");
                 saveMessagingToken(user.getUid());
             }
-            //captureRow.setBackgroundResource(0);
         }else{
             captureRow.setBackgroundResource(R.drawable.border_sea);
             updateUI(gender, getString(R.string.default_name));
@@ -96,6 +97,22 @@ public class MainScreen extends AppCompatActivity {
                             Gender gender = userApp.getGender().equals("m") ? Gender.MAN : Gender.WOMAN;
                             updateUI(gender, userApp.getFullName());
                 }, this));
+    }
+
+    @Override
+    protected void onResume() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(null != user){
+            if(CloudMessagingIDService.refreshedToken != null){
+                saveMessagingToken(user.getUid());
+            }
+            if(user.getDisplayName() == null || user.getDisplayName().isEmpty()){
+                getUserApp(user.getUid());
+            }else{
+                updateUI(gender, user.getDisplayName());
+            }
+        }
+        super.onResume();
     }
 
     private void updateUI(Gender gender, String name){

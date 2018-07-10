@@ -24,20 +24,17 @@ public class BodySectorCX extends BodySector{
         this.scaleRight = scaleRight;
         this.scaleLeft = scaleLeft;
         int id = -1;
-        this.parts.add(new BodyPart(context.getString(R.string.cerebro),
-                context.getString(R.string.diagnosis_cabeza), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.cerebelo),
-                context.getString(R.string.diagnosis_cabeza), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebro),"", ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.cerebelo),"", ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.glandula_pineal),"", ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.frente), "", ++id));
         this.parts.add(new BodyPart(context.getString(R.string.oidos),
                 context.getString(R.string.diagnosis_oidos), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.glandula_pineal),
-                context.getString(R.string.diagnosis_cabeza), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.frente),
-                context.getString(R.string.diagnosis_cara), ++id));
-        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal),
-                context.getString(R.string.diagnosis_colon), ++id));
         this.parts.add(new BodyPart(context.getString(R.string.estomago),
                 context.getString(R.string.diagnosis_estomago), ++id));
+        this.parts.add(new BodyPart(context.getString(R.string.colon_transversal),
+                context.getString(R.string.diagnosis_colon), ++id));
+
     }
 
 }

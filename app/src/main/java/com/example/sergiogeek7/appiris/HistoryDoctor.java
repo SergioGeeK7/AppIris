@@ -137,8 +137,7 @@ public class HistoryDoctor extends AppCompatActivity {
         return true;
     }
     public boolean onOptionsItemSelected(MenuItem paramMenuItem){
-        if (paramMenuItem.getItemId() == R.id.logout)
-        {
+        if (paramMenuItem.getItemId() == R.id.logout) {
             AuthUI.getInstance()
                     .signOut(this)
                     .addOnCompleteListener(task -> {

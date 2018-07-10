@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.HorizontalScrollView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,7 +39,9 @@ import com.example.sergiogeek7.appiris.utils.BitmapUtils;
 import com.example.sergiogeek7.appiris.utils.Callback;
 import com.example.sergiogeek7.appiris.utils.Gender;
 import com.example.sergiogeek7.appiris.utils.GlobalState;
+import com.example.sergiogeek7.appiris.utils.ImagePoint;
 import com.example.sergiogeek7.appiris.utils.Message;
+import com.example.sergiogeek7.appiris.utils.RegisterFlow;
 import com.example.sergiogeek7.appiris.utils.UserApp;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,11 +57,14 @@ import com.squareup.picasso.Picasso;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Point;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Locale;
 import butterknife.BindView;
@@ -113,6 +119,8 @@ public class DetectActivity extends AppCompatActivity {
     HorizontalScrollView scrollView;
     @BindView(R.id.diagnosis)
     TextView txtDiagnosis;
+    @BindView(R.id.scheme_switch)
+    CheckBox schemeSwitch;
 
     private String detectionKey;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -136,8 +144,13 @@ public class DetectActivity extends AppCompatActivity {
     private Psicosomaticas psicosomaticas;
     private Gender gender;
     private static boolean onceTour = true;
+    private static boolean onceTour_selected_organs = true;
     public static boolean onceTourDescription = true;
     private List<BodyPart> currentBodyParts;
+    private boolean withSchema = false;
+    private ImagePoint lastPoint;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,18 +167,12 @@ public class DetectActivity extends AppCompatActivity {
         if(actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && onceTour){
-            Message.show(getString(R.string.tour_detect_activity),
-                    null, this);
-            onceTour = false;
-        }
-
         eye_view.setOnViewTapListener((view, x, y) -> {
 
             if(eye_view.getScale() > 1){
                 eye_view.setScale(1, true);
+                //schemeSwitch.setVisibility(View.VISIBLE);
+                lastPoint = null;
                 return;
             }
             Shape shape = new Shape(x, y, new ShapeContext() {
@@ -181,8 +188,21 @@ public class DetectActivity extends AppCompatActivity {
             });
             BodySector bodySector = psicosomaticas.getBodySector(shape, eyeSide);
             eye_view.setScale(1.5f, x, y, true);
+            lastPoint = new ImagePoint(x, y);
+            //schemeSwitch.setVisibility(View.INVISIBLE);
             addOrgans(bodySector.getParts());
+            showTourOrgans();
         });
+    }
+
+    void showTourOrgans(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && onceTour_selected_organs){
+            Message.show(getString(R.string.tour_organs_description),
+                    null, DetectActivity.this);
+            onceTour_selected_organs = false;
+        }
     }
 
     void addOrgans (List<BodyPart> bodyParts){
@@ -199,7 +219,7 @@ public class DetectActivity extends AppCompatActivity {
     void onChangeBodySelected(BodyPart changed){
         StringBuilder diagnosis = new StringBuilder(getString(R.string.diagnosis));
         for (BodyPart part: currentBodyParts){
-            if(!part.selected){
+            if(!part.selected || part.description.isEmpty()){
                 continue;
             }
             int indexParagraph = diagnosis.indexOf(part.description);
@@ -281,7 +301,7 @@ public class DetectActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == android.R.id.home){
-            onBackPressed();
+            eye_view.setScale(1, true);
         }
         if(id == R.id.share){
             share();
@@ -332,8 +352,9 @@ public class DetectActivity extends AppCompatActivity {
     public void changeEyeView(int eyeSide){
         this.eyeSide = eyeSide;
         ShapesDetected shapes = this.shapesDetected.get(eyeSide);
-        Bitmap eye = overlayBitmap(shapes.original, shapes.scheme);
+        Bitmap eye = withSchema ? overlayBitmap(shapes.original, shapes.scheme) : shapes.original;
         eye_view.setScale(1, true);
+        //schemeSwitch.setVisibility(View.VISIBLE);
         scrollView.removeAllViews();
         txtDiagnosis.setText("");
         eye_view.setImageBitmap(eye);
@@ -366,6 +387,12 @@ public class DetectActivity extends AppCompatActivity {
     }
 
     public void save(View v){
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, R.string.require_register, Toast.LENGTH_LONG).show();
+            RegisterFlow.showRegisterActivity(this);
+            return;
+        }
         if(detectionKey == null || detectionKey.isEmpty()){
             uploadImages(shapesDetected.get(LEFT_EYE).original, shapesDetected.get(RIGHT_EYE).original);
             return;
@@ -376,11 +403,10 @@ public class DetectActivity extends AppCompatActivity {
 
     String getAllDescriptions(){
         StringBuilder description = new StringBuilder();
-        //List<String> organs = new ArrayList<>();
 
         for (BodySector bodySector: this.psicosomaticas.getAll()){
             for(BodyPart part: bodySector.getParts()){
-                if(!part.selected){
+                if(!part.selected || part.description.isEmpty()){
                     continue;
                 }
                 int indexParagraph = description.indexOf(part.description);
@@ -389,11 +415,23 @@ public class DetectActivity extends AppCompatActivity {
                 }else{
                     description.insert(indexParagraph - 2,", " + part.name);
                 }
-                //organs.add(part.name);
             }
         }
         return description.toString();
     }
+
+    List<String> getAllOrgans () {
+        List<String> organs = new ArrayList<>();
+        for (BodySector bodySector: this.psicosomaticas.getAll()){
+            for(BodyPart part: bodySector.getParts()){
+                if(part.selected){
+                    organs.add(part.name);
+                }
+            }
+        }
+        return organs;
+    }
+
 
     void saveEyesDescription(){
         //String eyeNode = eyeSide == LEFT_EYE ? "left" : "right";
@@ -403,10 +441,38 @@ public class DetectActivity extends AppCompatActivity {
                        // .child(eyeNode)
                         .child("description")
                         .setValue(description));
-//        Callback.taskManager(this,
-//                detectionRef.child(detectionKey)
-//                        .child("organsList")
-//                        .setValue(organs));
+        Callback.taskManager(this,
+                detectionRef.child(detectionKey)
+                        .child("organsList")
+                        .setValue(getAllOrgans()));
+    }
+
+    void showTour(){
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(this);
+        if(sharedPreferences.getBoolean(getString(R.string.show_tour_key), true) && onceTour){
+            Message.show(getString(R.string.tour_detect_activity),
+                    null, DetectActivity.this);
+            onceTour = false;
+        }
+    }
+
+
+    public void onSwitchScheme(View v){
+        withSchema = schemeSwitch.isChecked();
+        ShapesDetected shapes = this.shapesDetected.get(eyeSide);
+        Bitmap eye = withSchema ? overlayBitmap(shapes.original, shapes.scheme) : shapes.original;
+        eye_view.setImageBitmap(eye);
+        if(lastPoint != null){
+            eye_view.setScale(1.5f, lastPoint.x, lastPoint.y, false);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == RegisterFlow.RC_SIGN_IN && resultCode == RESULT_OK){
+            RegisterFlow.success(this);
+        }
     }
 
     private class DownloadFilesTask extends AsyncTask<Void, Void, String> {
@@ -446,6 +512,7 @@ public class DetectActivity extends AppCompatActivity {
             save_btn.setEnabled(true);
             changeEyeView(right_image.isEnabled() ? LEFT_EYE : RIGHT_EYE);
             p.dismiss();
+            showTour();
         }
     }
 

@@ -141,6 +141,15 @@ public class FormMedicalHistory extends AppCompatActivity {
 
     boolean validate(View view){
         String message = "";
+
+        if(view.getId() == R.id.step2){
+            if(mh.getCurrentAilments() == null || mh.getCurrentAilments().isEmpty()){
+                message += getString(R.string.missing_currently_ailments)  + "\n";
+            }
+            if (mh.getParentsAilments() == null || mh.getParentsAilments().isEmpty()){
+                message +=  getString(R.string.missing_parents_ailments) + "\n";
+            }
+        }
         if(view.getId() == R.id.step2){
             if(!mh.isBeef() && !mh.isChicken() && !mh.isPork()){
                 message += getString(R.string.missing_aliment)  + "\n";
