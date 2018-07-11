@@ -6,7 +6,7 @@ import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 
-import com.example.sergiogeek7.appiris.appiris.BodyPart;
+import com.example.sergiogeek7.appiris.bl.BodyPart;
 
 import org.apmem.tools.layouts.FlowLayout;
 

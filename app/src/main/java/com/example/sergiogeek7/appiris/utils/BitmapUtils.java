@@ -1,9 +1,5 @@
 package com.example.sergiogeek7.appiris.utils;
 
-/**
- * Created by sergiogeek7 on 22/12/17.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;

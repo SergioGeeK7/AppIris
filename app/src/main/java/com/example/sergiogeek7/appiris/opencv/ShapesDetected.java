@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import java.util.List;
 
 /**
- * Created by sergiogeek7 on 27/12/17.
+ * ShapesDetected
+ *
+ * Structura de formas detectadas en el iris
  */
 
 public class ShapesDetected {

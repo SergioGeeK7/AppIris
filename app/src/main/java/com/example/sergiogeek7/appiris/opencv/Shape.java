@@ -2,9 +2,8 @@ package com.example.sergiogeek7.appiris.opencv;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import com.example.sergiogeek7.appiris.appiris.BodyPart;
+import com.example.sergiogeek7.appiris.bl.BodyPart;
 
 import org.opencv.core.Point;
 
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by sergiogeek7 on 27/12/17.
+ * Forma detectada
  */
 
 public class Shape implements Parcelable{
@@ -26,6 +25,12 @@ public class Shape implements Parcelable{
     public List<BodyPart> selectedParts = new ArrayList<>();
     public String description = "";
 
+    /**
+     * Constructor
+     * @param column columna del bitmap
+     * @param row   row del bitmap
+     * @param context contexto de la actividad
+     */
     public Shape(double column, double row, ShapeContext context){
         this.column = column;
         this.row = row;
@@ -43,6 +48,10 @@ public class Shape implements Parcelable{
         return this.row;
     }
 
+    /**
+     * Obtener angulo 360 grados de la forma detectada
+     * @return
+     */
     public double getAngle (){
 
         double co = Math.abs(this.getRow() - originRow);
@@ -67,6 +76,13 @@ public class Shape implements Parcelable{
         return Math.abs(Math.atan(co / ca) * 180 / Math.PI + quadrant);
     }
 
+    /**
+     * verificar si se hizo click en la forma
+     * @param context contexto del bitmap
+     * @param point punto con coordenadas
+     * @param radius rango
+     * @return
+     */
     public boolean onClick (ShapeContext context, Point point, int radius){
 
         Point shape = getCoordinates(context);

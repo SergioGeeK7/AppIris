@@ -6,7 +6,7 @@ android:gravity="center_vertical"
 android:orientation="vertical"
 android:paddingLeft="@dimen/margin_horizontal"
 android:paddingRight="@dimen/margin_horizontal"
-tools:context="com.example.sergiogeek7.appiris.EditImageFragment">
+tools:context="com.example.sergiogeek7.appiris.activities.EditImageFragment">
 
 <LinearLayout
     android:layout_width="match_parent"

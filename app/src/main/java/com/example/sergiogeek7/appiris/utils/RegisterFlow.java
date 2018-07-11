@@ -1,30 +1,25 @@
 package com.example.sergiogeek7.appiris.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.view.View;
 
 import com.example.sergiogeek7.appiris.BuildConfig;
-import com.example.sergiogeek7.appiris.HistoryDoctor;
-import com.example.sergiogeek7.appiris.MainScreen;
+import com.example.sergiogeek7.appiris.activities.MainScreen;
 import com.example.sergiogeek7.appiris.R;
-import com.example.sergiogeek7.appiris.RegisterForm;
-import com.example.sergiogeek7.appiris.RegiterOptionalActivity;
+import com.example.sergiogeek7.appiris.activities.RegisterForm;
 import com.firebase.ui.auth.AuthUI;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by sergiogeek7 on 16/05/18.
+ * RegisterFlow
+ *
+ * Flujo para registrar un usuario nuevo en la aplicacion
  */
 
 public class RegisterFlow {
@@ -44,7 +39,7 @@ public class RegisterFlow {
                             if(err != null){
                                 return;
                             }
-                            Class next =    !data1.exists() ? RegisterForm.class: MainScreen.class;
+                            Class next = !data1.exists() ? RegisterForm.class: MainScreen.class;
                             Intent intent = new Intent(activity, next);
                             activity.startActivity(intent);
                         }, activity));

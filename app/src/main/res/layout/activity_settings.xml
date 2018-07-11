@@ -5,6 +5,6 @@
     android:id="@+id/settings_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.example.sergiogeek7.appiris.SettingsFragment"
-    tools:context="com.example.sergiogeek7.appiris.Settings">
+    android:name="com.example.sergiogeek7.appiris.activities.SettingsFragment"
+    tools:context="com.example.sergiogeek7.appiris.activities.Settings">
 </fragment>

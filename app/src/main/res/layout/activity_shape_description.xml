@@ -10,7 +10,7 @@
         android:id="@+id/shape_description_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="com.example.sergiogeek7.appiris.ShapeDescriptionActivity">
+        tools:context="com.example.sergiogeek7.appiris.activities.ShapeDescriptionActivity">
         <ImageView
             android:id="@+id/image_preview"
             android:layout_width="match_parent"

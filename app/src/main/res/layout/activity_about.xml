@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:context="com.example.sergiogeek7.appiris.about">
+        tools:context="com.example.sergiogeek7.appiris.activities.about">
 
 
         <Button

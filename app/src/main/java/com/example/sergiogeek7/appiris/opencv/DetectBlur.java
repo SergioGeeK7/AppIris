@@ -10,17 +10,19 @@ import org.opencv.core.Mat;
 import org.opencv.core.MatOfDouble;
 import org.opencv.imgproc.Imgproc;
 
-/**
- * Created by sergiogeek7 on 4/01/18.
- */
-
 public class DetectBlur {
 
     private final static String TAG = DetectBlur.class.getName();
 
+
+    /**
+     * Indentificar la calidad de una imagen
+     * @param bitmap
+     * @return
+     */
     public static boolean isBlur (Bitmap bitmap){
 
-        double THRESHOLD = 90;
+        double THRESHOLD = 90; // porcentaje de calidad
         Mat image = new Mat();
         Utils.bitmapToMat(bitmap, image);
         Mat destination = new Mat();

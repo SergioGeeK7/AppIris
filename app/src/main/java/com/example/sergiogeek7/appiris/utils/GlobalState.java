@@ -1,14 +1,13 @@
 package com.example.sergiogeek7.appiris.utils;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.app.Application;
 
+import com.example.sergiogeek7.appiris.bl.Gender;
+
 /**
- * This is a global POJO that we attach data to which we
- * want to use across the application
  * @author James Elsey
  *
+ * Estado de la aplicacion
  */
 public class GlobalState extends Application {
     public Gender gender;

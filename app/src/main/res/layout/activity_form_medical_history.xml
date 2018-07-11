@@ -4,7 +4,7 @@
         <import type="android.view.View"/>
         <variable name="form" type="com.example.sergiogeek7.appiris.firemodel.MedicalHistoryForm"/>
         <variable name="reviewMode" type="boolean"/>
-        <variable name="gender" type="com.example.sergiogeek7.appiris.utils.Gender" />
+        <variable name="gender" type="com.example.sergiogeek7.appiris.bl.Gender" />
     </data>
 
     <ScrollView
@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:context="com.example.sergiogeek7.appiris.FormMedicalHistory">
+            tools:context="com.example.sergiogeek7.appiris.activities.FormMedicalHistory">
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/step1"

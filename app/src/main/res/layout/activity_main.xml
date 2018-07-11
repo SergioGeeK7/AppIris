@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sergiogeek7.appiris.MainActivity">
+    tools:context="com.example.sergiogeek7.appiris.activities.ChooseSex">
 
     <ImageView
         android:id="@+id/man"

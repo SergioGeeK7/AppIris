@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sergiogeek7.appiris.History">
+    tools:context="com.example.sergiogeek7.appiris.activities.History">
 
     <LinearLayout
         android:id="@+id/history_header"

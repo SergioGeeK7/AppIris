@@ -7,6 +7,11 @@ import android.util.TypedValue;
 import android.webkit.WebView;
 import com.example.sergiogeek7.appiris.R;
 
+/**
+ * JustifiedTextView
+ *
+ * Justifica el texto en un textView
+ */
 public class JustifiedTextView extends WebView {
 
     private String text;

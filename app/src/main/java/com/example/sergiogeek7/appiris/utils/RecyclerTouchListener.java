@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import com.example.sergiogeek7.appiris.History;
+import com.example.sergiogeek7.appiris.activities.History;
 
 /**
- * Created by sergiogeek7 on 26/01/18.
+ * RecyclerTouchListener
  */
 
 public class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {

@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sergiogeek7.appiris.TermsAndConditions"
+    tools:context="com.example.sergiogeek7.appiris.activities.TermsAndConditions"
     >
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,7 +1,9 @@
 package com.example.sergiogeek7.appiris.utils;
 
 /**
- * Created by sergiogeek7 on 22/04/18.
+ * Bitmap punto
+ *
+ * coordenadas x, y de un punto en una imagen
  */
 
 public class ImagePoint {

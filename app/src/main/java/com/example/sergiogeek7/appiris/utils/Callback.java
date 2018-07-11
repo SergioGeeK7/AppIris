@@ -15,7 +15,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 
 /**
- * Created by sergiogeek7 on 30/01/18.
+ * Callback utils
+ *
+ * Wrap de callbacks de firebase para mejorar la lectura del codigo y manejo de errores
  */
 
 public class Callback {

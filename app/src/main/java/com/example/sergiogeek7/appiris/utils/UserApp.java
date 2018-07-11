@@ -1,7 +1,7 @@
 package com.example.sergiogeek7.appiris.utils;
 
 /**
- * Created by sergiogeek7 on 22/01/18.
+ * Clase Usuario
  */
 
 public class UserApp {

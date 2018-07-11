@@ -9,7 +9,9 @@ import android.support.v7.app.AlertDialog;
 import com.example.sergiogeek7.appiris.R;
 
 /**
- * Created by sergiogeek7 on 23/02/18.
+ * Message
+ *
+ * Wrapper para mostrar mensajes en la aplicacion
  */
 
 public class Message {

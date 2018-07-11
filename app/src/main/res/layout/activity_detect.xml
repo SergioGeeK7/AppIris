@@ -9,7 +9,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.example.sergiogeek7.appiris.DetectActivity">
+    tools:context="com.example.sergiogeek7.appiris.activities.DetectActivity">
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/eye_view"

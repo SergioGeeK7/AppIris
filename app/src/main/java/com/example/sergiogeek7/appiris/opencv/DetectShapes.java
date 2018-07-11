@@ -13,18 +13,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by sergiogeek7 on 27/12/17.
- */
-
 public class DetectShapes {
 
     private Bitmap img;
 
+    /**
+     * bitmap a analizar
+     * @param img
+     */
     public DetectShapes(Bitmap img) {
         this.img = img;
     }
 
+
+    /**
+     * analiza formas en una imagen
+     * @return
+     */
     public ShapesDetected detect() {
 
         Mat original = new Mat();
