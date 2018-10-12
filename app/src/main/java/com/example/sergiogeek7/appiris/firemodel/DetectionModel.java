@@ -22,6 +22,16 @@ public class DetectionModel implements Parcelable {
     private Date date;
     private List<String> organsList = new ArrayList<>();
 
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    private String doctorId;
+
     public String getDescription() {
         return description;
     }

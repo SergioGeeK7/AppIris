@@ -128,7 +128,7 @@ cambiar el nombre.</string>
     <string name="title_activity_show_iris">Mostrar iris</string>
     <string name="save">Guardar</string>
     <string name="saving">Guardando</string>
-    <string name="send">Eviar</string>
+    <string name="send">Enviar</string>
     <string name="affected_organs">Organos afectados</string>
     <string name="add_affected_organs">Añadir organos afectados</string>
     <string name="nutritional_supplements">Suplementos Nutriciónales</string>
@@ -137,6 +137,8 @@ cambiar el nombre.</string>
     <string name="pork">Cerdo</string>
     <string name="chicken">Pollo</string>
     <string name="sweet">Dulces</string>
+    <string name="pang_head">Pulsada en la cabeza</string>
+    <string name="pang_body">Pulsada en el cuerpo</string>
     <string name="salty">Salados</string>
     <string name="cold">Frios</string>
     <string name="hot">Caliente</string>

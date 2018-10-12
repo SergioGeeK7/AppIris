@@ -22,7 +22,8 @@ import butterknife.ButterKnife;
  *  puede hacer con el analisis solicitado de un paciente
  */
 
-public class AnalysisRequest extends AppCompatActivity {
+public class
+AnalysisRequest extends AppCompatActivity {
 
     @BindView(R.id.label)
     TextView label;

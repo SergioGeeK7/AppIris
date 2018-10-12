@@ -81,6 +81,7 @@ public class AddResultsDoctor extends AppCompatActivity {
             save_btn.setVisibility(View.GONE);
             send_btn.setVisibility(View.VISIBLE);
             done_btn.setVisibility(View.GONE);
+            content_text.setHint(R.string.no_doctor);
         }
     }
 
@@ -163,6 +164,7 @@ public class AddResultsDoctor extends AppCompatActivity {
 
     public void done (View v){
         detection.setState("done");
+        detection.setDoctorId(user.getUid());
         save(null);
         Callback.taskManager(this,
                 detectionsRef

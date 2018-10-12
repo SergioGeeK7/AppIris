@@ -45,6 +45,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -137,6 +138,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
     final StorageReference storageRef = storage.getReference("detections");
     final DatabaseReference detectionRef = database.getReference("detections");
     final DatabaseReference medicalHistory = database.getReference("medicalHistory");
+    String messageToken = FirebaseInstanceId.getInstance().getToken();
 
 
     @Override
@@ -151,6 +153,9 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
             ActionBar actionBar = getSupportActionBar();
             if(actionBar != null){
                 actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+            if(user != null){
+                logAnalysis();
             }
             new LoadBitmap().execute(this.currentEye.getOriginal().getAbsoletePath(), false);
             setupViewPager(viewPager);
@@ -482,7 +487,7 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                                                                     = new DetectionModel(leftEye, rightEye,
                                                                     new Date(), user.getUid(),
                                                                     userapp.getFullName().toLowerCase()
-                                                                    , userapp.getMessagingToken());
+                                                                    , messageToken);
 
                                                             DatabaseReference detection
                                                                     = detectionRef.push();
@@ -491,6 +496,10 @@ public class ImageFilters extends AppCompatActivity implements FiltersListFragme
                                                             callback.call(detection.getKey());
                                                         }, this) )
                                         , this)),this));
+    }
+
+    public void logAnalysis(){
+        database.getReference("captures").child(user.getUid()).push().setValue(new Date());
     }
 
 

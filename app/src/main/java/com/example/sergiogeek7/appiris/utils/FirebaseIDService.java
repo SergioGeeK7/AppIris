@@ -11,6 +11,11 @@ import android.util.Log;
 
 import com.example.sergiogeek7.appiris.R;
 import com.example.sergiogeek7.appiris.activities.TermsAndConditions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -22,7 +27,7 @@ public class FirebaseIDService extends FirebaseMessagingService {
 
         private static final String TAG = "FirebaseMessagingServce";
 
-        @Override
+    @Override
         public void onMessageReceived(RemoteMessage remoteMessage) {
 
             String notificationTitle = null, notificationBody = null;

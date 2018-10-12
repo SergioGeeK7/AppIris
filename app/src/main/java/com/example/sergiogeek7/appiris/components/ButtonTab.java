@@ -12,7 +12,8 @@ import com.example.sergiogeek7.appiris.bl.BodyPart;
  * Created by sergiogeek7 on 6/02/18.
  */
 
-public class ButtonTab extends android.support.v7.widget.AppCompatButton {
+public class
+ButtonTab extends android.support.v7.widget.AppCompatButton {
 
     public BodyPart part;
     private ButtonTabListener listener;

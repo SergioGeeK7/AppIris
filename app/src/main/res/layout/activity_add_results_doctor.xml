@@ -70,7 +70,7 @@
             android:id="@+id/affected_organs_tab"
             android:onClick="changeEditorTab"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.8"
             android:layout_height="wrap_content"
             android:text="@string/affected_organs"
             android:layout_marginStart="24dp"
@@ -86,7 +86,7 @@
             />
         <com.example.sergiogeek7.appiris.components.TabIris
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
             android:id="@+id/recommendations_tab"
             android:onClick="changeEditorTab"
             android:layout_height="wrap_content"
@@ -102,7 +102,6 @@
     android:padding="12dp"
     android:layout_height="270dp"
     android:layout_margin="8dp"
-    android:hint="@string/no_doctor"
     android:inputType="textCapSentences|textMultiLine"
     android:maxLength="2000"
     android:lines="100"
