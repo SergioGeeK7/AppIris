@@ -192,6 +192,10 @@ public class AddResultsDoctor extends AppCompatActivity {
                 .child(detectionKey)
                 .child("state")
                 .setValue("pending"));
+        Callback.taskManager(this,database.getReference("detections")
+                .child(detectionKey)
+                .child("date")
+                .setValue(new Date()));
         Toast.makeText(this, getString(R.string.sent), Toast.LENGTH_LONG).show();
     }
 }
